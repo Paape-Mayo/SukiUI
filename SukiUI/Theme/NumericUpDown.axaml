@@ -85,14 +85,15 @@
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <DockPanel>
                         <UniformGrid Name="PART_SpinnerPanel"
+                                     Width="16"
                                      DockPanel.Dock="Right"
                                      IsVisible="{TemplateBinding ShowButtonSpinner}"
                                      Rows="2">
                             <RepeatButton Name="PART_IncreaseButton"
                                           BorderThickness="0"
                                           Theme="{StaticResource SimpleButtonSpinnerRepeatButton}">
-                                <Path Width="8"
-                                      Height="4"
+                                <Path Width="6"
+                                      Height="3"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="M0,5 L4.5,.5 9,5 6,5 4.5,3.5 3,5 z"
@@ -102,8 +103,8 @@
                             <RepeatButton Name="PART_DecreaseButton"
                                           BorderThickness="0"
                                           Theme="{StaticResource SimpleButtonSpinnerRepeatButton}">
-                                <Path Width="8"
-                                      Height="4"
+                                <Path Width="6"
+                                      Height="3"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="M0,0 L3,0 4.5,1.5 6,0 9,0 4.5,4.5 z"
@@ -147,8 +148,8 @@
         <Setter Property="Background" Value="{DynamicResource SukiGlassCardBackground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Padding" Value="5,5,0,5" />
-        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Padding" Value="3,2,0,2" />
+        <Setter Property="MinHeight" Value="28" />
         <Setter Property="Template">
             <ControlTemplate>
                 <suki:GlassCard Name="PART_GlassCard"
@@ -165,7 +166,7 @@
                         </Transitions>
                     </suki:GlassCard.Transitions>
                     <ButtonSpinner Name="PART_Spinner"
-                                   Margin="5,0"
+                                   Margin="3,0"
                                    HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Stretch"
                                    AllowSpin="{TemplateBinding AllowSpin}"
@@ -176,12 +177,12 @@
                                    ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
                                    Theme="{StaticResource SukiNumericUpDownButtonSpinner}">
                         <Grid ColumnDefinitions="*,Auto"
-                              ColumnSpacing="5"
+                              ColumnSpacing="3"
                               RowDefinitions="*">
                             <DataValidationErrors Grid.Column="0">
                                 <TextBox Name="PART_TextBox"
-                                         MinWidth="20"
-                                         MinHeight="34"
+                                         MinWidth="16"
+                                         MinHeight="24"
                                          Padding="{TemplateBinding Padding}"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -202,7 +203,7 @@
                                          Watermark="{TemplateBinding Watermark}" />
                             </DataValidationErrors>
                             <ContentPresenter Grid.Column="1"
-                                              Margin="0,0,5,0"
+                                              Margin="0,0,3,0"
                                               VerticalAlignment="Center"
                                               Content="{TemplateBinding suki:NumericUpDownExtensions.Unit}"
                                               FontSize="{TemplateBinding FontSize}"

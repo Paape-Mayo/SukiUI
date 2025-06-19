@@ -23,19 +23,19 @@
 
         <Style Selector="NumericUpDown.NumberSelector">
             <Setter Property="HorizontalAlignment" Value="Right" /> 
-            <Setter Property="MinWidth" Value="120"></Setter>
+            <Setter Property="MinWidth" Value="100"></Setter>
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Right" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="Value" Value="{Binding Value}" />
             <Setter Property="Grid.Column" Value="2" />
             <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
-            <Setter Property="Height" Value="36" />
+            <Setter Property="Height" Value="28" />
         </Style>
 
         <Style Selector="Grid.Row">
-            <Setter Property="Height" Value="40" />
-            <Setter Property="Margin" Value="12,4,4,0" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="8,2,2,0" />
         </Style>
     </UserControl.Styles>
 

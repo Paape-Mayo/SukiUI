@@ -33,7 +33,7 @@
                             <LayoutTransformControl Name="PART_ToggleTransform">
                                 <DockPanel>
                                     <Border Name="PART_BottomBorder"
-                                            Height="2"
+                                            Height="1"
                                             HorizontalAlignment="Stretch"
                                             Background="{DynamicResource SukiBorderBrush}"
                                             CornerRadius="10"
@@ -59,9 +59,9 @@
                                                               FontWeight="{DynamicResource DefaultDemiBold}" />
                                             <PathIcon Name="PART_Icon"
                                                       Grid.Column="2"
-                                                      Width="10"
-                                                      Height="10"
-                                                      Margin="10,0,0,0"
+                                                      Width="8"
+                                                      Height="8"
+                                                      Margin="6,0,0,0"
                                                       Data="{x:Static content:Icons.Plus}" />
                                         </Grid>
                                     </ToggleButton>
@@ -113,7 +113,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="Margin" Value="0,0,0,48" />
+                <Setter Property="Margin" Value="0,0,0,32" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -129,7 +129,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="Margin" Value="0,48,0,0" />
+                <Setter Property="Margin" Value="0,32,0,0" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -141,7 +141,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="Margin" Value="0,0,48,0" />
+                <Setter Property="Margin" Value="0,0,32,0" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -154,7 +154,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Margin" Value="48,0,0,0" />
+                <Setter Property="Margin" Value="32,0,0,0" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -164,6 +164,36 @@
 
             <Style Selector="^ /template/ Border#PART_BottomBorder">
                 <Setter Property="DockPanel.Dock" Value="Top" />
+            </Style>
+        </Style>
+
+        <!-- Compact class for even more compact expanders -->
+        <Style Selector="^.Compact">
+            <Style Selector="^ /template/ PathIcon#PART_Icon">
+                <Setter Property="Width" Value="6" />
+                <Setter Property="Height" Value="6" />
+                <Setter Property="Margin" Value="4,0,0,0" />
+            </Style>
+
+            <Style Selector="^ /template/ Border#PART_BottomBorder">
+                <Setter Property="Height" Value="0.5" />
+            </Style>
+
+            <!-- Compact margins for all orientations -->
+            <Style Selector="^:up /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="0,0,0,24" />
+            </Style>
+
+            <Style Selector="^:down /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="0,24,0,0" />
+            </Style>
+
+            <Style Selector="^:left /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="0,0,24,0" />
+            </Style>
+
+            <Style Selector="^:right /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="24,0,0,0" />
             </Style>
         </Style>
     </ControlTheme>

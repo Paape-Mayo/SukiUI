@@ -146,12 +146,12 @@
         <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontSize" Value="11" />
         <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="BorderThickness" Value="1.2" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
-        <Setter Property="Padding" Value="20, 8" />
+        <Setter Property="Padding" Value="12, 4" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="RootBorder"
@@ -167,12 +167,12 @@
                     </Border.Resources>
                     <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 Orientation="Horizontal"
-                                Spacing="10">
+                                Spacing="6">
                         <Viewbox Name="PART_ExtShowProgressViewBox"
                                  Width="{TemplateBinding theme:ButtonExtensions.ShowProgress,
                                                          Converter={StaticResource WidthConverter}}"
                                  Height="24"
-                                 Margin="0,-5,-10,-5">
+                                 Margin="0,-5,-6,-5">
                             <Viewbox.Styles>
                                 <Style Selector="Viewbox#PART_ExtShowProgressViewBox[Width=0]">
                                     <Setter Property="IsVisible" Value="False" />
@@ -308,7 +308,7 @@
         <Style Selector="^.Basic">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="Padding" Value="11,8" />
+            <Setter Property="Padding" Value="6,4" />
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
@@ -471,19 +471,19 @@
             <Setter Property="CornerRadius" Value="100" />
         </Style>
         <Style Selector="^.Small">
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="Padding" Value="10" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Padding" Value="6,2" />
         </Style>
         <Style Selector="^.Large">
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="Padding" Value="30,12" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="18,6" />
         </Style>
 
         <Style Selector="^.Icon">
             <Setter Property="CornerRadius" Value="100" />
-            <Setter Property="Width" Value="40" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="FontSize" Value="14" />
             <Setter Property="Padding" Value="0" />
         </Style>
 
@@ -514,17 +514,17 @@
         </Style>
 
         <Style Selector="^.Card">
-            <Setter Property="Padding" Value="20" />
+            <Setter Property="Padding" Value="12" />
             <Setter Property="CornerRadius" Value="{DynamicResource MediumCornerRadius}" />
             <Setter Property="BorderThickness" Value="1.5" />
             <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
             <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
-            <Setter Property="Margin" Value="7" />
+            <Setter Property="Margin" Value="4" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <ContentPresenter Name="PART_ContentPresenter"
-                                      Margin="7"
+                                      Margin="4"
                                       Padding="{TemplateBinding Padding}"
                                       HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"

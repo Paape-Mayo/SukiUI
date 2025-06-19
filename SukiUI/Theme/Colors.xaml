@@ -95,9 +95,9 @@
         <Thickness x:Key="ThemeBorderThickness">1,1,1,1</Thickness>
         <sys:Double x:Key="ThemeDisabledOpacity">0.5</sys:Double>
 
-        <sys:Double x:Key="FontSizeSmall">13</sys:Double>
-        <sys:Double x:Key="FontSizeNormal">14</sys:Double>
-        <sys:Double x:Key="FontSizeLarge">14</sys:Double>
+        <sys:Double x:Key="FontSizeSmall">11</sys:Double>
+        <sys:Double x:Key="FontSizeNormal">12</sys:Double>
+        <sys:Double x:Key="FontSizeLarge">13</sys:Double>
 
         <sys:Double x:Key="ScrollBarThickness">18</sys:Double>
         <sys:Double x:Key="ScrollBarThumbThickness">8</sys:Double>

@@ -21,7 +21,7 @@
         <Setter Property="BorderThickness" Value="0.5" />
         <Setter Property="Padding" Value="10,1,0,0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Template">
             <ControlTemplate>

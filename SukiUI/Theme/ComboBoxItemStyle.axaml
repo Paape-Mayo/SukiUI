@@ -23,7 +23,7 @@
 
     <Style Selector="ComboBoxItem">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="2" />
+        <Setter Property="Padding" Value="1" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -33,16 +33,16 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="6"
-                    Margin="3,0,3,3"
+                    Margin="2,0,2,2"
                     Name="BorderBasicStyle"
-                    Padding="5,0">
+                    Padding="3,0">
                     <DockPanel>
                         <PathIcon
                             Data="{x:Static icons:Icons.Check}"
                             DockPanel.Dock="Right"
                             Foreground="{DynamicResource SukiPrimaryColor}"
                             Height="12"
-                            Margin="0,0,3,0"
+                            Margin="0,0,2,0"
                             Name="CheckSelected"
                             Width="12" />
                         <ContentPresenter
@@ -52,7 +52,7 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             Margin="1"
                             Name="PART_ContentPresenter"
-                            Padding="5"
+                            Padding="3"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                     </DockPanel>
