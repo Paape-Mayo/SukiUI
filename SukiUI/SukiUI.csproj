@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>SukiUI</RootNamespace>
     <UserSecretsId>712f85e4-12d3-41b0-a417-5714a113666f</UserSecretsId>

@@ -98,6 +98,7 @@
         <sys:Double x:Key="FontSizeSmall">11</sys:Double>
         <sys:Double x:Key="FontSizeNormal">12</sys:Double>
         <sys:Double x:Key="FontSizeLarge">13</sys:Double>
+        <sys:Double x:Key="ControlContentThemeFontSize">12</sys:Double>
 
         <sys:Double x:Key="ScrollBarThickness">18</sys:Double>
         <sys:Double x:Key="ScrollBarThumbThickness">8</sys:Double>
