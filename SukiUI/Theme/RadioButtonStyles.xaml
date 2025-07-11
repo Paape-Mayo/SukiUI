@@ -6,13 +6,13 @@
         <Border Padding="20" Background="White">
             <StackPanel Orientation="Horizontal">
                 <RadioButton Margin="5"  Classes="Chips">
-                    <TextBlock>test 2</TextBlock>
+                    <TextBlock>Option 1</TextBlock>
                 </RadioButton>
                 <RadioButton Margin="5"  Classes="GigaChips">
-                    <TextBlock>test 2</TextBlock>
+                    <TextBlock>Option 2</TextBlock>
                 </RadioButton>
                 <RadioButton Margin="5" Classes="GigaChips">
-                    <TextBlock>test 3</TextBlock>
+                    <TextBlock>Option 3</TextBlock>
                 </RadioButton>
 
             </StackPanel>

@@ -39,7 +39,6 @@
                     </TextBox>
 
                     <TextBox suki:TextBoxExtensions.Prefix="https://"
-                             Text="test.com"
                              UseFloatingWatermark="True"
                              Watermark="Url" />
 

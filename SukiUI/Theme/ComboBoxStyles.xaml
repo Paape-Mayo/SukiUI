@@ -23,8 +23,8 @@
                     </ComboBox.Styles>
                     <ComboBox.ItemsSource>
                         <objectModel:ObservableCollection x:TypeArguments="system:String">
-                            <system:String>test</system:String>
-                            <system:String>test 2</system:String>
+                            <system:String>Item 1</system:String>
+                            <system:String>Item 2</system:String>
                         </objectModel:ObservableCollection>
                     </ComboBox.ItemsSource>
                     <ComboBox.SelectionBoxItemTemplate>
