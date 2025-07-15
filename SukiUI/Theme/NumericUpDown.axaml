@@ -148,8 +148,9 @@
         <Setter Property="Background" Value="{DynamicResource SukiGlassCardBackground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Padding" Value="3,2,0,2" />
-        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="Padding" Value="4,3,0,3" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="Template">
             <ControlTemplate>
                 <suki:GlassCard Name="PART_GlassCard"
