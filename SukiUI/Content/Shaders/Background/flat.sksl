@@ -64,7 +64,7 @@ vec4 main(vec2 fragCoord) {
     float iPrimaryOpacity = (iDark == 1.0) ? 0.6 : 1.5;
     vec3 iPrimaryWithOpacity = iPrimary * iPrimaryOpacity;
 
-    float iAccentOpacity = (iDark == 1.0) ? 4.5 : -1.05;
+    float iAccentOpacity = (iDark == 1.0) ? 4.5 : 0.4;
     vec3 iAccentWithOpacity = iPrimary * iAccentOpacity;
 
     vec3 layer1Color = mix(vec3(0.0), iPrimaryWithOpacity, opacityLayer1);
@@ -75,7 +75,7 @@ vec4 main(vec2 fragCoord) {
 
     vec3 finalComp = mix(layer1, layer2, smoothstep(0.8, -0.5, tuv.y));
 
-    vec3 col = (iDark == 0.0) ? blendOverlay(iBase * 1.02, finalComp) : blendOverlayDark(grayBase, finalComp);
+    vec3 col = (iDark == 0.0) ? mix(iBase, clamp(finalComp, 0.0, 1.0), 0.15) : blendOverlayDark(grayBase, finalComp);
 
     return half4(col, iAlpha);
 }

@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:suki="clr-namespace:SukiUI.Controls">
+
+    <ControlTheme x:Key="FlyoutOverlayHostTheme" TargetType="suki:FlyoutOverlayHost">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel ClipToBounds="True">
+                    <!-- z=0: base content, fills entire host -->
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Content="{TemplateBinding Content}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch" />
+                    <!-- z=1: overlay layer (editor panels), above base -->
+                    <ContentPresenter Name="PART_OverlayPresenter"
+                                      Content="{TemplateBinding OverlayContent}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch" />
+                    <!-- z=2: flyout layer (details pane), highest z-order -->
+                    <ContentPresenter Name="PART_FlyoutPresenter"
+                                      Content="{TemplateBinding FlyoutContent}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch" />
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type suki:FlyoutOverlayHost}"
+                  BasedOn="{StaticResource FlyoutOverlayHostTheme}"
+                  TargetType="suki:FlyoutOverlayHost" />
+
+</ResourceDictionary>

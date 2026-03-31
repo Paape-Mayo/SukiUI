@@ -91,12 +91,14 @@
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiSideMenu.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiStackPage.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiSideMenuItem.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Controls/SukiGroupSideMenuItem.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiTransitioningContentControl.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/Stepper.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/InfoBadge.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/InfoBar.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/GlassMorphism/GlassCard.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/ContentExpandControl.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Controls/FlyoutOverlayHost.axaml" />
 
                 <ResourceInclude Source="avares://SukiUI/Locale/en-US.axaml" />
             </ResourceDictionary.MergedDictionaries>

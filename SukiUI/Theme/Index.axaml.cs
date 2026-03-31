@@ -76,6 +76,24 @@ public partial class SukiTheme : Styles
     private readonly HashSet<SukiColorTheme> _colorThemeHashset = new();
     private readonly AvaloniaList<SukiColorTheme> _allThemes = new();
 
+    private static readonly (string Key, Func<SukiThemePalette, Color?> Getter)[] PaletteTokens =
+    {
+        ("SukiBackground", p => p.Background),
+        ("SukiStrongBackground", p => p.StrongBackground),
+        ("SukiLightBackground", p => p.LightBackground),
+        ("SukiCardBackground", p => p.CardBackground),
+        ("SukiPopupBackground", p => p.PopupBackground),
+        ("SukiGlassCardBackground", p => p.GlassCardBackground),
+        ("SukiGlassCardOpaqueBackground", p => p.GlassCardOpaqueBackground),
+        ("SukiBorderBrush", p => p.BorderBrush),
+        ("SukiControlBorderBrush", p => p.ControlBorderBrush),
+        ("SukiMediumBorderBrush", p => p.MediumBorderBrush),
+        ("SukiLightBorderBrush", p => p.LightBorderBrush),
+        ("SukiText", p => p.Text),
+        ("SukiLowText", p => p.LowText),
+        ("SukiMuteText", p => p.MuteText),
+    };
+
     public SukiTheme()
     {
         AvaloniaXamlLoader.Load(this);
@@ -203,8 +221,26 @@ public partial class SukiTheme : Styles
         SetResource("SukiPrimaryDarkColor", colorTheme.PrimaryDark);
         SetColorWithOpacities("SukiAccentColor", colorTheme.Accent);
         SetResource("SukiAccentDarkColor", colorTheme.AccentDark);
+
+        var palette = _app.ActualThemeVariant == ThemeVariant.Dark
+            ? colorTheme.DarkPalette
+            : colorTheme.LightPalette;
+        ApplyPaletteOverrides(palette);
+
         ActiveColorTheme = colorTheme;
         OnColorThemeChanged?.Invoke(ActiveColorTheme);
+    }
+
+    private void ApplyPaletteOverrides(SukiThemePalette? palette)
+    {
+        foreach (var (key, getter) in PaletteTokens)
+        {
+            var value = palette is not null ? getter(palette) : null;
+            if (value.HasValue)
+                _app.Resources[key] = value.Value;
+            else
+                _app.Resources.Remove(key);
+        }
     }
 
     private void SetColorWithOpacities(string baseName, Color baseColor)
@@ -276,28 +312,272 @@ public partial class SukiTheme : Styles
     {
         var defaultThemes = new[]
         {
-            new DefaultSukiColorTheme(SukiColor.Orange, Color.Parse("#d48806"), Color.Parse("#176CE8")),
-            new DefaultSukiColorTheme(SukiColor.Red, Color.Parse("#D03A2F"), Color.Parse("#2FC5D0")),
-            new DefaultSukiColorTheme(SukiColor.Green, Color.Parse("#537834"), Color.Parse("#B24DB0")),
-            new DefaultSukiColorTheme(SukiColor.Blue, Color.Parse("#0A59F7"), Color.Parse("#F7A80A")),
-            new DefaultSukiColorTheme(SukiColor.Purple, Color.Parse("#7B2FD0"), Color.Parse("#56D02F")),
-            new DefaultSukiColorTheme(SukiColor.Teal, Color.Parse("#0E9AA7"), Color.Parse("#A7210E")),
-            new DefaultSukiColorTheme(SukiColor.Pink, Color.Parse("#D9468B"), Color.Parse("#46D9A4")),
-            new DefaultSukiColorTheme(SukiColor.Yellow, Color.Parse("#C4A616"), Color.Parse("#1674C4")),
-            new DefaultSukiColorTheme(SukiColor.Indigo, Color.Parse("#6236C7"), Color.Parse("#8BC736")),
+            new DefaultSukiColorTheme(SukiColor.Orange,    Color.Parse("#d48806"), Color.Parse("#176CE8")),
+            new DefaultSukiColorTheme(SukiColor.Red,       Color.Parse("#D03A2F"), Color.Parse("#2FC5D0")),
+            new DefaultSukiColorTheme(SukiColor.Green,     Color.Parse("#537834"), Color.Parse("#B24DB0")),
+            new DefaultSukiColorTheme(SukiColor.Blue,      Color.Parse("#0A59F7"), Color.Parse("#F7A80A")),
+            new DefaultSukiColorTheme(SukiColor.Purple,    Color.Parse("#7B2FD0"), Color.Parse("#56D02F")),
+            new DefaultSukiColorTheme(SukiColor.Teal,      Color.Parse("#0E9AA7"), Color.Parse("#A7210E")),
+            new DefaultSukiColorTheme(SukiColor.Pink,      Color.Parse("#D9468B"), Color.Parse("#46D9A4")),
+            new DefaultSukiColorTheme(SukiColor.Yellow,    Color.Parse("#C4A616"), Color.Parse("#1674C4")),
+            new DefaultSukiColorTheme(SukiColor.Indigo,    Color.Parse("#6236C7"), Color.Parse("#8BC736")),
             new DefaultSukiColorTheme(SukiColor.Grayscale, Color.Parse("#6B7280"), Color.Parse("#9CA3AF")),
-            new DefaultSukiColorTheme(SukiColor.Nord, Color.Parse("#5E81AC"), Color.Parse("#D08770")),
-            new DefaultSukiColorTheme(SukiColor.Rosepine, Color.Parse("#C4A7E7"), Color.Parse("#EA9A97")),
-            new DefaultSukiColorTheme(SukiColor.Dracula, Color.Parse("#644ac9"), Color.Parse("#50fa7b")),
-            new DefaultSukiColorTheme(SukiColor.Monokai, Color.Parse("#66d9ef"), Color.Parse("#fd971f")),
-            new DefaultSukiColorTheme(SukiColor.TokyoNight, Color.Parse("#7aa2f7"), Color.Parse("#f7768e")),
-            new DefaultSukiColorTheme(SukiColor.Everforest, Color.Parse("#a7c080"), Color.Parse("#7fbbb3")),
-            new DefaultSukiColorTheme(SukiColor.Kanagawa, Color.Parse("#7fb4ca"), Color.Parse("#957fb8")),
-            new DefaultSukiColorTheme(SukiColor.Mocha, Color.Parse("#fab387"), Color.Parse("#cba6f7")),
-            new DefaultSukiColorTheme(SukiColor.Gruvbox, Color.Parse("#d79921"), Color.Parse("#98971a")),
-            new DefaultSukiColorTheme(SukiColor.Solarized, Color.Parse("#268bd2"), Color.Parse("#2aa198")),
-            new DefaultSukiColorTheme(SukiColor.Ayu, Color.Parse("#ffcc66"), Color.Parse("#ff8f40")),
-            new DefaultSukiColorTheme(SukiColor.OneDark, Color.Parse("#61afef"), Color.Parse("#c678dd")),
+
+            new DefaultSukiColorTheme(SukiColor.Nord, Color.Parse("#5E81AC"), Color.Parse("#D08770"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#2e3440"),
+                    StrongBackground   = Color.Parse("#242933"),
+                    LightBackground    = Color.Parse("#3b4252"),
+                    CardBackground     = Color.Parse("#434c5e"),
+                    PopupBackground    = Color.Parse("#2e3440"),
+                    BorderBrush        = Color.Parse("#4c566a"),
+                    ControlBorderBrush = Color.Parse("#434c5e"),
+                    MediumBorderBrush  = Color.Parse("#3b4252"),
+                    LightBorderBrush   = Color.Parse("#363d4c"),
+                    Text               = Color.Parse("#eceff4"),
+                    LowText            = Color.Parse("#d8dee9"),
+                    MuteText           = Color.Parse("#8d96a8"),
+                },
+                LightPalette = new SukiThemePalette
+                {
+                    StrongBackground   = Color.Parse("#e5e9f0"),
+                    LightBackground    = Color.Parse("#d8dee9"),
+                    CardBackground     = Color.Parse("#eceff4"),
+                    PopupBackground    = Color.Parse("#eceff4"),
+                    BorderBrush        = Color.Parse("#81a1c1"),
+                    ControlBorderBrush = Color.Parse("#8fbcbb"),
+                    MediumBorderBrush  = Color.Parse("#afc5d8"),
+                    LightBorderBrush   = Color.Parse("#d0d8e4"),
+                    Text               = Color.Parse("#2e3440"),
+                    LowText            = Color.Parse("#4c566a"),
+                    MuteText           = Color.Parse("#61728a"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Rosepine, Color.Parse("#C4A7E7"), Color.Parse("#EA9A97"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#191724"),
+                    StrongBackground   = Color.Parse("#111020"),
+                    LightBackground    = Color.Parse("#26233a"),
+                    CardBackground     = Color.Parse("#1f1d2e"),
+                    PopupBackground    = Color.Parse("#191724"),
+                    BorderBrush        = Color.Parse("#403d52"),
+                    ControlBorderBrush = Color.Parse("#26233a"),
+                    MediumBorderBrush  = Color.Parse("#21202e"),
+                    LightBorderBrush   = Color.Parse("#1e1c2e"),
+                    Text               = Color.Parse("#e0def4"),
+                    LowText            = Color.Parse("#908caa"),
+                    MuteText           = Color.Parse("#6e6a86"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Dracula, Color.Parse("#644ac9"), Color.Parse("#50fa7b"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#282a36"),
+                    StrongBackground   = Color.Parse("#21222c"),
+                    LightBackground    = Color.Parse("#343746"),
+                    CardBackground     = Color.Parse("#44475a"),
+                    PopupBackground    = Color.Parse("#282a36"),
+                    BorderBrush        = Color.Parse("#6272a4"),
+                    ControlBorderBrush = Color.Parse("#44475a"),
+                    MediumBorderBrush  = Color.Parse("#3d3f4f"),
+                    LightBorderBrush   = Color.Parse("#303244"),
+                    Text               = Color.Parse("#f8f8f2"),
+                    LowText            = Color.Parse("#bcc2e0"),
+                    MuteText           = Color.Parse("#6272a4"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Monokai, Color.Parse("#66d9ef"), Color.Parse("#fd971f"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#272822"),
+                    StrongBackground   = Color.Parse("#1e1f1c"),
+                    LightBackground    = Color.Parse("#33342c"),
+                    CardBackground     = Color.Parse("#3e3d32"),
+                    PopupBackground    = Color.Parse("#272822"),
+                    BorderBrush        = Color.Parse("#75715e"),
+                    ControlBorderBrush = Color.Parse("#49483e"),
+                    MediumBorderBrush  = Color.Parse("#3e3d32"),
+                    LightBorderBrush   = Color.Parse("#32312a"),
+                    Text               = Color.Parse("#f8f8f2"),
+                    LowText            = Color.Parse("#cfcfc2"),
+                    MuteText           = Color.Parse("#75715e"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.TokyoNight, Color.Parse("#7aa2f7"), Color.Parse("#f7768e"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#1a1b26"),
+                    StrongBackground   = Color.Parse("#16161e"),
+                    LightBackground    = Color.Parse("#292e42"),
+                    CardBackground     = Color.Parse("#1e2030"),
+                    PopupBackground    = Color.Parse("#1a1b26"),
+                    BorderBrush        = Color.Parse("#3b4261"),
+                    ControlBorderBrush = Color.Parse("#292e42"),
+                    MediumBorderBrush  = Color.Parse("#222436"),
+                    LightBorderBrush   = Color.Parse("#1e2030"),
+                    Text               = Color.Parse("#c0caf5"),
+                    LowText            = Color.Parse("#a9b1d6"),
+                    MuteText           = Color.Parse("#565f89"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Everforest, Color.Parse("#a7c080"), Color.Parse("#7fbbb3"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#272e33"),
+                    StrongBackground   = Color.Parse("#1e2326"),
+                    LightBackground    = Color.Parse("#2e383c"),
+                    CardBackground     = Color.Parse("#374145"),
+                    PopupBackground    = Color.Parse("#272e33"),
+                    BorderBrush        = Color.Parse("#4f585e"),
+                    ControlBorderBrush = Color.Parse("#415055"),
+                    MediumBorderBrush  = Color.Parse("#374145"),
+                    LightBorderBrush   = Color.Parse("#2e383c"),
+                    Text               = Color.Parse("#d3c6aa"),
+                    LowText            = Color.Parse("#9da9a0"),
+                    MuteText           = Color.Parse("#859289"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Kanagawa, Color.Parse("#7fb4ca"), Color.Parse("#957fb8"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#1f1f28"),
+                    StrongBackground   = Color.Parse("#16161d"),
+                    LightBackground    = Color.Parse("#2a2a37"),
+                    CardBackground     = Color.Parse("#363646"),
+                    PopupBackground    = Color.Parse("#1f1f28"),
+                    BorderBrush        = Color.Parse("#54546d"),
+                    ControlBorderBrush = Color.Parse("#363646"),
+                    MediumBorderBrush  = Color.Parse("#2a2a37"),
+                    LightBorderBrush   = Color.Parse("#252530"),
+                    Text               = Color.Parse("#dcd7ba"),
+                    LowText            = Color.Parse("#c8c093"),
+                    MuteText           = Color.Parse("#727169"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Mocha, Color.Parse("#fab387"), Color.Parse("#cba6f7"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#1e1e2e"),
+                    StrongBackground   = Color.Parse("#181825"),
+                    LightBackground    = Color.Parse("#313244"),
+                    CardBackground     = Color.Parse("#313244"),
+                    PopupBackground    = Color.Parse("#1e1e2e"),
+                    BorderBrush        = Color.Parse("#585b70"),
+                    ControlBorderBrush = Color.Parse("#45475a"),
+                    MediumBorderBrush  = Color.Parse("#313244"),
+                    LightBorderBrush   = Color.Parse("#292938"),
+                    Text               = Color.Parse("#cdd6f4"),
+                    LowText            = Color.Parse("#bac2de"),
+                    MuteText           = Color.Parse("#a6adc8"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Gruvbox, Color.Parse("#d79921"), Color.Parse("#98971a"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#282828"),
+                    StrongBackground   = Color.Parse("#1d2021"),
+                    LightBackground    = Color.Parse("#3c3836"),
+                    CardBackground     = Color.Parse("#504945"),
+                    PopupBackground    = Color.Parse("#282828"),
+                    BorderBrush        = Color.Parse("#665c54"),
+                    ControlBorderBrush = Color.Parse("#504945"),
+                    MediumBorderBrush  = Color.Parse("#3c3836"),
+                    LightBorderBrush   = Color.Parse("#32302f"),
+                    Text               = Color.Parse("#ebdbb2"),
+                    LowText            = Color.Parse("#d5c4a1"),
+                    MuteText           = Color.Parse("#a89984"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Solarized, Color.Parse("#268bd2"), Color.Parse("#2aa198"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#002b36"),
+                    StrongBackground   = Color.Parse("#001e27"),
+                    LightBackground    = Color.Parse("#073642"),
+                    CardBackground     = Color.Parse("#094555"),
+                    PopupBackground    = Color.Parse("#002b36"),
+                    BorderBrush        = Color.Parse("#586e75"),
+                    ControlBorderBrush = Color.Parse("#073642"),
+                    MediumBorderBrush  = Color.Parse("#003847"),
+                    LightBorderBrush   = Color.Parse("#002e38"),
+                    Text               = Color.Parse("#eee8d5"),
+                    LowText            = Color.Parse("#93a1a1"),
+                    MuteText           = Color.Parse("#657b83"),
+                },
+                LightPalette = new SukiThemePalette
+                {
+                    StrongBackground   = Color.Parse("#eee8d5"),
+                    LightBackground    = Color.Parse("#e0dbc7"),
+                    CardBackground     = Color.Parse("#fdf6e3"),
+                    PopupBackground    = Color.Parse("#fdf6e3"),
+                    BorderBrush        = Color.Parse("#93a1a1"),
+                    ControlBorderBrush = Color.Parse("#adb5bd"),
+                    MediumBorderBrush  = Color.Parse("#bdc3bd"),
+                    LightBorderBrush   = Color.Parse("#d8d8cc"),
+                    Text               = Color.Parse("#073642"),
+                    LowText            = Color.Parse("#586e75"),
+                    MuteText           = Color.Parse("#839496"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.Ayu, Color.Parse("#ffcc66"), Color.Parse("#ff8f40"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#0d1017"),
+                    StrongBackground   = Color.Parse("#080c12"),
+                    LightBackground    = Color.Parse("#1a2130"),
+                    CardBackground     = Color.Parse("#131721"),
+                    PopupBackground    = Color.Parse("#0d1017"),
+                    BorderBrush        = Color.Parse("#253340"),
+                    ControlBorderBrush = Color.Parse("#1e2b38"),
+                    MediumBorderBrush  = Color.Parse("#17212b"),
+                    LightBorderBrush   = Color.Parse("#121a24"),
+                    Text               = Color.Parse("#b3b1ad"),
+                    LowText            = Color.Parse("#8a8680"),
+                    MuteText           = Color.Parse("#626a73"),
+                },
+            },
+
+            new DefaultSukiColorTheme(SukiColor.OneDark, Color.Parse("#61afef"), Color.Parse("#c678dd"))
+            {
+                DarkPalette = new SukiThemePalette
+                {
+                    Background         = Color.Parse("#282c34"),
+                    StrongBackground   = Color.Parse("#21252b"),
+                    LightBackground    = Color.Parse("#30343d"),
+                    CardBackground     = Color.Parse("#3a3f4b"),
+                    PopupBackground    = Color.Parse("#282c34"),
+                    BorderBrush        = Color.Parse("#4b5363"),
+                    ControlBorderBrush = Color.Parse("#3e4452"),
+                    MediumBorderBrush  = Color.Parse("#353b45"),
+                    LightBorderBrush   = Color.Parse("#2f333d"),
+                    Text               = Color.Parse("#abb2bf"),
+                    LowText            = Color.Parse("#9da5b4"),
+                    MuteText           = Color.Parse("#5c6370"),
+                },
+            },
         };
         DefaultColorThemes = defaultThemes.ToDictionary(x => x.ThemeColor, y => (SukiColorTheme)y);
     }

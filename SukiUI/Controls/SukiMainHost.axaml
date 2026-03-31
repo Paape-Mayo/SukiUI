@@ -61,7 +61,7 @@
                             <Border Background="White"
                                     IsHitTestVisible="False"
                                     IsVisible="{DynamicResource IsLight}"
-                                    Opacity="0.1" />
+                                    Opacity="0.04" />
 
 
                             <ContentPresenter x:Name="PART_ContentPresenter"

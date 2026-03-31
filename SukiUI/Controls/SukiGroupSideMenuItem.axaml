@@ -1,0 +1,161 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:suki="clr-namespace:SukiUI.Controls"
+                    xmlns:enums="clr-namespace:SukiUI.Enums">
+
+    <!--
+        SukiGroupSideMenuItemStyle
+        BasedOn SukiSideMenuItemStyle — inherits the full base template (icon,
+        header, expand button, compact class, IsSelected styling, etc.) and
+        then overrides / adds group-specific selectors.
+    -->
+    <ControlTheme x:Key="SukiGroupSideMenuItemStyle"
+                  BasedOn="{StaticResource SukiSideMenuItemStyle}"
+                  TargetType="suki:SukiGroupSideMenuItem">
+
+        <!-- ── Base: use GroupRestBrush instead of SukiPrimaryColor0 ──────── -->
+        <Style Selector="^ /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupRestBrush}" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.25" />
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.25" />
+                    <ThicknessTransition Property="Margin" Duration="0:0:0.2">
+                        <ThicknessTransition.Easing>CubicEaseOut</ThicknessTransition.Easing>
+                    </ThicknessTransition>
+                    <DoubleTransition Property="MaxHeight" Duration="0:0:1">
+                        <DoubleTransition.Easing>CubicEaseInOut</DoubleTransition.Easing>
+                    </DoubleTransition>
+                    <ThicknessTransition Property="Padding" Duration="0:0:0.35">
+                        <ThicknessTransition.Easing>CubicEaseInOut</ThicknessTransition.Easing>
+                    </ThicknessTransition>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <!-- ── Suppress base :pointerover to prevent flash ────────────────── -->
+        <Style Selector="^:pointerover /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupRestBrush}" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <!-- ── Individual item pill: suppress base [IsSelected=True] on PART_Border ── -->
+        <Style Selector="^[IsSelected=True] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupRestBrush}" />
+        </Style>
+        <Style Selector="^[IsSelected=True][IsGroupActive=True] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupActiveBrush}" />
+        </Style>
+
+        <!-- Individual pill: hover state -->
+        <Style Selector="^:pointerover /template/ Border#PART_ItemHighlight">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
+        </Style>
+
+        <!-- Individual pill: selected state -->
+        <Style Selector="^[IsSelected=True] /template/ Border#PART_ItemHighlight">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
+        </Style>
+
+        <!-- ── Segment: corner radii and rest margins ────────────────────── -->
+
+        <Style Selector="^[SegmentPosition=Top] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="12,12,0,0" />
+            <Setter Property="Margin" Value="15,2,15,0" />
+        </Style>
+
+        <Style Selector="^[SegmentPosition=Middle] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Margin" Value="15,0" />
+        </Style>
+
+        <Style Selector="^[SegmentPosition=Bottom] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="0,0,12,12" />
+            <Setter Property="Margin" Value="15,0,15,2" />
+        </Style>
+
+        <Style Selector="^[SegmentPosition=Sole] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Margin" Value="15,2" />
+        </Style>
+
+        <!-- ── Hover state ───────────────────────────────────────────────── -->
+
+        <Style Selector="^[IsGroupHovered=True] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupHoverBrush}" />
+        </Style>
+
+        <Style Selector="^[IsGroupHovered=True][SegmentPosition=Top] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,2,15,0" />
+        </Style>
+
+        <Style Selector="^[IsGroupHovered=True][SegmentPosition=Middle] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,0,15,0" />
+        </Style>
+
+        <Style Selector="^[IsGroupHovered=True][SegmentPosition=Bottom] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,0,15,2" />
+        </Style>
+
+        <Style Selector="^[IsGroupHovered=True][SegmentPosition=Sole] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,2,15,2" />
+        </Style>
+
+        <!-- ── Active (group member is selected) ────────────────────────── -->
+
+        <Style Selector="^[IsGroupActive=True] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupActiveBrush}" />
+        </Style>
+
+        <Style Selector="^[IsGroupActive=True][SegmentPosition=Top] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,2,15,0" />
+        </Style>
+
+        <Style Selector="^[IsGroupActive=True][SegmentPosition=Middle] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,0,15,0" />
+        </Style>
+
+        <Style Selector="^[IsGroupActive=True][SegmentPosition=Bottom] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,0,15,2" />
+        </Style>
+
+        <Style Selector="^[IsGroupActive=True][SegmentPosition=Sole] /template/ Border#PART_Border">
+            <Setter Property="Margin" Value="21,2,15,2" />
+        </Style>
+
+        <!-- ── Compact mode: left accent strip when sidebar is collapsed ─── -->
+
+        <Style Selector="^[ShowCompactStrip=True][IsTopMenuExpanded=False] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{TemplateBinding GroupStripBrush}" />
+            <Setter Property="BorderThickness" Value="3,0,0,0" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <!-- Per-segment corner cap for the strip (top/bottom strip ends) -->
+        <Style Selector="^[ShowCompactStrip=True][IsTopMenuExpanded=False][SegmentPosition=Top] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="3,0,0,0" />
+        </Style>
+
+        <Style Selector="^[ShowCompactStrip=True][IsTopMenuExpanded=False][SegmentPosition=Bottom] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="0,0,0,3" />
+        </Style>
+
+        <Style Selector="^[ShowCompactStrip=True][IsTopMenuExpanded=False][SegmentPosition=Sole] /template/ Border#PART_Border">
+            <Setter Property="CornerRadius" Value="3,0,0,3" />
+        </Style>
+
+        <!-- Compact hover: restore faint background behind the icon -->
+        <Style Selector="^[ShowCompactStrip=True][IsTopMenuExpanded=False][IsGroupHovered=True] /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{TemplateBinding GroupRestBrush}" />
+        </Style>
+
+    </ControlTheme>
+
+    <!-- Implicit theme registration for SukiGroupSideMenuItem -->
+    <ControlTheme x:Key="{x:Type suki:SukiGroupSideMenuItem}"
+                  BasedOn="{StaticResource SukiGroupSideMenuItemStyle}"
+                  TargetType="suki:SukiGroupSideMenuItem" />
+
+</ResourceDictionary>
