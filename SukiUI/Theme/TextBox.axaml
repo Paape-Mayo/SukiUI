@@ -348,17 +348,17 @@
                                                   Content="{TemplateBinding InnerRightContent}"
                                                   IsVisible="{TemplateBinding InnerRightContent, Converter={x:Static ObjectConverters.IsNotNull}}" />
 
-                                <suki:TextEraserButton VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                <suki:TextResetButton VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                        Cursor="Hand"
                                                        IsVisible="{TemplateBinding suki:TextBoxExtensions.AddDeleteButton}"
                                                        Opacity="{TemplateBinding Text, Converter={StaticResource StringToDoubleC}}"
                                                        Text="{TemplateBinding Text, Mode=TwoWay}">
-                                    <suki:TextEraserButton.Transitions>
+                                    <suki:TextResetButton.Transitions>
                                         <Transitions>
                                             <DoubleTransition Property="Opacity" Duration="0:0:0.35" />
                                         </Transitions>
-                                    </suki:TextEraserButton.Transitions>
-                                </suki:TextEraserButton>
+                                    </suki:TextResetButton.Transitions>
+                                </suki:TextResetButton>
 
                                 <DataValidationErrors />
                             </StackPanel>
