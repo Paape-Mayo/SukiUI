@@ -1,11 +1,29 @@
-﻿using Avalonia;
+﻿using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
+using Avalonia.Platform.Storage;
 
 namespace SukiUI.Extensions;
 
 public static class WindowExtensions
 {
+    /// <summary>
+    /// Gets a value indicating whether the current operating system is macOS Mojave (version 10.14.6) or later.
+    /// </summary>
+    private static bool IsMacOSMonjaveOrGreater { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                                                           && Environment.OSVersion.Version.CompareTo(new Version(10, 14, 6)) >= 0;
+
+    /// <summary>
+    /// Gets the render scaling factor for the window. On macOS Mojave or later, this method returns 1.0 to avoid issues with non-1.0 scaling factors.
+    /// </summary>
+    /// <param name="window"></param>
+    /// <returns></returns>
+    public static double GetRenderScaling(this Window window)
+    {
+        return IsMacOSMonjaveOrGreater ? 1.0 : window.RenderScaling;
+    }
+
     /// <summary>
     /// Gets the screen that contains the largest area of the window.
     /// </summary>
@@ -38,8 +56,8 @@ public static class WindowExtensions
     {
         if (screen is null || window.WindowState != WindowState.Normal) return;
 
-        window.Position = new PixelPoint((int)(screen.Bounds.X + screen.WorkingArea.Width / 2.0 - window.Bounds.Width / (2.0 / window.RenderScaling)),
-                                        (int)(screen.Bounds.Y + screen.WorkingArea.Height / 2.0 - window.Bounds.Height / (2.0 / window.RenderScaling)));
+        window.Position = new PixelPoint((int)(screen.Bounds.X + screen.WorkingArea.Width / 2.0 - window.Bounds.Width / (2.0 /  window.GetRenderScaling())),
+                                        (int)(screen.Bounds.Y + screen.WorkingArea.Height / 2.0 - window.Bounds.Height / (2.0 / window.GetRenderScaling())));
     }
 
     /// <summary>
@@ -68,7 +86,7 @@ public static class WindowExtensions
                 screen = window.GetHostScreen();
                 if (screen is null) return;
 
-                var desiredMaxWidth = screen.WorkingArea.Width / window.RenderScaling * maxWidthScreenRatio;
+                var desiredMaxWidth = screen.WorkingArea.Width / window.GetRenderScaling() * maxWidthScreenRatio;
                 window.MaxWidth = Math.Max(window.MinWidth, desiredMaxWidth);
             }
         }
@@ -85,9 +103,46 @@ public static class WindowExtensions
                 screen ??= window.GetHostScreen();
                 if (screen is null) return;
 
-                var desiredMaxHeight = screen.WorkingArea.Height / window.RenderScaling * maxHeightScreenRatio;
+                var desiredMaxHeight = screen.WorkingArea.Height / window.GetRenderScaling() * maxHeightScreenRatio;
                 window.MaxHeight = Math.Max(window.MinHeight, desiredMaxHeight);
             }
         }
+    }
+
+    /// <summary>
+    /// Attempts to launch the specified link as a file, directory, or URI using the associated launcher for the given
+    /// window.
+    /// </summary>
+    /// <remarks>The method determines the type of the link and attempts to launch it accordingly. If the link
+    /// does not correspond to an existing file, directory, or a valid URI, the method returns <see langword="false"/>
+    /// without performing any action.</remarks>
+    /// <param name="window">The window instance whose launcher is used to open the link.</param>
+    /// <param name="link">The path or URI to launch. Can be a file path, directory path, or a URI. If null, empty, or whitespace, the
+    /// method does nothing.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result is <see langword="true"/> if the link was
+    /// successfully launched; otherwise, <see langword="false"/>.</returns>
+    public static Task<bool> LaunchLinkAsync(this Window window, string? link)
+    {
+        if (string.IsNullOrWhiteSpace(link))
+            return Task.FromResult(false);
+
+        var launcher = window.Launcher;
+
+        if (File.Exists(link))
+        {
+            return launcher.LaunchFileInfoAsync(new FileInfo(link!));
+        }
+
+        if (Directory.Exists(link))
+        {
+            return launcher.LaunchDirectoryInfoAsync(new DirectoryInfo(link!));
+        }
+
+        if (link!.Contains("://"))
+        {
+            return launcher.LaunchUriAsync(new Uri(link));
+        }
+
+        return Task.FromResult(false);
     }
 }

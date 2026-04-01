@@ -20,6 +20,15 @@ Moving forward, our focus will be on maintaining the library and potentially ext
 Massive thanks to [sirdoombox](https://github.com/sirdoombox) for his incredible work. Without him, this library would definitely not be the same.
 <br/><br/>
 
+## 📱 Mobile Support
+
+SukiUI is exclusively desktop focused.
+
+If you like the SukiUI theme and want to develop for Mobile, check the [CherylUI Library](https://github.com/kikipoulet/CherylUI.Uno), which is basically Suki theme for Mobile.
+
+
+<br/>
+
 ## 📄 Documentation
 
 
@@ -28,11 +37,14 @@ Massive thanks to [sirdoombox](https://github.com/sirdoombox) for his incredible
 <br/>
 
 Many thanks to [McCree Lee](https://github.com/AuroraZiling) for his work on the documentation and the support for Chinese users.
+Btw if you're looking for a Markdown renderer library for avalonia, you can check [LiveMarkdown.Avalonia](https://github.com/DearVa/LiveMarkdown.Avalonia).
 
 
 <br/>
 
-## 📱 UI Theme 
+
+
+## 🎨 UI Theme 
 
 <br/>
 
@@ -40,7 +52,7 @@ Many thanks to [McCree Lee](https://github.com/AuroraZiling) for his work on the
 
 <br/>
 
-![sukicolorpresentation](https://github.com/user-attachments/assets/70fdaa99-6274-478a-bb2a-025a0b7f1182)
+![SukiAccueil](https://github.com/user-attachments/assets/ffec8cab-ca19-424b-a325-3a11b4545f7a)
 
 
 <br/>
@@ -49,7 +61,8 @@ Many thanks to [McCree Lee](https://github.com/AuroraZiling) for his work on the
 
 <br/>
 
-![backgroundstyles](https://github.com/user-attachments/assets/88ea5b54-1e05-431c-be92-15dbbe61f1b9)
+![Sukibackgrounds](https://github.com/user-attachments/assets/8a46e07e-2ee2-4052-9e03-d1d1e4d598f7)
+
 
 <br/>
 
@@ -61,7 +74,10 @@ Many thanks to [McCree Lee](https://github.com/AuroraZiling) for his work on the
 
 <br/>
 
-![animations](https://github.com/user-attachments/assets/7d6d0e94-b315-48d5-8556-01f12f8faaca)
+
+![progress](https://github.com/user-attachments/assets/af4e59ef-a31b-49cc-a4c4-1923959dc284)
+
+![SukiUI Demo_cgkuWM3wIL](https://github.com/user-attachments/assets/2bc7b5e4-75fe-4c39-a89c-7338d5d04e79)
 
  
 <br/>
@@ -77,7 +93,8 @@ We aim to provide a complete kit for your UI, encompassing all the necessary fun
 SukiUI offer a versatile way to display unique toasts, to help you create nice interactions easily.
 
 
-![toast](https://github.com/user-attachments/assets/2a07cf6d-f29a-469c-8964-239e7f734a09)
+![Toasts](https://github.com/user-attachments/assets/b0b4c0b4-1318-4eaf-bada-45adeb02327f)
+
 
 <br/>
 
@@ -88,13 +105,4 @@ SukiUI offer a versatile way to display unique toasts, to help you create nice i
 ![dialogslight](https://github.com/user-attachments/assets/51f05964-e847-4ed6-a1f7-78616eea9cee)
 
 
-<br/> <br/>
-
-### Dock
-
-SukiUI includes styles for the [Dock](https://github.com/wieslawsoltes/Dock) library.
-
-
-![dockgradient](https://github.com/user-attachments/assets/828cf7f1-ca76-4e36-ab27-921c35f93280)
-
-
+<br/>

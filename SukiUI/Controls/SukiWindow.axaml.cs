@@ -1,25 +1,26 @@
-using System.ComponentModel;
-using Avalonia;
+﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Media;
-using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
-using SukiUI.Enums;
-using System.Runtime.InteropServices;
-using Avalonia.Controls.Metadata;
 using Avalonia.Layout;
+using Avalonia.Media;
 using Avalonia.Threading;
-using Avalonia.Controls.Presenters;
+using SukiUI.Enums;
 using SukiUI.Extensions;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace SukiUI.Controls;
 
 [TemplatePart("PART_Root", typeof(Panel))]
-[TemplatePart("PART_LayoutTransform", typeof(LayoutTransformControl))]
+[TemplatePart("PART_TitleBar", typeof(LayoutTransformControl))]
 [TemplatePart("PART_TitleBarBackground", typeof(GlassCard))]
+[TemplatePart("PART_TitleTextBlock", typeof(TextBlock))]
 [TemplatePart("PART_Logo", typeof(ContentPresenter))]
 [TemplatePart("PART_FullScreenButton", typeof(Button))]
 [TemplatePart("PART_PinButton", typeof(Button))]
@@ -74,6 +75,8 @@ public class SukiWindow : Window, IDisposable
     };
 
     private readonly List<Action> _disposeActions = new List<Action>();
+
+    private LayoutTransformControl? _titleBarControl;
     #endregion
 
     #region Properties
@@ -165,6 +168,21 @@ public class SukiWindow : Window, IDisposable
     public static readonly StyledProperty<double> TitleFontSizeProperty =
         AvaloniaProperty.Register<SukiWindow, double>(nameof(TitleFontSize), defaultValue: 13);
 
+    public static readonly StyledProperty<double> TitleBarControlSizeProperty =
+        AvaloniaProperty.Register<SukiWindow, double>(nameof(TitleBarControlSize), 10);
+
+    /// <summary>
+    /// Gets or sets the size, of the title bar control buttons.
+    /// </summary>
+    /// <remarks>This property determines the width and height of the minimize, maximize, close and right buttons in
+    /// the window's title bar. Adjusting this value can help accommodate custom UI designs or accessibility
+    /// requirements.</remarks>
+    public double TitleBarControlSize
+    {
+        get => GetValue(TitleBarControlSizeProperty);
+        set => SetValue(TitleBarControlSizeProperty, value);
+    }
+
     /// <summary>
     /// Gets or sets the font size of the title bar.
     /// </summary>
@@ -184,6 +202,21 @@ public class SukiWindow : Window, IDisposable
     {
         get => GetValue(TitleFontWeightProperty);
         set => SetValue(TitleFontWeightProperty, value);
+    }
+
+    public static readonly StyledProperty<TextWrapping> TitleTextWrappingProperty =
+        TextBlock.TextWrappingProperty.AddOwner<SukiWindow>();
+
+    /// <summary>
+    /// Gets or sets the text wrapping behavior for the title content.
+    /// </summary>
+    /// <remarks>Use this property to control how the title text is displayed when it exceeds the available
+    /// width. Setting the value to TextWrapping.Wrap will allow the title to span multiple lines, while
+    /// TextWrapping.NoWrap will keep the title on a single line and may truncate the text if it is too long.</remarks>
+    public TextWrapping TitleTextWrapping
+    {
+        get => GetValue(TitleTextWrappingProperty);
+        set => SetValue(TitleTextWrappingProperty, value);
     }
 
     public static readonly StyledProperty<ContextMenu> TitleBarContextMenuProperty =
@@ -270,17 +303,6 @@ public class SukiWindow : Window, IDisposable
         set => SetValue(RootCornerRadiusProperty, value);
     }
 
-    public static readonly StyledProperty<bool> CanMinimizeProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMinimize), defaultValue: true);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the window can be minimized.
-    /// </summary>
-    public bool CanMinimize
-    {
-        get => GetValue(CanMinimizeProperty);
-        set => SetValue(CanMinimizeProperty, value);
-    }
 
     public static readonly StyledProperty<bool> ShowTitlebarBackgroundProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(ShowTitlebarBackground), defaultValue: true);
@@ -318,17 +340,6 @@ public class SukiWindow : Window, IDisposable
         set => SetValue(CanPinProperty, value);
     }
 
-    public static readonly StyledProperty<bool> CanMaximizeProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMaximize), defaultValue: true);
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the window can be maximized.
-    /// </summary>
-    public bool CanMaximize
-    {
-        get => GetValue(CanMaximizeProperty);
-        set => SetValue(CanMaximizeProperty, value);
-    }
 
     public static readonly StyledProperty<bool> CanMoveProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMove), defaultValue: true);
@@ -430,6 +441,7 @@ public class SukiWindow : Window, IDisposable
         set => SetValue(RightWindowTitleBarControlsProperty, value);
     }
 
+
     public static readonly StyledProperty<Avalonia.Controls.Controls> HostsProperty =
         SukiMainHost.HostsProperty.AddOwner<SukiWindow>();
 
@@ -491,16 +503,19 @@ public class SukiWindow : Window, IDisposable
         _wasTitleBarVisibleBeforeFullScreen = IsTitleBarVisible;
 
         // Create handlers for buttons
-        if (e.NameScope.Find<GlassCard>("PART_TitleBarBackground") is { } titleBar)
+        _titleBarControl = e.NameScope.Find<LayoutTransformControl>("PART_TitleBar");
+        if (_titleBarControl is not null)
         {
-            titleBar.PointerPressed += OnTitleBarPointerPressed;
-            titleBar.PointerReleased += OnTitleBarPointerReleased;
-            titleBar.DoubleTapped += OnMaximizeButtonClicked;
+            _titleBarControl.IsVisible = IsTitleBarVisible;
+
+            _titleBarControl.PointerPressed += OnTitleBarPointerPressed;
+            _titleBarControl.PointerReleased += OnTitleBarPointerReleased;
+            _titleBarControl.DoubleTapped += OnMaximizeButtonClicked;
             _disposeActions.Add(() =>
             {
-                titleBar.PointerPressed -= OnTitleBarPointerPressed;
-                titleBar.PointerReleased -= OnTitleBarPointerReleased;
-                titleBar.DoubleTapped -= OnMaximizeButtonClicked;
+                _titleBarControl.PointerPressed -= OnTitleBarPointerPressed;
+                _titleBarControl.PointerReleased -= OnTitleBarPointerReleased;
+                _titleBarControl.DoubleTapped -= OnMaximizeButtonClicked;
             });
         }
 
@@ -555,19 +570,57 @@ public class SukiWindow : Window, IDisposable
     }
 
     /// <inheritdoc />
-    protected override void OnLoaded(RoutedEventArgs e)
+    protected override void OnInitialized()
     {
-        base.OnLoaded(e);
+        base.OnInitialized();
 
         if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
             return;
+
         if (desktop.MainWindow is SukiWindow window && window != this)
         {
             Icon ??= window.Icon;
+
             // This would be nice to do, but obviously LogoContent is a control and you can't attach it twice.
-            // if (LogoContent is null) LogoContent = s.LogoContent;
+            LogoContent ??= window.LogoContent switch
+            {
+                // Instead lets replicate the LogoContent control
+                Image image => new Image()
+                {
+                    MinWidth = image.MinWidth,
+                    MinHeight = image.MinHeight,
+                    MaxWidth = image.MaxWidth,
+                    MaxHeight = image.MaxHeight,
+                    Width = image.Width,
+                    Height = image.Height,
+                    Margin = image.Margin,
+                    Opacity = image.Opacity,
+                    Source = image.Source,
+                    Stretch = image.Stretch,
+                    StretchDirection = image.StretchDirection,
+                    BlendMode = image.BlendMode,
+                },
+                PathIcon pathIcon => new PathIcon()
+                {
+                    MinWidth = pathIcon.MinWidth,
+                    MinHeight = pathIcon.MinHeight,
+                    MaxWidth = pathIcon.MaxWidth,
+                    MaxHeight = pathIcon.MaxHeight,
+                    Width = pathIcon.Width,
+                    Height = pathIcon.Height,
+                    Opacity = pathIcon.Opacity,
+                    Padding = pathIcon.Padding,
+                    Background = pathIcon.Background,
+                    Foreground = pathIcon.Foreground,
+                    BorderBrush = pathIcon.BorderBrush,
+                    BorderThickness = pathIcon.BorderThickness,
+                    Data = pathIcon.Data,
+                },
+                _ => LogoContent
+            };
         }
     }
+
 
     /// <inheritdoc />
     protected override void OnClosed(EventArgs e)
@@ -579,8 +632,6 @@ public class SukiWindow : Window, IDisposable
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        base.OnPropertyChanged(change);
-
         if (change.Property == MaxWidthScreenRatioProperty)
         {
             this.ConstrainMaxSizeToScreenRatio(MaxWidthScreenRatio, double.NaN);
@@ -591,29 +642,63 @@ public class SukiWindow : Window, IDisposable
         }
         else if (change.Property == WindowStateProperty)
         {
-            if (change.OldValue is not WindowState oldWindowState
-            || change.NewValue is not WindowState newWindowState) return;
+            if (change.OldValue is WindowState oldWindowState
+                && change.NewValue is WindowState newWindowState)
+            {
+                OnWindowStateChanged(oldWindowState, newWindowState);
+            }
+        }
+        else if (change.Property == IsTitleBarVisibleProperty)
+        {
+            if (_titleBarControl is not null && !_isDisposed)
+            {
+                var isTitleBarVisible = change.GetNewValue<bool>();
 
-            OnWindowStateChanged(oldWindowState, newWindowState);
+                if (TitleBarAnimationEnabled)
+                {
+                    TryGetResource("MediumAnimationDuration", ActualThemeVariant, out var result);
+
+                    var duration = result is TimeSpan ts ? ts : TimeSpan.FromMilliseconds(350);
+
+                    if (isTitleBarVisible)
+                    {
+                        _titleBarControl.Animate(ScaleTransform.ScaleYProperty, 0d, 1d, duration);
+                        _titleBarControl.IsVisible = true;
+                    }
+                    else
+                    {
+                        _titleBarControl.AnimateAsync(ScaleTransform.ScaleYProperty, 1d, 0d, duration)
+                            .ContinueWith(task =>
+                            {
+                                Dispatcher.UIThread.Post(() => { _titleBarControl.IsVisible = false; });
+                            });
+                    }
+                }
+                else
+                {
+                    _titleBarControl.IsVisible = isTitleBarVisible;
+                }
+            }
         }
         else if (change.Property == TitleBarVisibilityOnFullScreenProperty)
         {
             if (WindowState == WindowState.FullScreen)
             {
-                if (change.NewValue is not TitleBarVisibilityMode mode) return;
-
-                IsTitleBarVisible = mode switch
+                if (change.NewValue is TitleBarVisibilityMode mode)
                 {
-                    TitleBarVisibilityMode.Unchanged => _wasTitleBarVisibleBeforeFullScreen,
-                    TitleBarVisibilityMode.Visible => true,
-                    TitleBarVisibilityMode.Hidden or TitleBarVisibilityMode.AutoHidden => false,
-                    _ => IsTitleBarVisible
-                };
+                    IsTitleBarVisible = mode switch
+                    {
+                        TitleBarVisibilityMode.Unchanged => _wasTitleBarVisibleBeforeFullScreen,
+                        TitleBarVisibilityMode.Visible => true,
+                        TitleBarVisibilityMode.Hidden or TitleBarVisibilityMode.AutoHidden => false,
+                        _ => IsTitleBarVisible
+                    };
 
-                PointerMoved -= AutoHideTitleBarOnPointerMoved;
-                if (mode == TitleBarVisibilityMode.AutoHidden)
-                {
-                    PointerMoved += AutoHideTitleBarOnPointerMoved;
+                    PointerMoved -= AutoHideTitleBarOnPointerMoved;
+                    if (mode == TitleBarVisibilityMode.AutoHidden)
+                    {
+                        PointerMoved += AutoHideTitleBarOnPointerMoved;
+                    }
                 }
             }
         }
@@ -625,6 +710,8 @@ public class SukiWindow : Window, IDisposable
         {
             _showTitleBarTimer.Interval = TimeSpan.FromMilliseconds(TitleBarAutoShowDelay);
         }
+
+        base.OnPropertyChanged(change);
     }
     #endregion
 
@@ -855,11 +942,25 @@ public class SukiWindow : Window, IDisposable
     #endregion
 
     #region Methods
+    [DllImport("user32.dll")]
+    static extern short GetAsyncKeyState(int vKey);
+
+    public static bool IsMouseDown()
+    {
+        const int VK_LBUTTON = 1;
+
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return false;
+        }
+        return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+    }
+
     private void EnableWindowsSnapLayout(Button maximize)
     {
+        const int HTCLIENT = 1;
         const int HTMAXBUTTON = 9;
         const uint WM_NCHITTEST = 0x0084;
-        const uint WM_CAPTURECHANGED = 0x0215;
 
         var pointerOnButton = false;
         var pointerOverSetter = typeof(Button).GetProperty(nameof(IsPointerOver));
@@ -879,8 +980,8 @@ public class SukiWindow : Window, IDisposable
                                                            ? new Point(buttonSize.Width, 0)
                                                            : new Point(0, 0));
 
-                var x = (buttonLeftTop.X - point.X) / RenderScaling;
-                var y = (point.Y - buttonLeftTop.Y) / RenderScaling;
+                var x = (buttonLeftTop.X - point.X) / this.GetRenderScaling();
+                var y = (point.Y - buttonLeftTop.Y) / this.GetRenderScaling();
 
                 if (new Rect(default, buttonSize).Contains(new Point(x, y)))
                 {
@@ -892,7 +993,7 @@ public class SukiWindow : Window, IDisposable
                         pointerOverSetter.SetValue(maximize, true);
                     }
 
-                    return HTMAXBUTTON;
+                    return IsMouseDown() ? HTCLIENT : HTMAXBUTTON;
                 }
                 else
                 {
@@ -901,17 +1002,6 @@ public class SukiWindow : Window, IDisposable
                         pointerOnButton = false;
                         pointerOverSetter.SetValue(maximize, false);
                     }
-                }
-            }
-            else if (msg == WM_CAPTURECHANGED)
-            {
-                if (pointerOnButton && CanMaximize)
-                {
-                    WindowState = WindowState == WindowState.Maximized
-                                  ? WindowState.Normal
-                                  : WindowState.Maximized;
-
-                    pointerOverSetter.SetValue(maximize, false);
                 }
             }
 
