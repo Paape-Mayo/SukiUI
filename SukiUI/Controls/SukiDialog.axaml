@@ -35,14 +35,14 @@
                                 </Border>
                                 <TextBlock Grid.Row="1" Margin="0,24,0,0"
                                            IsVisible="{TemplateBinding Title,Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                           HorizontalAlignment="Center" FontSize="22" FontWeight="DemiBold"
+                                           HorizontalAlignment="Center" FontSize="{DynamicResource SukiFontSizeHeader}" FontWeight="DemiBold"
                                            Text="{TemplateBinding Title}" />
                                 <ContentControl Grid.Row="2" Margin="0,24,0,0"
                                                 MaxWidth="{TemplateBinding Content, Converter={x:Static dialogs:DialogContentMaxWidthValueConverter.Instance}}"
                                                 Content="{TemplateBinding Content}">
                                     <ContentControl.Styles>
                                         <Style Selector="TextBlock">
-                                            <Setter Property="FontSize" Value="14" />
+                                            <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeLarge}" />
                                             <Setter Property="TextWrapping" Value="Wrap" />
                                         </Style>
                                     </ContentControl.Styles>

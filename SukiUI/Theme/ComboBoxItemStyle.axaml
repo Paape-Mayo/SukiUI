@@ -23,7 +23,7 @@
 
     <Style Selector="ComboBoxItem">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="1" />
+        <Setter Property="Padding" Value="{DynamicResource SukiComboBoxItemPadding}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -32,19 +32,19 @@
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="6"
-                    Margin="2,0,2,2"
+                    CornerRadius="{DynamicResource SukiComboBoxItemCornerRadius}"
+                    Margin="{DynamicResource SukiComboBoxItemBorderMargin}"
                     Name="BorderBasicStyle"
-                    Padding="3,0">
+                    Padding="{DynamicResource SukiComboBoxItemBorderPadding}">
                     <DockPanel>
                         <PathIcon
                             Data="{x:Static icons:Icons.Check}"
                             DockPanel.Dock="Right"
                             Foreground="{DynamicResource SukiPrimaryColor}"
-                            Height="12"
+                            Height="{DynamicResource SukiComboBoxItemCheckSize}"
                             Margin="0,0,2,0"
                             Name="CheckSelected"
-                            Width="12" />
+                            Width="{DynamicResource SukiComboBoxItemCheckSize}" />
                         <ContentPresenter
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -52,7 +52,7 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             Margin="1"
                             Name="PART_ContentPresenter"
-                            Padding="3"
+                            Padding="{DynamicResource SukiComboBoxItemContentPadding}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                     </DockPanel>

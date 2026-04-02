@@ -9,6 +9,7 @@ using SukiUI.Extensions;
 using SukiUI.Models;
 using System.Globalization;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml.Styling;
 using SukiUI.Locale;
 
 namespace SukiUI;
@@ -47,6 +48,36 @@ public partial class SukiTheme : Styles
     /// Useful where controls cannot use "DynamicResource"
     /// </summary>
     public Action<SukiColorTheme>? OnColorThemeChanged { get; set; }
+
+    /// <summary>
+    /// Called whenever the application's <see cref="SukiDensity"/> is changed.
+    /// </summary>
+    public Action<SukiDensity>? OnDensityChanged { get; set; }
+
+    /// <summary>
+    /// Currently active density mode.
+    /// </summary>
+    public SukiDensity ActiveDensity { get; private set; } = SukiDensity.Normal;
+
+    /// <summary>
+    /// Called whenever the font scale factor is changed.
+    /// </summary>
+    public Action<double>? OnFontScaleChanged { get; set; }
+
+    /// <summary>
+    /// Currently active font scale factor (1.0 = 100%).
+    /// </summary>
+    public double ActiveFontScale { get; private set; } = 1.0;
+
+    /// <summary>
+    /// Called whenever the spacing scale factor is changed.
+    /// </summary>
+    public Action<double>? OnSpacingScaleChanged { get; set; }
+
+    /// <summary>
+    /// Currently active spacing scale factor (1.0 = 100%).
+    /// </summary>
+    public double ActiveSpacingScale { get; private set; } = 1.0;
 
     /// <summary>
     /// Called whenever the application's <see cref="ThemeVariant"/> is changed.
@@ -193,6 +224,207 @@ public partial class SukiTheme : Styles
         Application.Current.RequestedThemeVariant = newBase;
 
         SetColorThemeResourcesOnColorThemeChanged();
+    }
+
+    /// <summary>
+    /// Changes the UI density mode. Compact mode reduces padding, margins, and sizing
+    /// for maximum data density.
+    /// </summary>
+    /// <param name="density">The <see cref="SukiDensity"/> to change to.</param>
+    public void ChangeDensity(SukiDensity density)
+    {
+        if (ActiveDensity == density) return;
+
+        var uri = density switch
+        {
+            SukiDensity.Compact => new Uri("avares://SukiUI/Theme/Density/DensityCompact.axaml"),
+            _ => new Uri("avares://SukiUI/Theme/Density/DensityNormal.axaml")
+        };
+
+        var resourceDict = (ResourceDictionary)AvaloniaXamlLoader.Load(uri);
+        foreach (var kvp in resourceDict)
+        {
+            _app.Resources[kvp.Key] = kvp.Value;
+        }
+
+        ActiveDensity = density;
+        OnDensityChanged?.Invoke(density);
+
+        // Re-apply font scale on top of new density base values
+        if (Math.Abs(ActiveFontScale - 1.0) > 0.001)
+            ChangeFontScale(ActiveFontScale);
+
+        // Re-apply spacing scale on top of new density base values
+        if (Math.Abs(ActiveSpacingScale - 1.0) > 0.001)
+            ChangeSpacingScale(ActiveSpacingScale);
+    }
+
+    /// <summary>
+    /// Toggles between Normal and Compact density.
+    /// </summary>
+    public void SwitchDensity()
+    {
+        ChangeDensity(ActiveDensity == SukiDensity.Normal ? SukiDensity.Compact : SukiDensity.Normal);
+    }
+
+    // All font size resource keys that should be scaled.
+    // Each entry maps (resource key, normal base value, compact base value).
+    private static readonly (string Key, double NormalBase, double CompactBase)[] FontSizeTokens =
+    {
+        // General purpose tiers
+        ("SukiFontSizeMicro",      8,   8),
+        ("SukiFontSizeMini",       9,   9),
+        ("SukiFontSizeCaption",   10,   9.5),
+        ("SukiFontSizeSmall",     11,   10),
+        ("SukiFontSizeBody",      12,   12),
+        ("SukiFontSizeMedium",    13,   12),
+        ("SukiFontSizeLarge",     14,   12),
+        ("SukiFontSizeSubtitle",  16,   12),
+        ("SukiFontSizeSubheader", 18,   14),
+        ("SukiFontSizeTitle",     20,   14),
+        ("SukiFontSizeHeader",    24,   16),
+        ("SukiFontSizeHero",      28,   20),
+        ("SukiFontSizeDisplay",   32,   20),
+        // Heading aliases (kept in sync with general tiers)
+        ("SukiH1FontSize",        32,   20),
+        ("SukiH2FontSize",        24,   16),
+        ("SukiH3FontSize",        20,   14),
+        ("SukiH4FontSize",        16,   12),
+        ("SukiH5FontSize",        10,   9.5),
+        // Control-specific font sizes from density system
+        ("SukiButtonLargeFontSize",  15,  12),
+        ("SukiButtonIconFontSize",   14,  12),
+        ("SukiDataGridCellFontSize", 14,  12),
+        ("SukiTabItemFontSize",      50,  12),
+        // Legacy Avalonia keys (Colors.xaml)
+        ("FontSizeSmall",            11,  10),
+        ("FontSizeNormal",           12,  12),
+        ("FontSizeLarge",            13,  12),
+        ("ControlContentThemeFontSize", 12, 12),
+    };
+
+    /// <summary>
+    /// Changes the font scale factor. All font sizes are scaled proportionally.
+    /// </summary>
+    /// <param name="scale">Scale factor where 1.0 = 100%. Clamped to [0.5, 2.0].</param>
+    public void ChangeFontScale(double scale)
+    {
+        scale = scale < 0.5 ? 0.5 : scale > 2.0 ? 2.0 : scale;
+
+        foreach (var (key, normalBase, compactBase) in FontSizeTokens)
+        {
+            var baseValue = ActiveDensity == SukiDensity.Compact ? compactBase : normalBase;
+            _app.Resources[key] = Math.Round(baseValue * scale, 1);
+        }
+
+        ActiveFontScale = scale;
+        OnFontScaleChanged?.Invoke(scale);
+    }
+
+    // All spacing resource keys (Double type) that should be scaled.
+    private static readonly (string Key, double NormalBase, double CompactBase)[] SpacingDoubleTokens =
+    {
+        ("SukiSpacing2",   2,  1),
+        ("SukiSpacing3",   3,  2),
+        ("SukiSpacing4",   4,  2),
+        ("SukiSpacing5",   5,  3),
+        ("SukiSpacing6",   6,  3),
+        ("SukiSpacing8",   8,  4),
+        ("SukiSpacing10", 10,  6),
+        ("SukiSpacing12", 12,  6),
+        ("SukiSpacing15", 15,  8),
+        ("SukiSpacing16", 16,  8),
+        ("SukiSpacing20", 20, 12),
+        ("SukiSpacing24", 24, 12),
+    };
+
+    // All spacing Thickness resources that should be scaled.
+    // Each entry: (key, normal values [L,T,R,B], compact values [L,T,R,B]).
+    private static readonly (string Key, double[] Normal, double[] Compact)[] SpacingThicknessTokens =
+    {
+        // Uniform
+        ("SukiThickness2",  new[]{2,2,2,2},       new[]{1,1,1,1}),
+        ("SukiThickness3",  new[]{3,3,3,3},       new[]{2,2,2,2}),
+        ("SukiThickness4",  new[]{4,4,4,4},       new[]{2,2,2,2}),
+        ("SukiThickness5",  new[]{5,5,5,5},       new[]{3,3,3,3}),
+        ("SukiThickness6",  new[]{6,6,6,6},       new[]{3,3,3,3}),
+        ("SukiThickness8",  new[]{8,8,8,8},       new[]{4,4,4,4}),
+        ("SukiThickness10", new[]{10,10,10,10},   new[]{6,6,6,6}),
+        ("SukiThickness12", new[]{12,12,12,12},   new[]{6,6,6,6}),
+        ("SukiThickness15", new[]{15,15,15,15},   new[]{8,8,8,8}),
+        ("SukiThickness16", new[]{16,16,16,16},   new[]{8,8,8,8}),
+        ("SukiThickness20", new[]{20,20,20,20},   new[]{12,12,12,12}),
+        ("SukiThickness24", new[]{24,24,24,24},   new[]{12,12,12,12}),
+        ("SukiThickness25", new[]{25,25,25,25},   new[]{14,14,14,14}),
+        ("SukiThickness30", new[]{30,30,30,30},   new[]{16,16,16,16}),
+        ("SukiThickness40", new[]{40,40,40,40},   new[]{20,20,20,20}),
+        // Asymmetric paddings
+        ("SukiPaddingMicro",       new[]{2,0,2,0},       new[]{1,0,1,0}),
+        ("SukiPaddingTinyBtn",     new[]{3,1,3,1},       new[]{2,1,2,1}),
+        ("SukiPaddingTag",         new[]{4,1,4,1},       new[]{2,1,2,1}),
+        ("SukiPaddingXSmall",      new[]{4,2,4,2},       new[]{2,1,2,1}),
+        ("SukiPaddingXSmallBorder",new[]{4,3,4,3},       new[]{2,2,2,2}),
+        ("SukiPaddingSmall",       new[]{6,2,6,2},       new[]{3,1,3,1}),
+        ("SukiPaddingSmallBorder", new[]{6,3,6,3},       new[]{3,2,3,2}),
+        ("SukiPaddingSmallBtn",    new[]{6,4,6,4},       new[]{3,2,3,2}),
+        ("SukiPaddingButton",      new[]{8,4,8,4},       new[]{4,2,4,2}),
+        ("SukiPaddingButtonSlim",  new[]{8,2,8,2},       new[]{4,1,4,1}),
+        ("SukiPaddingBorder",      new[]{8,6,8,6},       new[]{4,3,4,3}),
+        ("SukiPaddingButtonLg",    new[]{12,6,12,6},     new[]{6,3,6,3}),
+        ("SukiPaddingContent",     new[]{12,8,12,8},     new[]{6,4,6,4}),
+        ("SukiPaddingSection",     new[]{16,12,16,12},   new[]{8,6,8,6}),
+        ("SukiPaddingAction",      new[]{16,8,16,8},     new[]{8,4,8,4}),
+        ("SukiPaddingDialog",      new[]{20,15,20,15},   new[]{10,8,10,8}),
+        ("SukiPaddingHero",        new[]{24,16,24,16},   new[]{12,8,12,8}),
+        ("SukiPaddingCardLg",      new[]{20,10,20,20},   new[]{10,6,10,10}),
+        ("SukiPaddingCardAlt",     new[]{8,10,8,8},      new[]{4,6,4,4}),
+        ("SukiPaddingStack55",     new[]{5,5,5,5},       new[]{3,3,3,3}),
+        // Common margins
+        ("SukiMarginBottom2",  new[]{0,0,0,2},   new[]{0,0,0,1}),
+        ("SukiMarginBottom3",  new[]{0,0,0,3},   new[]{0,0,0,2}),
+        ("SukiMarginBottom8",  new[]{0,0,0,8},   new[]{0,0,0,4}),
+        ("SukiMarginBottom10", new[]{0,0,0,10},  new[]{0,0,0,6}),
+        ("SukiMarginTop2",     new[]{0,2,0,0},   new[]{0,1,0,0}),
+        ("SukiMarginTop4",     new[]{0,4,0,0},   new[]{0,2,0,0}),
+        ("SukiMarginTop8",     new[]{0,8,0,0},   new[]{0,4,0,0}),
+        ("SukiMarginVert2",    new[]{0,2,0,2},   new[]{0,1,0,1}),
+        ("SukiMarginVert4",    new[]{0,4,0,4},   new[]{0,2,0,2}),
+        ("SukiMarginVert8",    new[]{0,8,0,8},   new[]{0,4,0,4}),
+        ("SukiMarginLeft4",    new[]{4,0,0,0},   new[]{2,0,0,0}),
+        ("SukiMarginLeft8",    new[]{8,0,0,0},   new[]{4,0,0,0}),
+        ("SukiMarginLeft10",   new[]{10,0,0,0},  new[]{6,0,0,0}),
+        ("SukiMarginLeft20",   new[]{20,0,0,0},  new[]{12,0,0,0}),
+        ("SukiMarginHoriz2",   new[]{2,0,2,0},   new[]{1,0,1,0}),
+        ("SukiMarginHoriz4",   new[]{4,0,4,0},   new[]{2,0,2,0}),
+        ("SukiMarginHoriz8",   new[]{8,0,8,0},   new[]{4,0,4,0}),
+    };
+
+    /// <summary>
+    /// Changes the spacing scale factor. All spacing values are scaled proportionally.
+    /// </summary>
+    /// <param name="scale">Scale factor where 1.0 = 100%. Clamped to [0.5, 2.0].</param>
+    public void ChangeSpacingScale(double scale)
+    {
+        scale = scale < 0.5 ? 0.5 : scale > 2.0 ? 2.0 : scale;
+
+        foreach (var (key, normalBase, compactBase) in SpacingDoubleTokens)
+        {
+            var baseValue = ActiveDensity == SukiDensity.Compact ? compactBase : normalBase;
+            _app.Resources[key] = Math.Round(baseValue * scale, 1);
+        }
+
+        foreach (var (key, normal, compact) in SpacingThicknessTokens)
+        {
+            var b = ActiveDensity == SukiDensity.Compact ? compact : normal;
+            _app.Resources[key] = new Thickness(
+                Math.Round(b[0] * scale, 1),
+                Math.Round(b[1] * scale, 1),
+                Math.Round(b[2] * scale, 1),
+                Math.Round(b[3] * scale, 1));
+        }
+
+        ActiveSpacingScale = scale;
+        OnSpacingScaleChanged?.Invoke(scale);
     }
 
     private void UpdateFlowDirectionResources(bool rightToLeft)

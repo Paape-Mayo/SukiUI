@@ -71,7 +71,7 @@
 
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="BorderThickness" Value="1.5" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeBody}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Template">
@@ -81,7 +81,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         ClipToBounds="True">
                     <Panel>
-                        <Grid Margin="5,10">
+                        <Grid Margin="{DynamicResource SukiMenuItemGridMargin}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"
                                                   SharedSizeGroup="CheckToggle" />
@@ -183,18 +183,18 @@
                                VerticalOffset="-1">
                             <LayoutTransformControl Name="PART_LayoutTransform" RenderTransformOrigin="0%, 0%">
                                 <Panel Margin="0,-8,0,0">
-                                    <Border Margin="16,8,8,8"
+                                    <Border Margin="{DynamicResource SukiMenuItemPopupMargin}"
                                             BoxShadow="{DynamicResource SukiPopupShadow}"
-                                            CornerRadius="6" />
+                                            CornerRadius="{DynamicResource SukiMenuItemPopupCornerRadius}" />
 
                                     <Border Name="PART_Border"
-                                            Margin="16,8,8,8"
+                                            Margin="{DynamicResource SukiMenuItemPopupMargin}"
                                             Background="{DynamicResource SukiCardBackground}"
                                             BorderBrush="{DynamicResource SukiMenuBorderBrush}"
                                             BorderThickness="1"
                                             BoxShadow="{DynamicResource SukiPopupShadow}"
                                             ClipToBounds="True"
-                                            CornerRadius="5">
+                                            CornerRadius="{DynamicResource SukiMenuItemPopupInnerCornerRadius}">
                                         <Panel Background="{DynamicResource PopupGradientBrush}">
                                             <ScrollViewer>
                                                 <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />

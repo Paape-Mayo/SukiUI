@@ -1,0 +1,219 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=netstandard">
+
+    <!-- Global -->
+    <CornerRadius x:Key="SmallCornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="MediumCornerRadius">15</CornerRadius>
+    <system:TimeSpan x:Key="LongAnimationDuration">0:0:0.5</system:TimeSpan>
+    <system:TimeSpan x:Key="MediumAnimationDuration">0:0:0.35</system:TimeSpan>
+    <system:TimeSpan x:Key="ShortAnimationDuration">0:0:0.2</system:TimeSpan>
+
+    <!-- Button -->
+    <Thickness x:Key="SukiButtonPadding">2,2</Thickness>
+    <Thickness x:Key="SukiButtonMargin">5</Thickness>
+    <x:Double x:Key="SukiButtonBorderThickness">1.2</x:Double>
+    <Thickness x:Key="SukiButtonSmallPadding">6,2</Thickness>
+    <Thickness x:Key="SukiButtonLargePadding">18,6</Thickness>
+    <CornerRadius x:Key="SukiButtonLargeCornerRadius">11</CornerRadius>
+    <x:Double x:Key="SukiButtonLargeFontSize">15</x:Double>
+    <x:Double x:Key="SukiButtonIconSize">32</x:Double>
+    <x:Double x:Key="SukiButtonIconFontSize">14</x:Double>
+
+    <!-- TextBox -->
+    <x:Double x:Key="SukiTextBoxMinHeight">36</x:Double>
+    <Thickness x:Key="SukiTextBoxPadding">10,8</Thickness>
+
+    <!-- TreeView -->
+    <Thickness x:Key="SukiTreeViewItemPadding">5</Thickness>
+    <Thickness x:Key="SukiTreeViewItemMargin">1</Thickness>
+    <x:Double x:Key="SukiTreeViewChevronSize">7</x:Double>
+
+    <!-- ListBoxItem -->
+    <Thickness x:Key="SukiListBoxItemPadding">4,2</Thickness>
+    <Thickness x:Key="SukiListBoxItemInnerPadding">8,4</Thickness>
+    <CornerRadius x:Key="SukiListBoxItemCornerRadius">10</CornerRadius>
+    <x:Double x:Key="SukiListBoxItemCheckSize">17</x:Double>
+    <Thickness x:Key="SukiListBoxItemCheckMargin">8,0,0,0</Thickness>
+
+    <!-- ComboBox -->
+    <x:Double x:Key="SukiComboBoxMinHeight">32</x:Double>
+    <Thickness x:Key="SukiComboBoxPadding">4,3,-4,3</Thickness>
+    <Thickness x:Key="SukiComboBoxBorderPadding">3</Thickness>
+
+    <!-- ComboBoxItem -->
+    <Thickness x:Key="SukiComboBoxItemPadding">1</Thickness>
+    <Thickness x:Key="SukiComboBoxItemBorderMargin">2,0,2,2</Thickness>
+    <Thickness x:Key="SukiComboBoxItemBorderPadding">3,0</Thickness>
+    <CornerRadius x:Key="SukiComboBoxItemCornerRadius">6</CornerRadius>
+    <x:Double x:Key="SukiComboBoxItemCheckSize">12</x:Double>
+    <Thickness x:Key="SukiComboBoxItemContentPadding">3</Thickness>
+
+    <!-- DataGrid -->
+    <x:Double x:Key="SukiDataGridCellFontSize">14</x:Double>
+    <Thickness x:Key="SukiDataGridHeaderPadding">6</Thickness>
+    <Thickness x:Key="SukiDataGridRowPadding">12</Thickness>
+    <Thickness x:Key="SukiDataGridRowBgPadding">8</Thickness>
+    <Thickness x:Key="SukiDataGridCellMargin">3,0,0,0</Thickness>
+    <x:Double x:Key="SukiDataGridHeaderBorderThickness">1.5</x:Double>
+
+    <!-- Menu -->
+    <x:Double x:Key="SukiMenuHeight">45</x:Double>
+    <Thickness x:Key="SukiMenuItemPadding">10,0</Thickness>
+    <Thickness x:Key="SukiMenuItemMargin">5,5</Thickness>
+    <CornerRadius x:Key="SukiMenuItemCornerRadius">8</CornerRadius>
+
+    <!-- MenuItem Popup -->
+    <Thickness x:Key="SukiMenuItemPopupMargin">16,8,8,8</Thickness>
+    <Thickness x:Key="SukiMenuItemGridMargin">5,10</Thickness>
+    <CornerRadius x:Key="SukiMenuItemPopupCornerRadius">6</CornerRadius>
+    <CornerRadius x:Key="SukiMenuItemPopupInnerCornerRadius">5</CornerRadius>
+
+    <!-- GlassCard -->
+    <Thickness x:Key="SukiGlassCardPadding">20</Thickness>
+
+    <!-- Expander -->
+    <Thickness x:Key="SukiExpanderContentOffsetDown">0,32,0,0</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,32</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,32,0</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetRight">32,0,0,0</Thickness>
+    <x:Double x:Key="SukiExpanderIconSize">8</x:Double>
+    <Thickness x:Key="SukiExpanderIconMargin">6,0,0,0</Thickness>
+
+    <!-- TabItem -->
+    <x:Double x:Key="SukiTabItemFontSize">50</x:Double>
+    <Thickness x:Key="SukiTabItemBorderMargin">8,0</Thickness>
+    <Thickness x:Key="SukiTabItemUnderlineMargin">10,0,10,0</Thickness>
+    <x:Double x:Key="SukiTabItemUnderlineHeight">3</x:Double>
+    <Thickness x:Key="SukiTabItemHeaderPadding">0,5</Thickness>
+
+    <!-- Font Size Scale (base values at scale 1.0) -->
+    <x:Double x:Key="SukiFontSizeMicro">8</x:Double>
+    <x:Double x:Key="SukiFontSizeMini">9</x:Double>
+    <x:Double x:Key="SukiFontSizeCaption">10</x:Double>
+    <x:Double x:Key="SukiFontSizeSmall">11</x:Double>
+    <x:Double x:Key="SukiFontSizeBody">12</x:Double>
+    <x:Double x:Key="SukiFontSizeMedium">13</x:Double>
+    <x:Double x:Key="SukiFontSizeLarge">14</x:Double>
+    <x:Double x:Key="SukiFontSizeSubtitle">16</x:Double>
+    <x:Double x:Key="SukiFontSizeSubheader">18</x:Double>
+    <x:Double x:Key="SukiFontSizeTitle">20</x:Double>
+    <x:Double x:Key="SukiFontSizeHeader">24</x:Double>
+    <x:Double x:Key="SukiFontSizeHero">28</x:Double>
+    <x:Double x:Key="SukiFontSizeDisplay">32</x:Double>
+
+    <!-- TextBlock Headings (mapped to font scale tiers) -->
+    <x:Double x:Key="SukiH1FontSize">32</x:Double>
+    <Thickness x:Key="SukiH1Margin">0,10,0,15</Thickness>
+    <x:Double x:Key="SukiH2FontSize">24</x:Double>
+    <Thickness x:Key="SukiH2Margin">0,6,0,10</Thickness>
+    <x:Double x:Key="SukiH3FontSize">20</x:Double>
+    <Thickness x:Key="SukiH3Margin">0,5,0,5</Thickness>
+    <x:Double x:Key="SukiH4FontSize">16</x:Double>
+    <Thickness x:Key="SukiH4Margin">0,3,0,5</Thickness>
+    <x:Double x:Key="SukiH5FontSize">10</x:Double>
+
+    <!-- SukiWindow -->
+    <Thickness x:Key="SukiWindowTitleBarMargin">12,9</Thickness>
+    <x:Double x:Key="SukiWindowControlButtonSize">25</x:Double>
+    <CornerRadius x:Key="SukiWindowControlButtonCornerRadius">20</CornerRadius>
+
+    <!-- Tooltip -->
+    <Thickness x:Key="SukiTooltipPadding">16,8</Thickness>
+    <Thickness x:Key="SukiTooltipMargin">5</Thickness>
+    <CornerRadius x:Key="SukiTooltipCornerRadius">12</CornerRadius>
+
+    <!-- ContextMenu -->
+    <CornerRadius x:Key="SukiContextMenuCornerRadius">6</CornerRadius>
+    <Thickness x:Key="SukiContextMenuShadowMargin">16</Thickness>
+    <Thickness x:Key="SukiContextMenuContentMargin">15</Thickness>
+
+    <!-- CheckBox -->
+    <x:Double x:Key="SukiCheckBoxSize">20</x:Double>
+    <Thickness x:Key="SukiCheckBoxPadding">10,1,0,0</Thickness>
+
+    <!-- ToggleSwitch -->
+    <x:Double x:Key="SukiToggleSwitchWidth">40</x:Double>
+    <x:Double x:Key="SukiToggleSwitchHeight">22</x:Double>
+
+    <!-- ScrollBar -->
+    <x:Double x:Key="SukiScrollBarHoverWidth">8</x:Double>
+
+    <!-- SukiSideMenuItem -->
+    <Thickness x:Key="SukiSideMenuItemPadding">30,15,15,15</Thickness>
+    <Thickness x:Key="SukiSideMenuItemMargin">15,2</Thickness>
+    <x:Double x:Key="SukiSideMenuItemIconSize">24</x:Double>
+
+    <!-- General Spacing Scale (Double, for Spacing/RowSpacing/ColumnSpacing) -->
+    <x:Double x:Key="SukiSpacing2">2</x:Double>
+    <x:Double x:Key="SukiSpacing3">3</x:Double>
+    <x:Double x:Key="SukiSpacing4">4</x:Double>
+    <x:Double x:Key="SukiSpacing5">5</x:Double>
+    <x:Double x:Key="SukiSpacing6">6</x:Double>
+    <x:Double x:Key="SukiSpacing8">8</x:Double>
+    <x:Double x:Key="SukiSpacing10">10</x:Double>
+    <x:Double x:Key="SukiSpacing12">12</x:Double>
+    <x:Double x:Key="SukiSpacing15">15</x:Double>
+    <x:Double x:Key="SukiSpacing16">16</x:Double>
+    <x:Double x:Key="SukiSpacing20">20</x:Double>
+    <x:Double x:Key="SukiSpacing24">24</x:Double>
+
+    <!-- Uniform Thickness Scale (for Padding/Margin with equal sides) -->
+    <Thickness x:Key="SukiThickness2">2</Thickness>
+    <Thickness x:Key="SukiThickness3">3</Thickness>
+    <Thickness x:Key="SukiThickness4">4</Thickness>
+    <Thickness x:Key="SukiThickness5">5</Thickness>
+    <Thickness x:Key="SukiThickness6">6</Thickness>
+    <Thickness x:Key="SukiThickness8">8</Thickness>
+    <Thickness x:Key="SukiThickness10">10</Thickness>
+    <Thickness x:Key="SukiThickness12">12</Thickness>
+    <Thickness x:Key="SukiThickness15">15</Thickness>
+    <Thickness x:Key="SukiThickness16">16</Thickness>
+    <Thickness x:Key="SukiThickness20">20</Thickness>
+    <Thickness x:Key="SukiThickness24">24</Thickness>
+    <Thickness x:Key="SukiThickness25">25</Thickness>
+    <Thickness x:Key="SukiThickness30">30</Thickness>
+    <Thickness x:Key="SukiThickness40">40</Thickness>
+
+    <!-- Asymmetric Padding Thickness (H,V or custom patterns) -->
+    <Thickness x:Key="SukiPaddingMicro">2,0</Thickness>
+    <Thickness x:Key="SukiPaddingTinyBtn">3,1</Thickness>
+    <Thickness x:Key="SukiPaddingTag">4,1</Thickness>
+    <Thickness x:Key="SukiPaddingXSmall">4,2</Thickness>
+    <Thickness x:Key="SukiPaddingXSmallBorder">4,3</Thickness>
+    <Thickness x:Key="SukiPaddingSmall">6,2</Thickness>
+    <Thickness x:Key="SukiPaddingSmallBorder">6,3</Thickness>
+    <Thickness x:Key="SukiPaddingSmallBtn">6,4</Thickness>
+    <Thickness x:Key="SukiPaddingButton">8,4</Thickness>
+    <Thickness x:Key="SukiPaddingButtonSlim">8,2</Thickness>
+    <Thickness x:Key="SukiPaddingBorder">8,6</Thickness>
+    <Thickness x:Key="SukiPaddingButtonLg">12,6</Thickness>
+    <Thickness x:Key="SukiPaddingContent">12,8</Thickness>
+    <Thickness x:Key="SukiPaddingSection">16,12</Thickness>
+    <Thickness x:Key="SukiPaddingAction">16,8</Thickness>
+    <Thickness x:Key="SukiPaddingDialog">20,15</Thickness>
+    <Thickness x:Key="SukiPaddingHero">24,16</Thickness>
+    <Thickness x:Key="SukiPaddingCardLg">20,10,20,20</Thickness>
+    <Thickness x:Key="SukiPaddingCardAlt">8,10,8,8</Thickness>
+    <Thickness x:Key="SukiPaddingStack55">5,5</Thickness>
+
+    <!-- Common Margin Patterns -->
+    <Thickness x:Key="SukiMarginBottom2">0,0,0,2</Thickness>
+    <Thickness x:Key="SukiMarginBottom3">0,0,0,3</Thickness>
+    <Thickness x:Key="SukiMarginBottom8">0,0,0,8</Thickness>
+    <Thickness x:Key="SukiMarginBottom10">0,0,0,10</Thickness>
+    <Thickness x:Key="SukiMarginTop2">0,2,0,0</Thickness>
+    <Thickness x:Key="SukiMarginTop4">0,4,0,0</Thickness>
+    <Thickness x:Key="SukiMarginTop8">0,8,0,0</Thickness>
+    <Thickness x:Key="SukiMarginVert2">0,2</Thickness>
+    <Thickness x:Key="SukiMarginVert4">0,4</Thickness>
+    <Thickness x:Key="SukiMarginVert8">0,8</Thickness>
+    <Thickness x:Key="SukiMarginLeft4">4,0,0,0</Thickness>
+    <Thickness x:Key="SukiMarginLeft8">8,0,0,0</Thickness>
+    <Thickness x:Key="SukiMarginLeft10">10,0,0,0</Thickness>
+    <Thickness x:Key="SukiMarginLeft20">20,0,0,0</Thickness>
+    <Thickness x:Key="SukiMarginHoriz2">2,0</Thickness>
+    <Thickness x:Key="SukiMarginHoriz4">4,0</Thickness>
+    <Thickness x:Key="SukiMarginHoriz8">8,0</Thickness>
+
+</ResourceDictionary>

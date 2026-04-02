@@ -150,7 +150,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="4,3,0,3" />
         <Setter Property="MinHeight" Value="30" />
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeMedium}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <suki:GlassCard Name="PART_GlassCard"

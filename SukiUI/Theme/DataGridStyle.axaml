@@ -21,7 +21,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiDataGridCellFontSize}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Background="{TemplateBinding Background}" ColumnDefinitions="*,Auto">
@@ -43,7 +43,7 @@
         </Setter>
         <Style Selector="^ TextBlock">
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            <Setter Property="Margin" Value="3 0 0 0" />
+            <Setter Property="Margin" Value="{DynamicResource SukiDataGridCellMargin}" />
         </Style>
         <Style Selector="^.CenterAlign">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -61,7 +61,7 @@
         <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SeparatorBrush" Value="{DynamicResource ThemeControlLowColor}" />
-        <Setter Property="Padding" Value="6" />
+        <Setter Property="Padding" Value="{DynamicResource SukiDataGridHeaderPadding}" />
         <Setter Property="Background" Value="{DynamicResource SukiLightBorderBrush}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -131,7 +131,7 @@
 
     <Style Selector="DataGridRow">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="12" />
+        <Setter Property="Padding" Value="{DynamicResource SukiDataGridRowPadding}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DataGridFrozenGrid Name="PART_Root"
@@ -141,7 +141,7 @@
                     <Border Name="BackgroundRectangle"
                             Grid.RowSpan="2"
                             Grid.ColumnSpan="2"
-                            Padding="8"
+                            Padding="{DynamicResource SukiDataGridRowBgPadding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{DynamicResource SukiBorderBrush}"
                             BorderThickness="0,0,0,1"
@@ -155,7 +155,7 @@
                     <DataGridCellsPresenter Name="PART_CellsPresenter"
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            Margin="3,0"
+                                            Margin="{DynamicResource SukiDataGridCellMargin}"
                                             DataGridFrozenGrid.IsFrozen="True" />
                     <DataGridDetailsPresenter Name="PART_DetailsPresenter"
                                               Grid.Row="1"
@@ -255,12 +255,12 @@
                                    FontWeight="DemiBold"
                                    IsVisible="{TemplateBinding IsPropertyNameVisible}" />
                         <TextBlock Margin="4,0,0,0"
-                                   FontSize="14"
+                                   FontSize="{DynamicResource SukiFontSizeLarge}"
                                    FontWeight="DemiBold"
                                    Text="{Binding Key}" />
                         <TextBlock Name="PART_ItemCountElement"
                                    Margin="8,2,0,0"
-                                   FontSize="12"
+                                   FontSize="{DynamicResource SukiFontSizeBody}"
                                    FontWeight="DemiBold"
                                    Foreground="{DynamicResource SukiLowText}"
                                    IsVisible="{TemplateBinding IsItemCountVisible}" />

@@ -52,13 +52,13 @@
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="4,3,-4,3" />
-        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="Padding" Value="{DynamicResource SukiComboBoxPadding}" />
+        <Setter Property="MinHeight" Value="{DynamicResource SukiComboBoxMinHeight}" />
         <Setter Property="PlaceholderForeground" Value="{DynamicResource SukiLowText}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Margin="0,0,0,0" Padding="3">
+                <Border Margin="0,0,0,0" Padding="{DynamicResource SukiComboBoxBorderPadding}">
                     <Border.Styles>
 
 

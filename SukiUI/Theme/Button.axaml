@@ -146,13 +146,13 @@
 		<Setter Property="Foreground" Value="{DynamicResource SukiText}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
-		<Setter Property="FontSize" Value="10" />
+		<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSmall}" />
 		<Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
 		<Setter Property="BorderThickness" Value="1.2" />
 		<Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
 		<Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
-		<Setter Property="Padding" Value="2, 2" />
-		<Setter Property="Margin" Value="5" />
+		<Setter Property="Padding" Value="{DynamicResource SukiButtonPadding}" />
+		<Setter Property="Margin" Value="{DynamicResource SukiButtonMargin}" />
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Border Name="RootBorder"
@@ -469,28 +469,28 @@
 			<Setter Property="CornerRadius" Value="100" />
 		</Style>
 		<Style Selector="^.Small">
-			<Setter Property="FontSize" Value="10" />
-			<Setter Property="Padding" Value="6,2" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSmall}" />
+			<Setter Property="Padding" Value="{DynamicResource SukiButtonSmallPadding}" />
 		</Style>
 		<Style Selector="^.Large">
-			<Setter Property="CornerRadius" Value="11" />
-			<Setter Property="FontSize" Value="15" />
-			<Setter Property="Padding" Value="18,6" />
+			<Setter Property="CornerRadius" Value="{DynamicResource SukiButtonLargeCornerRadius}" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiButtonLargeFontSize}" />
+			<Setter Property="Padding" Value="{DynamicResource SukiButtonLargePadding}" />
 		</Style>
 
 		<Style Selector="^.Icon">
 			<Setter Property="CornerRadius" Value="100" />
-			<Setter Property="Width" Value="32" />
-			<Setter Property="Height" Value="32" />
-			<Setter Property="FontSize" Value="14" />
+			<Setter Property="Width" Value="{DynamicResource SukiButtonIconSize}" />
+			<Setter Property="Height" Value="{DynamicResource SukiButtonIconSize}" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiButtonIconFontSize}" />
 			<Setter Property="Padding" Value="0" />
 		</Style>
 
 		<Style Selector="^.WindowControlsButton">
 			<Setter Property="BorderThickness" Value="0" />
-			<Setter Property="CornerRadius" Value="20" />
-			<Setter Property="Height" Value="25" />
-			<Setter Property="Width" Value="25" />
+			<Setter Property="CornerRadius" Value="{DynamicResource SukiWindowControlButtonCornerRadius}" />
+			<Setter Property="Height" Value="{DynamicResource SukiWindowControlButtonSize}" />
+			<Setter Property="Width" Value="{DynamicResource SukiWindowControlButtonSize}" />
 			<Setter Property="Foreground" Value="{DynamicResource SukiText}" />
 			<Setter Property="Background" Value="{DynamicResource SukiPrimaryColor0}" />
 			<Setter Property="Padding" Value="0" />

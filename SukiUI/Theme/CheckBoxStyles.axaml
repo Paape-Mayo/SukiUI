@@ -20,16 +20,16 @@
         <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
         <Setter Property="BorderThickness" Value="0.5" />
-        <Setter Property="Padding" Value="10,1,0,0" />
+        <Setter Property="Padding" Value="{DynamicResource SukiCheckBoxPadding}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeBody}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto,*">
                     <suki:GlassCard IsInteractive="True" Classes="Control" Name="border"
-                            Width="20"
-                            Height="20"
+                            Width="{DynamicResource SukiCheckBoxSize}"
+                            Height="{DynamicResource SukiCheckBoxSize}"
                             VerticalAlignment="Center"  
                         Classes.PrimaryOpaque="{TemplateBinding IsChecked,Converter={x:Static suki:BoolConvert.NotFalse}}"
                        

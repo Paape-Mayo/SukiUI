@@ -52,30 +52,30 @@
 		</Border>
 	</Design.PreviewWith>
 	<ControlTheme x:Key="SukiTextBlockStyle" TargetType="TextBlock">
-		<Setter Property="FontSize" Value="12" />
+		<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeBody}" />
 
 		<Style Selector="^.h5">
-			<Setter Property="FontSize" Value="10" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiH5FontSize}" />
 		</Style>
 		<Style Selector="^.h4">
-			<Setter Property="Margin" Value="0 3 0 5" />
-			<Setter Property="FontSize" Value="16" />
+			<Setter Property="Margin" Value="{DynamicResource SukiH4Margin}" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiH4FontSize}" />
 		</Style>
 		<Style Selector="^.h3">
 
-			<Setter Property="Margin" Value="0 5 0 5" />
+			<Setter Property="Margin" Value="{DynamicResource SukiH3Margin}" />
 			<Setter Property="FontWeight" Value="DemiBold" />
-			<Setter Property="FontSize" Value="20" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiH3FontSize}" />
 		</Style>
 		<Style Selector="^.h2">
-			<Setter Property="Margin" Value="0 6 0 10" />
+			<Setter Property="Margin" Value="{DynamicResource SukiH2Margin}" />
 			<Setter Property="FontWeight" Value="DemiBold" />
-			<Setter Property="FontSize" Value="24" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiH2FontSize}" />
 		</Style>
 		<Style Selector="^.h1">
-			<Setter Property="Margin" Value="0 10 0 15" />
+			<Setter Property="Margin" Value="{DynamicResource SukiH1Margin}" />
 			<Setter Property="FontWeight" Value="DemiBold" />
-			<Setter Property="FontSize" Value="32" />
+			<Setter Property="FontSize" Value="{DynamicResource SukiH1FontSize}" />
 		</Style>
 		<Style Selector="^.Caption">
 			<Setter Property="Foreground" Value="{DynamicResource ThemeControlHighBrush}" />

@@ -265,7 +265,7 @@
                                               Data="{x:Static icons:Icons.Check}"
                                               Foreground="{DynamicResource SukiPrimaryColor}" />
                                     <TextBlock Margin="10,0,0,0"
-                                               FontSize="16"
+                                               FontSize="{DynamicResource SukiFontSizeSubtitle}"
                                                FontWeight="{DynamicResource DefaultDemiBold}"
                                                Foreground="{DynamicResource SukiPrimaryColor}"
                                                Text="{DynamicResource STRING_DATEPICKER_APPLY}" />

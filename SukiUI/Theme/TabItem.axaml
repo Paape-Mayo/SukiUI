@@ -19,7 +19,7 @@
         </Border>
     </Design.PreviewWith>
     <ControlTheme x:Key="SukiTabItemStyle" TargetType="TabItem">
-        <Setter Property="FontSize" Value="50" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiTabItemFontSize}" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0" />
@@ -28,7 +28,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_LayoutRoot"
-                        Margin="8,0"
+                        Margin="{DynamicResource SukiTabItemBorderMargin}"
                         Padding="{TemplateBinding Padding}"
                         Background="Transparent"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -36,7 +36,7 @@
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <StackPanel>
                         <ContentPresenter Name="PART_HeaderPresenter"
-                                          Padding="0,5"
+                                          Padding="{DynamicResource SukiTabItemHeaderPadding}"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           HorizontalContentAlignment="Center"
@@ -52,8 +52,8 @@
                             </ContentPresenter.Transitions>
                         </ContentPresenter>
                         <Border Name="PART_Underline"
-                                Height="3"
-                                Margin="10,0,10,0"
+                                Height="{DynamicResource SukiTabItemUnderlineHeight}"
+                                Margin="{DynamicResource SukiTabItemUnderlineMargin}"
                                 Background="{DynamicResource SukiPrimaryColor}"
                                 CornerRadius="55"
                                 Opacity="0">

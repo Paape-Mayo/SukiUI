@@ -215,7 +215,7 @@
         <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSmall}" />
         <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
 
         <Setter Property="Padding" Value="20,10,15,10" />
@@ -532,11 +532,11 @@
             <Setter Property="CornerRadius" Value="20" />
         </Style>
         <Style Selector="^.Small">
-            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSmall}" />
             <Setter Property="Padding" Value="10" />
         </Style>
         <Style Selector="^.Large">
-            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeMedium}" />
             <Setter Property="Padding" Value="30,12,25,12" />
         </Style>
 

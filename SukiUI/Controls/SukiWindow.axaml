@@ -55,7 +55,7 @@
                                                             CornerRadius="0"
                                                             IsAnimated="False"
                                                             IsVisible="{TemplateBinding ShowTitlebarBackground}" />
-                                            <DockPanel Margin="12,9" LastChildFill="True">
+                                            <DockPanel Margin="{DynamicResource SukiWindowTitleBarMargin}" LastChildFill="True">
                                                 <StackPanel VerticalAlignment="Center"
                                                             DockPanel.Dock="Right"
                                                             Orientation="Horizontal"

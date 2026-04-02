@@ -35,8 +35,8 @@
                     </Panel>
                     <Border Name="PART_Border"
                             MinWidth="85"
-                            Margin="15,2"
-                            Padding="30,15,15,15"
+                            Margin="{DynamicResource SukiSideMenuItemMargin}"
+                            Padding="{DynamicResource SukiSideMenuItemPadding}"
                             Background="{DynamicResource SukiPrimaryColor0}"
                             CornerRadius="{DynamicResource MediumCornerRadius}">
                         <Panel>
@@ -76,8 +76,8 @@
                                 </ToggleButton>
 
                                 <ContentControl Name="PART_Icon"
-                                                Width="24"
-                                                Height="24"
+                                                Width="{DynamicResource SukiSideMenuItemIconSize}"
+                                                Height="{DynamicResource SukiSideMenuItemIconSize}"
                                                 Content="{TemplateBinding Icon}"
                                                 DockPanel.Dock="Left">
                                     <ContentControl.Transitions>
@@ -190,7 +190,7 @@
                 </Style>
             </Style>
         </Style>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeLarge}" />
     </ControlTheme>
     <ControlTheme x:Key="{x:Type suki:SukiSideMenuItem}"
                   BasedOn="{StaticResource SukiSideMenuItemStyle}"

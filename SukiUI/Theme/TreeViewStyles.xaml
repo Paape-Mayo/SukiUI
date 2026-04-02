@@ -52,8 +52,8 @@
                                         <TransformOperationsTransition Property="RenderTransform" Duration="0.25" />
                                     </Transitions>
                                 </ToggleButton.Transitions>
-                                <PathIcon Width="7"
-                                          Height="7"
+                                <PathIcon Width="{DynamicResource SukiTreeViewChevronSize}"
+                                          Height="{DynamicResource SukiTreeViewChevronSize}"
                                           Classes="Flippable"
                                           Data="{x:Static content:Icons.ChevronRight}" />
                             </ToggleButton>
@@ -78,7 +78,7 @@
 
     <Style Selector="TreeViewItem">
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
-        <Setter Property="Margin" Value="1" />
+        <Setter Property="Margin" Value="{DynamicResource SukiTreeViewItemMargin}" />
     </Style>
     <Style Selector="TreeView">
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
@@ -88,7 +88,7 @@
         <Setter Property="Padding" Value="0" />
     </Style>
     <Style Selector="TreeViewItem">
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="Padding" Value="{DynamicResource SukiTreeViewItemPadding}" />
     </Style>
 
     

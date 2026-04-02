@@ -59,9 +59,9 @@
                                                               FontWeight="{DynamicResource DefaultDemiBold}" />
                                             <PathIcon Name="PART_Icon"
                                                       Grid.Column="2"
-                                                      Width="8"
-                                                      Height="8"
-                                                      Margin="6,0,0,0"
+                                                      Width="{DynamicResource SukiExpanderIconSize}"
+                                                      Height="{DynamicResource SukiExpanderIconSize}"
+                                                      Margin="{DynamicResource SukiExpanderIconMargin}"
                                                       Data="{x:Static content:Icons.Plus}" />
                                         </Grid>
                                     </ToggleButton>
@@ -113,7 +113,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="Margin" Value="0,0,0,32" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetUp}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -129,7 +129,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="Margin" Value="0,32,0,0" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetDown}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -141,7 +141,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="Margin" Value="0,0,32,0" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetLeft}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -154,7 +154,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Margin" Value="32,0,0,0" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetRight}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">

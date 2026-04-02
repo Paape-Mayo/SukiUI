@@ -9,7 +9,7 @@
             <Template>
                 <TextBlock HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
-                           FontSize="12"
+                           FontSize="{DynamicResource SukiFontSizeBody}"
                            Text="{Binding}"
                            TextAlignment="Center" />
             </Template>
