@@ -33,7 +33,7 @@
                             <LayoutTransformControl Name="PART_ToggleTransform">
                                 <DockPanel>
                                     <Border Name="PART_BottomBorder"
-                                            Height="1"
+                                            Height="{DynamicResource SukiExpanderBorderHeight}"
                                             HorizontalAlignment="Stretch"
                                             Background="{DynamicResource SukiBorderBrush}"
                                             CornerRadius="10"
@@ -109,6 +109,14 @@
             <Setter Property="Data" Value="{x:Static content:Icons.Minus}" />
         </Style>
 
+        <Style Selector="^:expanded /template/ Border#PART_BottomBorder">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^ /template/ ToggleButton#PART_ToggleButton">
+            <Setter Property="Padding" Value="{DynamicResource SukiExpanderHeaderPadding}" />
+        </Style>
+
         <Style Selector="^:up">
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
@@ -173,10 +181,6 @@
                 <Setter Property="Width" Value="6" />
                 <Setter Property="Height" Value="6" />
                 <Setter Property="Margin" Value="4,0,0,0" />
-            </Style>
-
-            <Style Selector="^ /template/ Border#PART_BottomBorder">
-                <Setter Property="Height" Value="0.5" />
             </Style>
 
             <!-- Compact margins for all orientations -->

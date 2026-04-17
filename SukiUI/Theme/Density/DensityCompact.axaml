@@ -79,6 +79,8 @@
     <Thickness x:Key="SukiExpanderContentOffsetRight">20,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderIconSize">6</x:Double>
     <Thickness x:Key="SukiExpanderIconMargin">3,0,0,0</Thickness>
+    <x:Double x:Key="SukiExpanderBorderHeight">0.5</x:Double>
+    <Thickness x:Key="SukiExpanderHeaderPadding">0,2,0,2</Thickness>
 
     <!-- TabItem -->
     <x:Double x:Key="SukiTabItemFontSize">12</x:Double>
