@@ -27,7 +27,7 @@
     <!-- TreeView -->
     <Thickness x:Key="SukiTreeViewItemPadding">5</Thickness>
     <Thickness x:Key="SukiTreeViewItemMargin">1</Thickness>
-    <x:Double x:Key="SukiTreeViewChevronSize">7</x:Double>
+    <x:Double x:Key="SukiTreeViewChevronSize">12</x:Double>
 
     <!-- ListBoxItem -->
     <Thickness x:Key="SukiListBoxItemPadding">4,2</Thickness>

@@ -44,7 +44,7 @@
                                           BorderThickness="0"
                                           Classes="Basic"
                                           Focusable="False"
-                                          RenderTransformOrigin="65% 50%" 
+                                          RenderTransformOrigin="50% 50%"
                                           IsChecked="{TemplateBinding IsExpanded,
                                                                       Mode=TwoWay}">
                                 <ToggleButton.Transitions>
@@ -55,7 +55,8 @@
                                 <PathIcon Width="{DynamicResource SukiTreeViewChevronSize}"
                                           Height="{DynamicResource SukiTreeViewChevronSize}"
                                           Classes="Flippable"
-                                          Data="{x:Static content:Icons.ChevronRight}" />
+                                          Data="{x:Static content:Icons.ChevronRight}"
+                                          Foreground="{DynamicResource SukiText}" />
                             </ToggleButton>
                             <ContentPresenter Name="PART_HeaderPresenter"
                                               Grid.Column="1"
@@ -147,5 +148,13 @@
 
     <Style Selector="TreeViewItem[IsExpanded=True] /template/ ToggleButton#PART_ExpandCollapseChevron">
         <Setter Property="RenderTransform" Value="rotate(90deg)" />
+    </Style>
+
+    <!-- Hide the chevron for leaf items (no children) — :empty fires when the item
+         has no items, so the toggle would do nothing anyway. The 16px chevron column
+         in PART_Header still reserves indent space, keeping leaf names aligned with
+         their siblings. -->
+    <Style Selector="TreeViewItem:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
+        <Setter Property="IsVisible" Value="False" />
     </Style>
 </Styles>

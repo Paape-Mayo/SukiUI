@@ -32,12 +32,18 @@
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       TextBlock.Foreground="{TemplateBinding Foreground}" />
 
+                    <!-- 1px filled rectangle at the cell's right edge. The original
+                         template used Stroke without a Fill which renders as a hollow
+                         1x1 rectangle (invisible at default DPI). Fill + Width=1 gives
+                         a proper, reliably-visible vertical separator. Avalonia's
+                         GridLinesVisibility=All keeps this visible; "Horizontal" or
+                         "None" hides it via the part's own visibility logic. -->
                     <Rectangle Name="PART_RightGridLine"
                                Grid.Column="1"
-                               HorizontalAlignment="Stretch"
+                               Width="1"
+                               HorizontalAlignment="Right"
                                VerticalAlignment="Stretch"
-                               Stroke="{DynamicResource SukiBorderBrush}"
-                               StrokeThickness="1" />
+                               Fill="{DynamicResource SukiBorderBrush}" />
                 </Grid>
             </ControlTemplate>
         </Setter>
@@ -67,29 +73,32 @@
             <ControlTemplate>
                 <Border Name="PART_Border"
                         Background="Transparent"
-                        BorderBrush="{DynamicResource SukiControlBorderBrush}"
-                        BorderThickness="0,0,0,1.5"
+                        BorderBrush="{DynamicResource SukiBorderBrush}"
+                        BorderThickness="0,0,1,1.5"
                         CornerRadius="0">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Grid Margin="{TemplateBinding Padding}"
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                              ColumnDefinitions="*,Auto">
-                            <ContentPresenter Background="Transparent"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
-                            <Path Name="SortIcon"
-                                  Grid.Column="1"
-                                  Width="10"
-                                  Margin="8,0,8,0"
-                                  HorizontalAlignment="Left"
-                                  VerticalAlignment="Center"
-                                  Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z "
-                                  Fill="{DynamicResource SukiText}"
-                                  IsVisible="True"
-                                  Opacity="0"
-                                  Stretch="Uniform" />
-                        </Grid>
+                    <!-- ContentPresenter takes the cell's full width; the SortIcon is
+                         right-anchored as an overlay sitting flush against the cell's
+                         right edge (Margin=0). The PADDING from the DataGridColumnHeader
+                         is applied to the ContentPresenter only — NOT to the outer Grid
+                         — so when the sort icon is hidden the text content really does
+                         use every pixel up to the cell boundary. When visible, the icon
+                         overlaps the rightmost ~8px; downstream styles hide it on narrow
+                         columns via IsVisible so text wins on cramped headers. -->
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <ContentPresenter Background="Transparent"
+                                          Padding="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <Path Name="SortIcon"
+                              Width="8"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Margin="0"
+                              Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z "
+                              Fill="{DynamicResource SukiText}"
+                              IsVisible="False"
+                              Stretch="Uniform" />
                     </Grid>
                 </Border>
             </ControlTemplate>
@@ -108,7 +117,7 @@
     </Style>
 
     <Style Selector="DataGridColumnHeader /template/ Path#SortIcon">
-        <Setter Property="Opacity" Value="0" />
+        <Setter Property="IsVisible" Value="False" />
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
@@ -117,11 +126,11 @@
     </Style>
 
     <Style Selector="DataGridColumnHeader:sortascending /template/ Path#SortIcon">
-        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsVisible" Value="True" />
     </Style>
 
     <Style Selector="DataGridColumnHeader:sortdescending /template/ Path#SortIcon">
-        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsVisible" Value="True" />
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="0.9" ScaleY="-0.9" />
