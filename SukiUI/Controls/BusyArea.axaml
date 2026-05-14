@@ -53,18 +53,28 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    LastChildFill="True">
+                            <ProgressBar Name="PART_ProgressBar"
+                                         DockPanel.Dock="Bottom"
+                                         Margin="3,2,3,3"
+                                         Height="4"
+                                         MinWidth="120"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="{TemplateBinding Progress}"
+                                         IsVisible="{TemplateBinding Progress,
+                                                                     Converter={x:Static converters:DoubleConvert.NonNegativeToBool}}" />
                             <TextBlock Margin="3"
                                        DockPanel.Dock="Bottom" Name="PART_BusyText"
                                        FontWeight="{DynamicResource DefaultDemiBold}"
                                        IsVisible="{TemplateBinding BusyText,
                                                                    Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                        Text="{TemplateBinding BusyText}" />
-                            
+
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               IsHitTestVisible="False" Content="{TemplateBinding IsBusy, Converter={x:Static converters:ProgressToContentConverter.Instance}}"></ContentPresenter>
 
-                            
+
                         </DockPanel>
                     </Panel>
                 </ControlTemplate>
