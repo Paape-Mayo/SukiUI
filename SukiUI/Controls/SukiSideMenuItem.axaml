@@ -176,8 +176,17 @@
         </Style>
 
         <Style Selector="^.Compact /template/ Border#PART_Border">
-            <Setter Property="Padding" Value="30,10,15,10" />
+            <Setter Property="Padding" Value="30,5,15,5" />
             <Setter Property="CornerRadius" Value="12" />
+        </Style>
+
+        <!-- Icon-rail (sidebar collapsed): the header text is hidden, so the 10px
+             top/bottom padding inherited from .Compact just bloats the rail.
+             Drop vertical padding to 3 so rows stack tightly. Horizontal padding
+             stays at 30,15 so the icon still sits where it does in the full
+             sidebar, keeping the icon-to-label transition smooth on toggle. -->
+        <Style Selector="^.Compact[IsTopMenuExpanded=False] /template/ Border#PART_Border">
+            <Setter Property="Padding" Value="30,3,15,3" />
         </Style>
         <Style Selector="^:pointerover">
             <Style Selector="^ /template/ Border#PART_Border">
@@ -195,10 +204,10 @@
             </Style>
             <Style Selector="^[IsContentMovable=True]">
                 <Style Selector="^[IsTopMenuExpanded=True] /template/ Border#PART_Border">
-                    <Setter Property="Padding" Value="-10,15,15,15" />
+                    <Setter Property="Padding" Value="-10,10,15,10" />
                 </Style>
                 <Style Selector="^.Compact[IsTopMenuExpanded=True] /template/ Border#PART_Border">
-                    <Setter Property="Padding" Value="-10,10,15,10" />
+                    <Setter Property="Padding" Value="-10,5,15,5" />
                 </Style>
                 <Style Selector="^[IsTopMenuExpanded=True] /template/ ContentControl#PART_Icon">
                     <Setter Property="Opacity" Value="0" />
