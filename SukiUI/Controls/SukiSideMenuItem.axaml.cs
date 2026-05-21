@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
 
 namespace SukiUI.Controls;
 
@@ -90,6 +91,25 @@ public class SukiSideMenuItem : TreeViewItem
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
+        // Expander rows: toggle IsExpanded on left-button press and consume the
+        // event so the base TreeViewItem selection logic never runs. Done in
+        // OnPointerPressed (not Released) because the released-side branch was
+        // gated on _pointerDownPoint, which is only captured for touch input;
+        // mouse clicks fell through silently and the expander never toggled.
+        //
+        // Skip when the click actually landed on a nested child SukiSideMenuItem
+        // inside this expander's items presenter -- pointer events bubble up,
+        // so without this guard a click on "Script Lab" would also toggle the
+        // parent "Scripts" expander.
+        if (IsExpander
+            && e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonPressed
+            && !ClickCameFromNestedItem(e.Source as Visual))
+        {
+            IsExpanded = !IsExpanded;
+            e.Handled = true;
+            return;
+        }
+
         base.OnPointerPressed(e);
 
         _pointerDownPoint = s_invalidPoint;
@@ -107,8 +127,8 @@ public class SukiSideMenuItem : TreeViewItem
                 if (p.Pointer.Type == PointerType.Mouse)
                 {
                     // If the pressed point comes from a mouse, perform the selection immediately.
-                    
-                    
+
+
                     // /!\ WARNING /!\ - Line commented to make it work with subitems. Doesn't seem to break anything on my
                         // e.Handled = owner.UpdateSelectionFromPointerEvent(this);
                 }
@@ -130,7 +150,7 @@ public class SukiSideMenuItem : TreeViewItem
     {
         base.OnPointerReleased(e);
 
-        if (!e.Handled && 
+        if (!e.Handled &&
             !double.IsNaN(_pointerDownPoint.X) &&
             e.InitialPressMouseButton is MouseButton.Left or MouseButton.Right)
         {
@@ -142,7 +162,11 @@ public class SukiSideMenuItem : TreeViewItem
 
             if (new Rect(Bounds.Size).ContainsExclusive(point.Position) &&
                 tapRect.ContainsExclusive(point.Position) &&
-                ItemsControl.ItemsControlFromItemContainer(this) is SukiSideMenu owner)
+                ItemsControl.ItemsControlFromItemContainer(this) is SukiSideMenu owner &&
+                // Expander rows are handled entirely in OnPointerPressed; skip the
+                // selection-on-release path so a touch tap doesn't both toggle (on
+                // press, via the IsExpander branch above) AND try to select here.
+                !IsExpander)
             {
                 if (owner.UpdateSelectionFromPointerEvent(this))
                 {
@@ -171,7 +195,7 @@ public class SukiSideMenuItem : TreeViewItem
         get => GetValue(IsContentMovableProperty);
         set => SetValue(IsContentMovableProperty, value);
     }
-    
+
     public static readonly StyledProperty<bool> IsTopMenuExpandedProperty =
         AvaloniaProperty.Register<SukiSideMenuItem, bool>(nameof(IsTopMenuExpanded), defaultValue: true);
 
@@ -181,4 +205,78 @@ public class SukiSideMenuItem : TreeViewItem
         set => SetValue(IsTopMenuExpandedProperty, value);
     }
 
+    /// <summary>
+    /// When true, clicks on the row toggle <see cref="TreeViewItem.IsExpanded"/>
+    /// instead of selecting the item. Use for group-header rows that own a
+    /// nested ItemsSource: the row acts purely as an expand/collapse control
+    /// and is never the navigation target. The chevron in the template's
+    /// PART_ExpandedButton continues to work the same way.
+    /// </summary>
+    public static readonly StyledProperty<bool> IsExpanderProperty =
+        AvaloniaProperty.Register<SukiSideMenuItem, bool>(nameof(IsExpander), defaultValue: false);
+
+    public bool IsExpander
+    {
+        get => GetValue(IsExpanderProperty);
+        set => SetValue(IsExpanderProperty, value);
+    }
+
+    // Nested-children container generation. SukiSideMenu does the same trick at
+    // the root level: build the parent ItemTemplate against the data item and
+    // use the resulting SukiSideMenuItem AS the container. We mirror that here
+    // so children of an expander row also pass through the configured template
+    // (rather than rendering as plain TreeViewItem instances with no styling).
+    // Falls back to a bare SukiSideMenuItem when the template doesn't match.
+    //
+    // IsTopMenuExpanded is propagated to the new child so it picks up the
+    // sidebar's current expansion state at creation time -- the root-level
+    // UpdateMenuItemsExpansion loop only sees top-level items, and the
+    // OnPropertyChanged hook below keeps subsequent toggles in sync.
+    protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
+    {
+        var child = (ItemTemplate != null && ItemTemplate.Match(item) &&
+                     ItemTemplate.Build(item) is SukiSideMenuItem sukiMenuItem)
+            ? sukiMenuItem
+            : new SukiSideMenuItem();
+        child.IsTopMenuExpanded = IsTopMenuExpanded;
+        return child;
+    }
+
+    // True when the pointer-event source is inside a descendant SukiSideMenuItem
+    // (i.e. a child row of an expander). Walks up the visual tree; if we hit
+    // another SukiSideMenuItem before reaching this control, the click was on a
+    // nested item, not on the expander row's own chrome.
+    private bool ClickCameFromNestedItem(Visual? source)
+    {
+        var current = source;
+        while (current != null && !ReferenceEquals(current, this))
+        {
+            if (current is SukiSideMenuItem) return true;
+            current = current.GetVisualParent();
+        }
+        return false;
+    }
+
+    protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
+    {
+        return NeedsContainer<SukiSideMenuItem>(item, out recycleKey);
+    }
+
+    // Cascade IsTopMenuExpanded into realized nested children so child rows
+    // adopt the correct selection styling (the base IsSelected style branches
+    // on IsTopMenuExpanded and would otherwise slide the icon off-screen when
+    // the sidebar is collapsed).
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property == IsTopMenuExpandedProperty)
+        {
+            var newVal = change.GetNewValue<bool>();
+            foreach (var c in this.GetRealizedContainers())
+            {
+                if (c is SukiSideMenuItem nested)
+                    nested.IsTopMenuExpanded = newVal;
+            }
+        }
+    }
 }

@@ -27,7 +27,13 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel>
-                    <Panel DockPanel.Dock="Bottom" IsVisible="{Binding IsMenuExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type suki:SukiSideMenu}}}">
+                    <!-- Children panel: visibility driven by the expander's own IsExpanded
+                         alone, NOT by the sidebar's IsMenuExpanded. That way an expanded
+                         group keeps showing its children in the icon-rail mode (as
+                         icon-only rows), and a collapsed group hides its children in both
+                         sidebar modes. A Style further down zeroes the indent in icon-rail
+                         mode so child icons align with the rail. -->
+                    <Panel DockPanel.Dock="Bottom">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         Margin="20,0,0,0"
                                         IsVisible="{TemplateBinding IsExpanded}"
@@ -79,7 +85,8 @@
                                                 Width="{DynamicResource SukiSideMenuItemIconSize}"
                                                 Height="{DynamicResource SukiSideMenuItemIconSize}"
                                                 Content="{TemplateBinding Icon}"
-                                                DockPanel.Dock="Left">
+                                                DockPanel.Dock="Left"
+                                                RenderTransformOrigin="50%,50%">
                                     <ContentControl.Transitions>
                                         <Transitions>
                                             <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" />
@@ -146,6 +153,26 @@
 
         <Style Selector="^[IsTopMenuExpanded=False] /template/ ToggleButton#PART_ExpandedButton">
             <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- Icon-rail: zero indent on the nested children so they align with the rail. -->
+        <Style Selector="^[IsTopMenuExpanded=False] /template/ ItemsPresenter#PART_ItemsPresenter">
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <!-- Expander rows use their own icon as the chevron, so the secondary
+             PART_ExpandedButton chevron would be visual noise. Hide it. -->
+        <Style Selector="^[IsExpander=True] /template/ ToggleButton#PART_ExpandedButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- Chevron-as-icon: rotate the main icon 90deg clockwise when expanded.
+             Combined with a ChevronRight icon on the data side this produces
+             ChevronRight (collapsed) -> ChevronDown (expanded) with a smooth
+             200ms transition from the existing TransformOperationsTransition
+             on PART_Icon. -->
+        <Style Selector="^[IsExpander=True][IsExpanded=True] /template/ ContentControl#PART_Icon">
+            <Setter Property="RenderTransform" Value="rotate(90deg)" />
         </Style>
 
         <Style Selector="^.Compact /template/ Border#PART_Border">
