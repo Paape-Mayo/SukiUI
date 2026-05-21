@@ -30,10 +30,13 @@ namespace SukiUI.Controls
 
         public static readonly StyledProperty<bool> IsDialogOpenProperty = AvaloniaProperty.Register<SukiDialogHost, bool>(nameof(IsDialogOpen));
 
-        internal bool IsDialogOpen
+        // Public getter so consumers (e.g. PACE blurs MainContent while a dialog is up)
+        // can bind to IsDialogOpen. Setter stays internal -- only the host flips the
+        // flag in response to manager events.
+        public bool IsDialogOpen
         {
             get => GetValue(IsDialogOpenProperty);
-            set => SetValue(IsDialogOpenProperty, value);
+            internal set => SetValue(IsDialogOpenProperty, value);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
