@@ -72,11 +72,13 @@
     <!-- GlassCard -->
     <Thickness x:Key="SukiGlassCardPadding">8</Thickness>
 
-    <!-- Expander -->
-    <Thickness x:Key="SukiExpanderContentOffsetDown">0,20,0,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,20</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,20,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetRight">20,0,0,0</Thickness>
+    <!-- Expander. The offset must clear the header ribbon (which the template overlays on top
+         of the content in a Panel); a compact header is ~24px tall, so 20 left the top of the
+         content occluded and unclickable under the header. -->
+    <Thickness x:Key="SukiExpanderContentOffsetDown">0,30,0,0</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,30</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,30,0</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetRight">30,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderIconSize">6</x:Double>
     <Thickness x:Key="SukiExpanderIconMargin">3,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderBorderHeight">0.5</x:Double>

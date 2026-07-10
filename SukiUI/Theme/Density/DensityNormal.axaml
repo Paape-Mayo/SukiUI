@@ -72,11 +72,13 @@
     <!-- GlassCard -->
     <Thickness x:Key="SukiGlassCardPadding">20</Thickness>
 
-    <!-- Expander -->
-    <Thickness x:Key="SukiExpanderContentOffsetDown">0,32,0,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,32</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,32,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetRight">32,0,0,0</Thickness>
+    <!-- Expander. The offset must clear the header ribbon that the template overlays on top of
+         the content; 32 left larger/taller headers overlapping the top of the content, so it is
+         raised to give reliable clearance below the header. -->
+    <Thickness x:Key="SukiExpanderContentOffsetDown">0,36,0,0</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,36</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,36,0</Thickness>
+    <Thickness x:Key="SukiExpanderContentOffsetRight">36,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderIconSize">8</x:Double>
     <Thickness x:Key="SukiExpanderIconMargin">6,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderBorderHeight">1</x:Double>
