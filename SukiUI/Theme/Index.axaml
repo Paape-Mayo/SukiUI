@@ -44,17 +44,10 @@
                 <ResourceInclude x:Key="Dark" Source="../ColorTheme/Dark.axaml" />
             </ResourceDictionary.ThemeDictionaries>
 
-            <CornerRadius x:Key="SmallCornerRadius">8</CornerRadius>
-            <CornerRadius x:Key="MediumCornerRadius">15</CornerRadius>
-
-            <system:TimeSpan x:Key="LongAnimationDuration">0.5</system:TimeSpan>
-            <system:TimeSpan x:Key="MediumAnimationDuration">0.35</system:TimeSpan>
-            <system:TimeSpan x:Key="ShortAnimationDuration">0.2</system:TimeSpan>
-
             <animations:SukiEaseOutBack x:Key="MenuEasing" BounceIntensity="Soft" />
 
-
             <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://SukiUI/Theme/Density/DensityNormal.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/TextBlock.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/ColorPickerStyle.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/TextBox.axaml" />
@@ -101,6 +94,7 @@
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiSideMenu.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiStackPage.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiSideMenuItem.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Controls/SukiGroupSideMenuItem.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiTransitioningContentControl.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/Stepper.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/VerticalStepper.axaml" />
@@ -108,6 +102,7 @@
                 <ResourceInclude Source="avares://sukiUI/Controls/InfoBar.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/GlassMorphism/GlassCard.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/ContentExpandControl.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Controls/FlyoutOverlayHost.axaml" />
 
                 <ResourceInclude Source="avares://SukiUI/Locale/en-US.axaml" />
             </ResourceDictionary.MergedDictionaries>

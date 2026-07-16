@@ -17,7 +17,7 @@
                                         Background="{DynamicResource SukiBackground}"
                                         Spacing="8"
                                         TextBlock.Foreground="{DynamicResource SukiText}">
-                                <TextBlock FontSize="18"
+                                <TextBlock FontSize="{DynamicResource SukiFontSizeTitle}"
                                            FontWeight="{DynamicResource DefaultDemiBold}"
                                            Text="{Binding Title}" />
                                 <TextBlock MaxHeight="80"

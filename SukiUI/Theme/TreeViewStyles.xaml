@@ -53,7 +53,7 @@
                                           BorderThickness="0"
                                           Classes="Basic"
                                           Focusable="False"
-                                          RenderTransformOrigin="65% 50%"
+                                          RenderTransformOrigin="50% 50%"
                                           IsChecked="{TemplateBinding IsExpanded,
                                                                       Mode=TwoWay}">
                                 <ToggleButton.Transitions>
@@ -61,10 +61,11 @@
                                         <TransformOperationsTransition Property="RenderTransform" Duration="0.25" />
                                     </Transitions>
                                 </ToggleButton.Transitions>
-                                <PathIcon Width="7"
-                                          Height="7"
+                                <PathIcon Width="{DynamicResource SukiTreeViewChevronSize}"
+                                          Height="{DynamicResource SukiTreeViewChevronSize}"
                                           Classes="Flippable"
-                                          Data="{x:Static content:Icons.ChevronRight}" />
+                                          Data="{x:Static content:Icons.ChevronRight}"
+                                          Foreground="{DynamicResource SukiText}" />
                             </ToggleButton>
                             <ContentPresenter Name="PART_HeaderPresenter"
                                               Grid.Column="1"
@@ -87,7 +88,8 @@
 
     <Style Selector="TreeViewItem">
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
-        <Setter Property="Margin" Value="1" />
+        <Setter Property="Margin" Value="{DynamicResource SukiTreeViewItemMargin}" />
+        <Setter Property="Padding" Value="{DynamicResource SukiTreeViewItemPadding}" />
     </Style>
 
     <Style Selector="TreeView">

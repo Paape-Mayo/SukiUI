@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable>true</IsTrimmable>
     <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>SukiUI</RootNamespace>
     <UserSecretsId>712f85e4-12d3-41b0-a417-5714a113666f</UserSecretsId>
@@ -88,6 +89,25 @@
     </Compile>
     <Compile Update="Controls\Experimental\ChatUI\ChatUI.axaml.cs">
       <DependentUpon>ChatUI.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Locale\de-de.axaml.cs">
+      <DependentUpon>de-de.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Locale\en-us.axaml.cs">
+      <DependentUpon>en-us.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Locale\nl-nl.axaml.cs">
+      <DependentUpon>nl-nl.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Locale\pt-pt.axaml.cs">
+      <DependentUpon>pt-pt.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Locale\zh-cn.axaml.cs">
+      <DependentUpon>zh-cn.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

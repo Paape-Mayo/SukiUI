@@ -22,7 +22,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="FontSize" Value="25" />
+        <Setter Property="FontSize" Value="{DynamicResource SukiDataGridCellFontSize}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Background="{TemplateBinding Background}" ColumnDefinitions="*,Auto">
@@ -33,18 +33,24 @@
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       TextBlock.Foreground="{TemplateBinding Foreground}" />
 
+                    <!-- 1px filled rectangle at the cell's right edge. The original
+                         template used Stroke without a Fill which renders as a hollow
+                         1x1 rectangle (invisible at default DPI). Fill + Width=1 gives
+                         a proper, reliably-visible vertical separator. Avalonia's
+                         GridLinesVisibility=All keeps this visible; "Horizontal" or
+                         "None" hides it via the part's own visibility logic. -->
                     <Rectangle Name="PART_RightGridLine"
                                Grid.Column="1"
-                               HorizontalAlignment="Stretch"
+                               Width="1"
+                               HorizontalAlignment="Right"
                                VerticalAlignment="Stretch"
-                               Stroke="{DynamicResource SukiBorderBrush}"
-                               StrokeThickness="1" />
+                               Fill="{DynamicResource SukiBorderBrush}" />
                 </Grid>
             </ControlTemplate>
         </Setter>
         <Style Selector="^ TextBlock">
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            <Setter Property="Margin" Value="5 0 0 0" />
+            <Setter Property="Margin" Value="{DynamicResource SukiDataGridCellMargin}" />
         </Style>
         <Style Selector="^.CenterAlign">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -53,7 +59,7 @@
         <Style Selector="^.RightAlign">
             <Setter Property="HorizontalContentAlignment" Value="Right" />
             <Setter Property="HorizontalAlignment" Value="Right" />
-            <Setter Property="Margin" Value="0 0 15 0" />
+            <Setter Property="Margin" Value="0 0 8 0" />
         </Style>
     </Style>
 
@@ -62,35 +68,38 @@
         <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SeparatorBrush" Value="{DynamicResource ThemeControlLowColor}" />
-        <Setter Property="Padding" Value="12" />
+        <Setter Property="Padding" Value="{DynamicResource SukiDataGridHeaderPadding}" />
         <Setter Property="Background" Value="{DynamicResource SukiLightBorderBrush}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_Border"
                         Background="Transparent"
-                        BorderBrush="{DynamicResource SukiControlBorderBrush}"
-                        BorderThickness="0,0,0,1.5"
+                        BorderBrush="{DynamicResource SukiBorderBrush}"
+                        BorderThickness="0,0,1,1.5"
                         CornerRadius="0">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Grid Margin="{TemplateBinding Padding}"
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                              ColumnDefinitions="*,Auto">
-                            <ContentPresenter Background="Transparent"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
-                            <Path Name="SortIcon"
-                                  Grid.Column="1"
-                                  Width="10"
-                                  Margin="8,0,8,0"
-                                  HorizontalAlignment="Left"
-                                  VerticalAlignment="Center"
-                                  Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z "
-                                  Fill="{DynamicResource SukiText}"
-                                  IsVisible="True"
-                                  Opacity="0"
-                                  Stretch="Uniform" />
-                        </Grid>
+                    <!-- ContentPresenter takes the cell's full width; the SortIcon is
+                         right-anchored as an overlay sitting flush against the cell's
+                         right edge (Margin=0). The PADDING from the DataGridColumnHeader
+                         is applied to the ContentPresenter only — NOT to the outer Grid
+                         — so when the sort icon is hidden the text content really does
+                         use every pixel up to the cell boundary. When visible, the icon
+                         overlaps the rightmost ~8px; downstream styles hide it on narrow
+                         columns via IsVisible so text wins on cramped headers. -->
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <ContentPresenter Background="Transparent"
+                                          Padding="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <Path Name="SortIcon"
+                              Width="8"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Margin="0"
+                              Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z "
+                              Fill="{DynamicResource SukiText}"
+                              IsVisible="False"
+                              Stretch="Uniform" />
                     </Grid>
                 </Border>
             </ControlTemplate>
@@ -109,7 +118,7 @@
     </Style>
 
     <Style Selector="DataGridColumnHeader /template/ Path#SortIcon">
-        <Setter Property="Opacity" Value="0" />
+        <Setter Property="IsVisible" Value="False" />
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
@@ -118,11 +127,11 @@
     </Style>
 
     <Style Selector="DataGridColumnHeader:sortascending /template/ Path#SortIcon">
-        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsVisible" Value="True" />
     </Style>
 
     <Style Selector="DataGridColumnHeader:sortdescending /template/ Path#SortIcon">
-        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsVisible" Value="True" />
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="0.9" ScaleY="-0.9" />
@@ -132,7 +141,7 @@
 
     <Style Selector="DataGridRow">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="30" />
+        <Setter Property="Padding" Value="{DynamicResource SukiDataGridRowPadding}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DataGridFrozenGrid Name="PART_Root"
@@ -142,7 +151,7 @@
                     <Border Name="BackgroundRectangle"
                             Grid.RowSpan="2"
                             Grid.ColumnSpan="2"
-                            Padding="18"
+                            Padding="{DynamicResource SukiDataGridRowBgPadding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{DynamicResource SukiBorderBrush}"
                             BorderThickness="0,0,0,1"
@@ -156,7 +165,7 @@
                     <DataGridCellsPresenter Name="PART_CellsPresenter"
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            Margin="6,0"
+                                            Margin="{DynamicResource SukiDataGridCellMargin}"
                                             DataGridFrozenGrid.IsFrozen="True" />
                     <DataGridDetailsPresenter Name="PART_DetailsPresenter"
                                               Grid.Row="1"
@@ -228,7 +237,7 @@
 
     <Style Selector="DataGridRowGroupHeader">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Height" Value="32" />
+        <Setter Property="Height" Value="24" />
         <Setter Property="Template">
             <ControlTemplate x:DataType="collections:DataGridCollectionViewGroup">
                 <DataGridFrozenGrid Name="Root"
@@ -242,13 +251,13 @@
                     <ToggleButton Name="PART_ExpanderButton"
                                   Grid.Row="1"
                                   Grid.Column="2"
-                                  Margin="2,11,0,0"
+                                  Margin="2,6,0,0"
                                   FontWeight="DemiBold"
                                   Foreground="{DynamicResource SukiText}" />
 
                     <StackPanel Grid.Row="1"
                                 Grid.Column="3"
-                                Margin="0,11,0,0"
+                                Margin="0,6,0,0"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
                         <TextBlock Name="PART_PropertyNameElement"
@@ -256,12 +265,12 @@
                                    FontWeight="DemiBold"
                                    IsVisible="{TemplateBinding IsPropertyNameVisible}" />
                         <TextBlock Margin="4,0,0,0"
-                                   FontSize="16"
+                                   FontSize="{DynamicResource SukiFontSizeLarge}"
                                    FontWeight="DemiBold"
                                    Text="{Binding Key}" />
                         <TextBlock Name="PART_ItemCountElement"
                                    Margin="8,2,0,0"
-                                   FontSize="14"
+                                   FontSize="{DynamicResource SukiFontSizeBody}"
                                    FontWeight="DemiBold"
                                    Foreground="{DynamicResource SukiLowText}"
                                    IsVisible="{TemplateBinding IsItemCountVisible}" />
@@ -282,8 +291,8 @@
     <Style Selector="DataGridRowGroupHeader /template/ ToggleButton#PART_ExpanderButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Width="30"
-                        Height="30"
+                <Border Width="24"
+                        Height="24"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Background="Transparent">

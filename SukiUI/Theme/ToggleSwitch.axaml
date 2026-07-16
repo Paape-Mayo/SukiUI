@@ -95,8 +95,8 @@
 
                             <Border Grid.Row="1"
                                     Grid.Column="0"
-                                    Width="40"
-                                    Height="22"
+                                    Width="{DynamicResource SukiToggleSwitchWidth}"
+                                    Height="{DynamicResource SukiToggleSwitchHeight}"
                                     Background="{DynamicResource SukiPrimaryColor0}"
                                     BorderThickness="0"
                                     CornerRadius="{DynamicResource MediumCornerRadius}">

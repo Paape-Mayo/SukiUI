@@ -10,7 +10,7 @@
                 <TextBlock x:DataType="x:String"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
-                           FontSize="12"
+                           FontSize="{DynamicResource SukiFontSizeBody}"
                            Text="{CompiledBinding}"
                            TextAlignment="Center" />
             </Template>

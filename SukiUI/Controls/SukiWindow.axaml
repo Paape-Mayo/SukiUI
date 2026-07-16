@@ -69,7 +69,7 @@
                                                             IsVisible="{TemplateBinding ShowTitlebarBackground}" />
 
                                             <DockPanel Background="Transparent"
-                                                       Margin="12,9"
+                                                       Margin="{DynamicResource SukiWindowTitleBarMargin}"
                                                        LastChildFill="True"
                                                        chrome:WindowDecorationProperties.ElementRole="TitleBar">
                                                 <StackPanel VerticalAlignment="Center"

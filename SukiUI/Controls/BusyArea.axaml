@@ -43,7 +43,17 @@
             <Setter Property="Opacity" Value="1" />
         </Style>
 
-        
+        <!-- Cancel button: hidden by default; shown only while busy AND the
+             host opted in via IsCancelVisible. IsVisible is style-driven (not
+             a TemplateBinding) because two properties gate it. -->
+        <Style Selector="suki|BusyArea /template/ Button#PART_CancelButton">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="suki|BusyArea[IsBusy=True][IsCancelVisible=True] /template/ Button#PART_CancelButton">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+
         <Style Selector="suki|BusyArea">
             <Setter Property="Template">
                 <ControlTemplate>
@@ -53,18 +63,39 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    LastChildFill="True">
+                            <!-- First Dock=Bottom child takes the outermost edge,
+                                 so the Cancel button sits below the progress bar. -->
+                            <Button Name="PART_CancelButton"
+                                    DockPanel.Dock="Bottom"
+                                    Margin="3,4,3,0"
+                                    HorizontalAlignment="Center"
+                                    Classes="Flat"
+                                    Content="Cancel"
+                                    Command="{TemplateBinding CancelCommand}" />
+                            <ProgressBar Name="PART_ProgressBar"
+                                         DockPanel.Dock="Bottom"
+                                         Margin="3,2,3,3"
+                                         Height="4"
+                                         MinWidth="120"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         IsHitTestVisible="False"
+                                         Value="{TemplateBinding Progress}"
+                                         IsVisible="{TemplateBinding Progress,
+                                                                     Converter={x:Static converters:DoubleConvert.NonNegativeToBool}}" />
                             <TextBlock Margin="3"
                                        DockPanel.Dock="Bottom" Name="PART_BusyText"
                                        FontWeight="{DynamicResource DefaultDemiBold}"
+                                       IsHitTestVisible="False"
                                        IsVisible="{TemplateBinding BusyText,
                                                                    Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                                        Text="{TemplateBinding BusyText}" />
-                            
+
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               IsHitTestVisible="False" Content="{TemplateBinding IsBusy, Converter={x:Static converters:ProgressToContentConverter.Instance}}"></ContentPresenter>
 
-                            
+
                         </DockPanel>
                     </Panel>
                 </ControlTemplate>

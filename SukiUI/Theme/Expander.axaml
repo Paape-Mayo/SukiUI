@@ -33,41 +33,38 @@
                             <LayoutTransformControl Name="PART_ToggleTransform">
                                 <DockPanel>
                                     <Border Name="PART_BottomBorder"
-                                            Height="1"
+                                            Height="{DynamicResource SukiExpanderBorderHeight}"
                                             HorizontalAlignment="Stretch"
-                                            Background="{DynamicResource SukiControlBorderBrush}"
+                                            Background="{DynamicResource SukiBorderBrush}"
                                             CornerRadius="10"
                                             DockPanel.Dock="Bottom"
                                             Opacity="0.8" />
-<Panel>
-    <PathIcon Name="PART_Icon" DockPanel.Dock="Right"
-                      HorizontalAlignment="Right"                               
-              Width="10"
-              Height="10"
-              Margin="10,0,10,0"
-              Data="{x:Static content:Icons.Plus}" />
 
                                     <ToggleButton Name="PART_ToggleButton"
                                                   HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Center"
                                                   HorizontalContentAlignment="Stretch"
-                                                  Background="Transparent" Margin="5,0"
+                                                  Background="Transparent"
                                                   BorderBrush="{DynamicResource SukiBorderBrush}"
                                                   BorderThickness="0"
                                                   Classes="Basic"
-                                                  
+                                                  DockPanel.Dock="Right"
                                                   IsChecked="{TemplateBinding IsExpanded,
                                                                               Mode=TwoWay}">
-                                     
-                                            <ContentPresenter DockPanel.Dock="Left"
+                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                            <ContentPresenter Grid.Column="0"
                                                               HorizontalAlignment="Left"
                                                               VerticalAlignment="Center"
                                                               Content="{TemplateBinding Header}"
                                                               FontWeight="{DynamicResource DefaultDemiBold}" />
-                                            
-                                       
+                                            <PathIcon Name="PART_Icon"
+                                                      Grid.Column="2"
+                                                      Width="{DynamicResource SukiExpanderIconSize}"
+                                                      Height="{DynamicResource SukiExpanderIconSize}"
+                                                      Margin="{DynamicResource SukiExpanderIconMargin}"
+                                                      Data="{x:Static content:Icons.Plus}" />
+                                        </Grid>
                                     </ToggleButton>
-</Panel>
                                 </DockPanel>
                             </LayoutTransformControl>
                         </Panel>
@@ -112,11 +109,19 @@
             <Setter Property="Data" Value="{x:Static content:Icons.Minus}" />
         </Style>
 
+        <Style Selector="^:expanded /template/ Border#PART_BottomBorder">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^ /template/ ToggleButton#PART_ToggleButton">
+            <Setter Property="Padding" Value="{DynamicResource SukiExpanderHeaderPadding}" />
+        </Style>
+
         <Style Selector="^:up">
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="Margin" Value="0,0,0,48" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetUp}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -132,7 +137,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="Margin" Value="0,48,0,0" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetDown}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -144,7 +149,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="Margin" Value="0,0,48,0" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetLeft}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -157,7 +162,7 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Margin" Value="48,0,0,0" />
+                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetRight}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
@@ -167,6 +172,32 @@
 
             <Style Selector="^ /template/ Border#PART_BottomBorder">
                 <Setter Property="DockPanel.Dock" Value="Top" />
+            </Style>
+        </Style>
+
+        <!-- Compact class for even more compact expanders -->
+        <Style Selector="^.Compact">
+            <Style Selector="^ /template/ PathIcon#PART_Icon">
+                <Setter Property="Width" Value="6" />
+                <Setter Property="Height" Value="6" />
+                <Setter Property="Margin" Value="4,0,0,0" />
+            </Style>
+
+            <!-- Compact margins for all orientations -->
+            <Style Selector="^:up /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="0,0,0,24" />
+            </Style>
+
+            <Style Selector="^:down /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="0,24,0,0" />
+            </Style>
+
+            <Style Selector="^:left /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="0,0,24,0" />
+            </Style>
+
+            <Style Selector="^:right /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Margin" Value="24,0,0,0" />
             </Style>
         </Style>
     </ControlTheme>

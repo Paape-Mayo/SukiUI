@@ -25,18 +25,18 @@
 
     <Style Selector="ListBoxItem">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="Padding" Value="{DynamicResource SukiListBoxItemPadding}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <suki:GlassCard Name="BorderBasicStyle"
                         Margin="0,0,0,0"
-                        Padding="8,4" BorderThickness="0" Background="Transparent"
-                        CornerRadius="10">
+                        Padding="{DynamicResource SukiListBoxItemInnerPadding}" BorderThickness="0" Background="Transparent"
+                        CornerRadius="{DynamicResource SukiListBoxItemCornerRadius}">
                     <DockPanel>
                         <PathIcon Name="CheckSelected"
-                                  Width="17"
-                                  Height="17"
-                                  Margin="8,0,0,0"
+                                  Width="{DynamicResource SukiListBoxItemCheckSize}"
+                                  Height="{DynamicResource SukiListBoxItemCheckSize}"
+                                  Margin="{DynamicResource SukiListBoxItemCheckMargin}"
                                   Data="{x:Static content:Icons.CircleCheck}"
                                   DockPanel.Dock="Right"
                                   Foreground="{DynamicResource SukiPrimaryColor}">

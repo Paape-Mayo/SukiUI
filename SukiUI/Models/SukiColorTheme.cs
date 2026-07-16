@@ -19,10 +19,14 @@ public record SukiColorTheme
     public Color Accent { get; }
 
     public IBrush AccentBrush => new SolidColorBrush(Accent);
-    
+
     public Color AccentDark { get; }
 
     public IBrush AccentDarkBrush => new SolidColorBrush(AccentDark);
+
+    public SukiThemePalette? LightPalette { get; init; }
+
+    public SukiThemePalette? DarkPalette { get; init; }
 
     // Used in shaders to save calculating them per-frame.
     internal Color BackgroundPrimary { get; }

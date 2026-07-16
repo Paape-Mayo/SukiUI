@@ -54,12 +54,12 @@
                                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                                             <ContentPresenter Margin="12,0,0,0"
                                                               Content="{TemplateBinding Title}"
-                                                              FontSize="17"
+                                                              FontSize="{DynamicResource SukiFontSizeSubtitle}"
                                                               FontWeight="{DynamicResource DefaultDemiBold}"
                                                               Foreground="{DynamicResource SukiText}">
                                                 <ContentPresenter.Styles>
                                                     <Style Selector="TextBlock">
-                                                        <Setter Property="FontSize" Value="16" />
+                                                        <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSubtitle}" />
                                                     </Style>
                                                 </ContentPresenter.Styles>
                                             </ContentPresenter>
@@ -80,7 +80,7 @@
                                                           TextWrapping="Wrap">
                                             <ContentPresenter.Styles>
                                                 <Style Selector="TextBlock">
-                                                    <Setter Property="FontSize" Value="14" />
+                                                    <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeLarge}" />
                                                 </Style>
                                             </ContentPresenter.Styles>
                                         </ContentPresenter>
