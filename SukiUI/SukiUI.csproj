@@ -5,6 +5,10 @@
     <IsTrimmable>true</IsTrimmable>
     <TargetFramework>net8.0</TargetFramework>
     <LangVersion>preview</LangVersion>
+    <!-- PACE fork: silence upstream nullability and member-hiding noise so the
+         solution warning count reflects PACE's own code. CS4014/IL2026 stay
+         visible; those flag real behavior. -->
+    <NoWarn>$(NoWarn);CS8600;CS8601;CS8602;CS8603;CS8604;CS8605;CS8618;CS8622;CS8625;CS8765;CS8767;CS0108</NoWarn>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>SukiUI</RootNamespace>
     <UserSecretsId>712f85e4-12d3-41b0-a417-5714a113666f</UserSecretsId>
