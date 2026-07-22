@@ -96,7 +96,7 @@
                                 <PathIcon x:Name="PART_Check" animations:VisibilityBehavior.HiddenScale="0.95"
                                           Data="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"
                                           Width="11" Height="11" Margin="3,2,0,0"
-                                          Foreground="White"
+                                          Foreground="{DynamicResource SukiPrimaryForeground}"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                          />
@@ -173,7 +173,7 @@
             <Setter Property="BorderThickness" Value="0" />
         </Style>
         <Style Selector="^[IsActive=True] /template/ TextBlock#PART_Number">
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryForeground}" />
         </Style>
         <Style Selector="^[IsActive=True] /template/ TextBlock#PART_Title">
             <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
@@ -201,7 +201,7 @@
             <Setter Property="animations:VisibilityBehavior.IsVisible" Value="True" />
         </Style>
         <Style Selector="^[IsCompleted=True][ShowCheckMark=False] /template/ TextBlock#PART_Number">
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryForeground}" />
         </Style>
 
         

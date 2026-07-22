@@ -256,7 +256,7 @@
                                   BorderBrush="{DynamicResource ThemeBorderMidBrush}"
                                   BorderThickness="0"
                                   CornerRadius="12,0,0,12">
-                            <TextBlock Foreground="White"
+                            <TextBlock Foreground="{DynamicResource SukiText}"
                                        FontWeight="SemiBold"
                                        Text="#"
                                        HorizontalAlignment="Center"
@@ -289,11 +289,11 @@
                               IsVisible="{TemplateBinding IsComponentTextInputVisible}">
                         <Panel HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                          <TextBlock Foreground="White"
+                          <TextBlock Foreground="{DynamicResource SukiText}"
                                      FontWeight="SemiBold"
                                      Text="R"
                                      IsVisible="{TemplateBinding ColorModel, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static controls:ColorModel.Rgba}, Mode=OneWay}" />
-                          <TextBlock Foreground="White"
+                          <TextBlock Foreground="{DynamicResource SukiText}"
                                      FontWeight="SemiBold"
                                      Text="H"
                                      IsVisible="{TemplateBinding ColorModel, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static controls:ColorModel.Hsva}, Mode=OneWay}" />
@@ -340,11 +340,11 @@
                               IsVisible="{TemplateBinding IsComponentTextInputVisible}">
                         <Panel HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                          <TextBlock Foreground="White"
+                          <TextBlock Foreground="{DynamicResource SukiText}"
                                      FontWeight="SemiBold"
                                      Text="G"
                                      IsVisible="{TemplateBinding ColorModel, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static controls:ColorModel.Rgba}, Mode=OneWay}" />
-                          <TextBlock Foreground="White"
+                          <TextBlock Foreground="{DynamicResource SukiText}"
                                      FontWeight="SemiBold"
                                      Text="S"
                                      IsVisible="{TemplateBinding ColorModel, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static controls:ColorModel.Hsva}, Mode=OneWay}" />
@@ -391,11 +391,11 @@
                               IsVisible="{TemplateBinding IsComponentTextInputVisible}">
                         <Panel HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                          <TextBlock Foreground="White"
+                          <TextBlock Foreground="{DynamicResource SukiText}"
                                      FontWeight="SemiBold"
                                      Text="B"
                                      IsVisible="{TemplateBinding ColorModel, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static controls:ColorModel.Rgba}, Mode=OneWay}" />
-                          <TextBlock Foreground="White"
+                          <TextBlock Foreground="{DynamicResource SukiText}"
                                      FontWeight="SemiBold"
                                      Text="V"
                                      IsVisible="{TemplateBinding ColorModel, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static controls:ColorModel.Hsva}, Mode=OneWay}" />
@@ -441,7 +441,7 @@
                               VerticalAlignment="Center"
                               IsEnabled="{TemplateBinding IsAlphaEnabled}">
                         <TextBlock x:Name="AlphaComponentTextBlock"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource SukiText}"
                                    FontWeight="SemiBold"
                                    Text="A"
                                    HorizontalAlignment="Center"

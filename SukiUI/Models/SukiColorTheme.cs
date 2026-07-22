@@ -1,5 +1,6 @@
 using System;
 using Avalonia.Media;
+using Avalonia.Styling;
 using SukiUI.Enums;
 
 namespace SukiUI.Models;
@@ -7,6 +8,13 @@ namespace SukiUI.Models;
 public record SukiColorTheme
 {
     public string DisplayName { get; }
+
+    /// <summary>
+    /// When set, selecting this theme also snaps the application's base <see cref="ThemeVariant"/>
+    /// to the given value. Themes that only make sense on one base (true-black, high-contrast)
+    /// use this so their palette is never applied over the wrong base. Null leaves the base as-is.
+    /// </summary>
+    public ThemeVariant? PreferredBaseTheme { get; init; }
 
     public Color Primary { get; }
 

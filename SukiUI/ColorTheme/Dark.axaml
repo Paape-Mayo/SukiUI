@@ -22,7 +22,11 @@
     <Color x:Key="SukiLowText">#caffffff</Color>
     <Color x:Key="SukiMuteText">#b4b4b4</Color>
     <Color x:Key="SukiDisabledText">#ca727272</Color>
-    
+    <!-- Foreground painted on top of SukiPrimaryColor fills (checkmarks, checked toggles, active step glyphs).
+         White works for every accent whose primary is dark enough; high-contrast themes with a light primary
+         (e.g. HighContrastDark's yellow) override this to a dark value via the palette. -->
+    <Color x:Key="SukiPrimaryForeground">White</Color>
+
     <Color x:Key="SukiLiquid1">#ffffff</Color>
     <Color x:Key="SukiLiquid2">#aaffffff</Color>
 

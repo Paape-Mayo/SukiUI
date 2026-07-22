@@ -112,15 +112,25 @@ public partial class SukiTheme : Styles
         ("SukiLightBackground", p => p.LightBackground),
         ("SukiCardBackground", p => p.CardBackground),
         ("SukiPopupBackground", p => p.PopupBackground),
+        ("SukiDialogBackground", p => p.DialogBackground),
+        ("SukiControlTouchBackground", p => p.ControlTouchBackground),
         ("SukiGlassCardBackground", p => p.GlassCardBackground),
         ("SukiGlassCardOpaqueBackground", p => p.GlassCardOpaqueBackground),
         ("SukiBorderBrush", p => p.BorderBrush),
         ("SukiControlBorderBrush", p => p.ControlBorderBrush),
         ("SukiMediumBorderBrush", p => p.MediumBorderBrush),
         ("SukiLightBorderBrush", p => p.LightBorderBrush),
+        ("SukiMenuBorderBrush", p => p.MenuBorderBrush),
+        ("GlassBorderBrush", p => p.GlassBorderBrush),
         ("SukiText", p => p.Text),
         ("SukiLowText", p => p.LowText),
         ("SukiMuteText", p => p.MuteText),
+        ("SukiDisabledText", p => p.DisabledText),
+        ("SukiPrimaryForeground", p => p.PrimaryForeground),
+        ("SukiSuccessColor", p => p.SuccessColor),
+        ("SukiWarningColor", p => p.WarningColor),
+        ("SukiDangerColor", p => p.DangerColor),
+        ("SukiInformationColor", p => p.InformationColor),
     };
 
     public SukiTheme()
@@ -445,6 +455,13 @@ public partial class SukiTheme : Styles
 
     private void SetColorTheme(SukiColorTheme colorTheme)
     {
+        // Single-base themes (true-black, high-contrast) declare a PreferredBaseTheme. Snap the base
+        // variant first so the palette below is both chosen for and applied over the correct base.
+        // Setting RequestedThemeVariant updates ActualThemeVariant synchronously on Application, so the
+        // opacity and palette lookups that follow observe the new base.
+        if (colorTheme.PreferredBaseTheme is { } preferred && _app.ActualThemeVariant != preferred)
+            _app.RequestedThemeVariant = preferred;
+
         SetColorWithOpacities("SukiPrimaryColor", colorTheme.Primary);
         SetResource("SukiPrimaryDarkColor", colorTheme.PrimaryDark);
         SetColorWithOpacities("SukiAccentColor", colorTheme.Accent);
@@ -469,6 +486,12 @@ public partial class SukiTheme : Styles
             else
                 _app.Resources.Remove(key);
         }
+
+        // Non-colour override: glass/acrylic fill opacity. Removing falls back to the base Light/Dark value.
+        if (palette?.GlassOpacity is { } glassOpacity)
+            _app.Resources["GlassOpacity"] = glassOpacity;
+        else
+            _app.Resources.Remove("GlassOpacity");
     }
 
     private void SetColorWithOpacities(string baseName, Color baseColor)
@@ -538,16 +561,67 @@ public partial class SukiTheme : Styles
     {
         var defaultThemes = new[]
         {
-            new DefaultSukiColorTheme(SukiColor.Orange,    Color.Parse("#d48806"), Color.Parse("#176CE8")),
-            new DefaultSukiColorTheme(SukiColor.Red,       Color.Parse("#D03A2F"), Color.Parse("#2FC5D0")),
-            new DefaultSukiColorTheme(SukiColor.Green,     Color.Parse("#537834"), Color.Parse("#B24DB0")),
-            new DefaultSukiColorTheme(SukiColor.Blue,      Color.Parse("#0A59F7"), Color.Parse("#F7A80A")),
-            new DefaultSukiColorTheme(SukiColor.Purple,    Color.Parse("#7B2FD0"), Color.Parse("#56D02F")),
-            new DefaultSukiColorTheme(SukiColor.Teal,      Color.Parse("#0E9AA7"), Color.Parse("#A7210E")),
-            new DefaultSukiColorTheme(SukiColor.Pink,      Color.Parse("#D9468B"), Color.Parse("#46D9A4")),
-            new DefaultSukiColorTheme(SukiColor.Yellow,    Color.Parse("#C4A616"), Color.Parse("#1674C4")),
-            new DefaultSukiColorTheme(SukiColor.Indigo,    Color.Parse("#6236C7"), Color.Parse("#8BC736")),
-            new DefaultSukiColorTheme(SukiColor.Grayscale, Color.Parse("#6B7280"), Color.Parse("#9CA3AF")),
+            new DefaultSukiColorTheme(SukiColor.Orange,    Color.Parse("#d48806"), Color.Parse("#176CE8"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#3a3024") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Red,       Color.Parse("#D03A2F"), Color.Parse("#2FC5D0"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#3c2e2a") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Green,     Color.Parse("#537834"), Color.Parse("#B24DB0"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#2e3826") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Blue,      Color.Parse("#0A59F7"), Color.Parse("#F7A80A"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#2a3240") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Purple,    Color.Parse("#7B2FD0"), Color.Parse("#56D02F"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#362d40") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Teal,      Color.Parse("#0E9AA7"), Color.Parse("#A7210E"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#263a3d") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Pink,      Color.Parse("#D9468B"), Color.Parse("#46D9A4"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#3c2c37") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Yellow,    Color.Parse("#C4A616"), Color.Parse("#1674C4"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#3a3623") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Indigo,    Color.Parse("#6236C7"), Color.Parse("#8BC736"))
+            {
+                DarkPalette = new SukiThemePalette { StrongBackground = Color.Parse("#2d283f") },
+            },
+            new DefaultSukiColorTheme(SukiColor.Grayscale, Color.Parse("#8a94a1"), Color.Parse("#b6bec9"))
+            {
+                PreferredBaseTheme = ThemeVariant.Dark,
+                DarkPalette = new SukiThemePalette
+                {
+                    Background             = Color.Parse("#26292e"),
+                    StrongBackground       = Color.Parse("#1e2024"),
+                    LightBackground        = Color.Parse("#31353b"),
+                    CardBackground         = Color.Parse("#2f333a"),
+                    PopupBackground        = Color.Parse("#282b30"),
+                    DialogBackground       = Color.Parse("#000000"),
+                    ControlTouchBackground = Color.Parse("#3a3f46"),
+                    GlassCardOpaqueBackground = Color.Parse("#31353b"),
+                    BorderBrush            = Color.Parse("#484d56"),
+                    ControlBorderBrush     = Color.Parse("#3a3f46"),
+                    MediumBorderBrush      = Color.Parse("#33373d"),
+                    LightBorderBrush       = Color.Parse("#2e3138"),
+                    MenuBorderBrush        = Color.Parse("#3a3f46"),
+                    GlassBorderBrush       = Color.Parse("#3d424b"),
+                    Text                   = Color.Parse("#eceef1"),
+                    LowText                = Color.Parse("#bcc1c8"),
+                    MuteText               = Color.Parse("#888e97"),
+                    DisabledText           = Color.Parse("#a07d838c"),
+                },
+            },
 
             new DefaultSukiColorTheme(SukiColor.Nord, Color.Parse("#5E81AC"), Color.Parse("#D08770"))
             {
@@ -802,6 +876,127 @@ public partial class SukiTheme : Styles
                     Text               = Color.Parse("#abb2bf"),
                     LowText            = Color.Parse("#9da5b4"),
                     MuteText           = Color.Parse("#5c6370"),
+                },
+            },
+
+            // Neutral dark preset: a clean, untinted dark with no accent cast.
+            new DefaultSukiColorTheme(SukiColor.Graphite, Color.Parse("#6b7686"), Color.Parse("#9aa4b2"))
+            {
+                PreferredBaseTheme = ThemeVariant.Dark,
+                DarkPalette = new SukiThemePalette
+                {
+                    Background             = Color.Parse("#1a1d21"),
+                    StrongBackground       = Color.Parse("#131519"),
+                    LightBackground        = Color.Parse("#23272d"),
+                    CardBackground         = Color.Parse("#202429"),
+                    PopupBackground        = Color.Parse("#1c2025"),
+                    DialogBackground       = Color.Parse("#000000"),
+                    ControlTouchBackground = Color.Parse("#2c3138"),
+                    GlassCardOpaqueBackground = Color.Parse("#23272d"),
+                    BorderBrush            = Color.Parse("#343a42"),
+                    ControlBorderBrush     = Color.Parse("#30353c"),
+                    MediumBorderBrush      = Color.Parse("#282c32"),
+                    LightBorderBrush       = Color.Parse("#23262b"),
+                    MenuBorderBrush        = Color.Parse("#2a2f36"),
+                    GlassBorderBrush       = Color.Parse("#2b3039"),
+                    Text                   = Color.Parse("#e8eaed"),
+                    LowText                = Color.Parse("#b2b8c0"),
+                    MuteText               = Color.Parse("#7d838c"),
+                    DisabledText           = Color.Parse("#a06f757d"),
+                },
+            },
+
+            // True-black / OLED: pure #000 ground, near-black elevations.
+            new DefaultSukiColorTheme(SukiColor.Obsidian, Color.Parse("#cfd6e0"), Color.Parse("#8f97a4"))
+            {
+                PreferredBaseTheme = ThemeVariant.Dark,
+                DarkPalette = new SukiThemePalette
+                {
+                    Background             = Color.Parse("#000000"),
+                    StrongBackground       = Color.Parse("#000000"),
+                    LightBackground        = Color.Parse("#0b0b0d"),
+                    CardBackground         = Color.Parse("#0f0f12"),
+                    PopupBackground        = Color.Parse("#050506"),
+                    DialogBackground       = Color.Parse("#000000"),
+                    ControlTouchBackground = Color.Parse("#17171a"),
+                    GlassCardOpaqueBackground = Color.Parse("#0f0f12"),
+                    BorderBrush            = Color.Parse("#2a2a2e"),
+                    ControlBorderBrush     = Color.Parse("#1c1c20"),
+                    MediumBorderBrush      = Color.Parse("#161618"),
+                    LightBorderBrush       = Color.Parse("#101012"),
+                    MenuBorderBrush        = Color.Parse("#1c1c20"),
+                    GlassBorderBrush       = Color.Parse("#26262b"),
+                    Text                   = Color.Parse("#ffffff"),
+                    LowText                = Color.Parse("#c6c6ca"),
+                    MuteText               = Color.Parse("#83838a"),
+                    DisabledText           = Color.Parse("#a06e6e73"),
+                },
+            },
+
+            // High contrast (dark): pure black surfaces, white borders, vivid accents, opaque glass.
+            new DefaultSukiColorTheme(SukiColor.HighContrastDark, Color.Parse("#ffe100"), Color.Parse("#33ddff"))
+            {
+                PreferredBaseTheme = ThemeVariant.Dark,
+                DarkPalette = new SukiThemePalette
+                {
+                    Background             = Color.Parse("#000000"),
+                    StrongBackground       = Color.Parse("#000000"),
+                    LightBackground        = Color.Parse("#000000"),
+                    CardBackground         = Color.Parse("#000000"),
+                    PopupBackground        = Color.Parse("#000000"),
+                    DialogBackground       = Color.Parse("#000000"),
+                    ControlTouchBackground = Color.Parse("#1a1a1a"),
+                    GlassCardBackground    = Color.Parse("#000000"),
+                    GlassCardOpaqueBackground = Color.Parse("#000000"),
+                    BorderBrush            = Color.Parse("#ffffff"),
+                    ControlBorderBrush     = Color.Parse("#ffffff"),
+                    MediumBorderBrush      = Color.Parse("#d9d9d9"),
+                    LightBorderBrush       = Color.Parse("#b0b0b0"),
+                    MenuBorderBrush        = Color.Parse("#ffffff"),
+                    GlassBorderBrush       = Color.Parse("#ffffff"),
+                    Text                   = Color.Parse("#ffffff"),
+                    LowText                = Color.Parse("#ffffff"),
+                    MuteText               = Color.Parse("#eaeaea"),
+                    DisabledText           = Color.Parse("#b0b0b0"),
+                    PrimaryForeground      = Color.Parse("#000000"),
+                    SuccessColor           = Color.Parse("#2ee66b"),
+                    WarningColor           = Color.Parse("#ffd21f"),
+                    DangerColor            = Color.Parse("#ff5b5b"),
+                    InformationColor       = Color.Parse("#33ddff"),
+                    GlassOpacity           = 1.0,
+                },
+            },
+
+            // High contrast (light): pure white surfaces, black borders, saturated accents.
+            new DefaultSukiColorTheme(SukiColor.HighContrastLight, Color.Parse("#0033cc"), Color.Parse("#8000ff"))
+            {
+                PreferredBaseTheme = ThemeVariant.Light,
+                LightPalette = new SukiThemePalette
+                {
+                    Background             = Color.Parse("#ffffff"),
+                    StrongBackground       = Color.Parse("#ffffff"),
+                    LightBackground        = Color.Parse("#ffffff"),
+                    CardBackground         = Color.Parse("#ffffff"),
+                    PopupBackground        = Color.Parse("#ffffff"),
+                    DialogBackground       = Color.Parse("#000000"),
+                    ControlTouchBackground = Color.Parse("#e6e6e6"),
+                    GlassCardBackground    = Color.Parse("#ffffff"),
+                    GlassCardOpaqueBackground = Color.Parse("#ffffff"),
+                    BorderBrush            = Color.Parse("#000000"),
+                    ControlBorderBrush     = Color.Parse("#000000"),
+                    MediumBorderBrush      = Color.Parse("#333333"),
+                    LightBorderBrush       = Color.Parse("#555555"),
+                    MenuBorderBrush        = Color.Parse("#000000"),
+                    GlassBorderBrush       = Color.Parse("#000000"),
+                    Text                   = Color.Parse("#000000"),
+                    LowText                = Color.Parse("#000000"),
+                    MuteText               = Color.Parse("#1a1a1a"),
+                    DisabledText           = Color.Parse("#595959"),
+                    SuccessColor           = Color.Parse("#067d06"),
+                    WarningColor           = Color.Parse("#8a4b00"),
+                    DangerColor            = Color.Parse("#b3000f"),
+                    InformationColor       = Color.Parse("#0033cc"),
+                    GlassOpacity           = 1.0,
                 },
             },
         };

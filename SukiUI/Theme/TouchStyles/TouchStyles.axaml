@@ -337,7 +337,7 @@
     </Style>
 
     <Style Selector="TabItem.VerticalMenu:selected /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="#edffffff" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryForeground}" />
     </Style>
 
     <Style Selector="TabControl.Menu[TabStripPlacement=Left]">
