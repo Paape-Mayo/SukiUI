@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=netstandard">
 
@@ -36,6 +36,11 @@
     <x:Double x:Key="SukiListBoxItemCheckSize">17</x:Double>
     <Thickness x:Key="SukiListBoxItemCheckMargin">8,0,0,0</Thickness>
 
+    <!-- What the ListBoxItem template insets its content by: SukiListBoxItemInnerPadding on both
+         sides, plus the right-docked selection check (SukiListBoxItemCheckSize +
+         SukiListBoxItemCheckMargin) on the right. A column header drawn above a ListBox has to
+         pad by this or it sits over the wrong controls, off by the width of the check. -->
+    <Thickness x:Key="SukiListBoxItemContentInset">8,0,33,0</Thickness>
     <!-- ComboBox -->
     <x:Double x:Key="SukiComboBoxMinHeight">32</x:Double>
     <Thickness x:Key="SukiComboBoxPadding">4,3,-4,3</Thickness>
