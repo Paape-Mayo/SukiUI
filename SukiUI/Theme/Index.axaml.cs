@@ -1,4 +1,4 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -116,6 +116,8 @@ public partial class SukiTheme : Styles
         ("SukiControlTouchBackground", p => p.ControlTouchBackground),
         ("SukiGlassCardBackground", p => p.GlassCardBackground),
         ("SukiGlassCardOpaqueBackground", p => p.GlassCardOpaqueBackground),
+        ("SukiContainerBackground", p => p.ContainerBackground),
+        ("SukiNestedContainerBackground", p => p.NestedContainerBackground),
         ("SukiBorderBrush", p => p.BorderBrush),
         ("SukiControlBorderBrush", p => p.ControlBorderBrush),
         ("SukiMediumBorderBrush", p => p.MediumBorderBrush),

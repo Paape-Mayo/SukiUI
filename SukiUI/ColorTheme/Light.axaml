@@ -11,6 +11,17 @@
     <Color x:Key="SukiControlTouchBackground">#f0f0f2</Color>
     <Color x:Key="SukiDialogBackground">Gray</Color>
 
+    <!-- Nested-container surfaces for a control that draws its own content BENEATH its item
+         containers (the link map's wire layer). A fully opaque fill would swallow the wires where
+         they cross into a device box and the wire would appear to stop at the border; a fully
+         transparent one, which is what shipped, leaves the containers reading as loose borders on
+         the page with no sense of what encloses what. These are deliberately alpha-blended: enough
+         fill to group, little enough that a wire crossing the box still reads.
+         Container is the outer level (a controller), Nested the inner (a module or sled), a touch
+         stronger so depth reads without another border. -->
+    <Color x:Key="SukiContainerBackground">#1f18181b</Color>
+    <Color x:Key="SukiNestedContainerBackground">#2e18181b</Color>
+
     <Color x:Key="SukiBorderBrush">#d4d4d8</Color>
     <Color x:Key="SukiControlBorderBrush">#c4c4c9</Color>
     <Color x:Key="SukiMediumBorderBrush">#e4e4e7</Color>

@@ -1,4 +1,4 @@
-using Avalonia.Media;
+﻿using Avalonia.Media;
 
 namespace SukiUI.Models;
 
@@ -16,6 +16,14 @@ public record SukiThemePalette
     public Color? ControlTouchBackground { get; init; }
     public Color? GlassCardBackground { get; init; }
     public Color? GlassCardOpaqueBackground { get; init; }
+
+    /// <summary>Fill for a container that groups other item containers. Alpha-blended by default so a
+    /// control drawing beneath its items (the link map's wire layer) still reads through it.</summary>
+    public Color? ContainerBackground { get; init; }
+
+    /// <summary>Fill for a container nested inside another (a module inside its host controller).
+    /// A touch stronger than <see cref="ContainerBackground"/> so depth reads without a second border.</summary>
+    public Color? NestedContainerBackground { get; init; }
     public Color? BorderBrush { get; init; }
     public Color? ControlBorderBrush { get; init; }
     public Color? MediumBorderBrush { get; init; }
