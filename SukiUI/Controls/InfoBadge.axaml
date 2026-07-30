@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:SukiUI.Controls"
+                    xmlns:colorTheme="clr-namespace:SukiUI.ColorTheme"
                     xmlns:converters="clr-namespace:SukiUI.Converters">
 
     <Design.PreviewWith>
@@ -46,6 +47,11 @@
     <converters:InfoBadgeOverflowConverter x:Key="InfoBadgeContentConverter" />
 
     <ControlTheme x:Key="{x:Type controls:InfoBadge}" TargetType="{x:Type controls:InfoBadge}">
+        <!--  Severity fill. Resolved here rather than in code-behind so it stays at Style
+              priority: a consumer's own Background= still wins, and the default value
+              actually paints (a Changed handler never fires for a value that never
+              changed, which left an unstyled badge with no fill at all).  -->
+        <Setter Property="Background" Value="{x:Static colorTheme:NotificationColor.InfoIconForeground}" />
         <Setter Property="CornerRadius" Value="{DynamicResource MediumCornerRadius}" />
         <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="ClipToBounds" Value="False" />
@@ -115,8 +121,7 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                IsVisible="{Binding !!Header, RelativeSource={RelativeSource TemplatedParent}}" />
+                                CornerRadius="7" />
                     </Grid>
                 </ControlTemplate>
             </Setter>
@@ -137,6 +142,19 @@
         <Style Selector="^[CornerPosition=BottomRight] /template/ Border#BadgeBorder">
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+
+        <!--  Severity. Information is the Background setter above, so it needs no block here.
+              Both templates bind Background to the TemplatedParent, so these apply equally to
+              the text badge and the dot.  -->
+        <Style Selector="^[Appearance=Success]">
+            <Setter Property="Background" Value="{x:Static colorTheme:NotificationColor.SuccessIconForeground}" />
+        </Style>
+        <Style Selector="^[Appearance=Warning]">
+            <Setter Property="Background" Value="{x:Static colorTheme:NotificationColor.WarningIconForeground}" />
+        </Style>
+        <Style Selector="^[Appearance=Error]">
+            <Setter Property="Background" Value="{x:Static colorTheme:NotificationColor.ErrorIconForeground}" />
         </Style>
     </ControlTheme>
 </ResourceDictionary>

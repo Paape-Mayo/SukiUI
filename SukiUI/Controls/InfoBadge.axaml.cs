@@ -28,10 +28,7 @@ public class InfoBadge : HeaderedContentControl
     public static readonly StyledProperty<bool> IsDotProperty = AvaloniaProperty.Register<InfoBadge, bool>(nameof(IsDot), false);
     public bool IsDot {
         get => GetValue(IsDotProperty);
-        set {
-            UpdateBadgePosition();
-            SetValue(IsDotProperty, value);
-        }
+        set => SetValue(IsDotProperty, value);
     }
 
     public static readonly StyledProperty<int> OverflowProperty = AvaloniaProperty.Register<InfoBadge, int>(nameof(Overflow));
@@ -42,10 +39,16 @@ public class InfoBadge : HeaderedContentControl
 
     static InfoBadge()
     {
-        AppearanceProperty.Changed.AddClassHandler<InfoBadge>((badge, e) => {
-            badge.UpdateAppearance((NotificationType)e.NewValue!);
-        });
+        // Appearance is resolved by the ControlTheme's [Appearance=...] selectors rather
+        // than by writing Background here. A code-behind write lands at LocalValue
+        // priority, which permanently outranks both the theme and any Background the
+        // consumer sets; it also never ran for the default value, because Avalonia only
+        // raises Changed on an effective-value change, so an unstyled badge drew no fill.
         HeaderProperty.Changed.AddClassHandler<InfoBadge>((badge, _) => badge.UpdateBadgePosition());
+
+        // Must be a static handler, not the CLR setter: property setters are bypassed
+        // whenever a Style, a Binding or SetValue supplies the value.
+        IsDotProperty.Changed.AddClassHandler<InfoBadge>((badge, _) => badge.UpdateBadgePosition());
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -64,17 +67,6 @@ public class InfoBadge : HeaderedContentControl
     {
         UpdateBadgePosition();
         return base.ArrangeOverride(finalSize);
-    }
-
-    private void UpdateAppearance(NotificationType value)
-    {
-        Background = value switch {
-            NotificationType.Information => NotificationColor.InfoIconForeground,
-            NotificationType.Success => NotificationColor.SuccessIconForeground,
-            NotificationType.Warning => NotificationColor.WarningIconForeground,
-            NotificationType.Error => NotificationColor.ErrorIconForeground,
-            _ => NotificationColor.InfoIconForeground
-        };
     }
 
     private void UpdateBadgePosition()
