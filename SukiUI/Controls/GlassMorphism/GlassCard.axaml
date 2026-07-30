@@ -154,6 +154,54 @@
         <Style Selector="^[IsVisible=False] /template/ Panel#RootPanel">
             <Setter Property="Opacity" Value="0" />
         </Style>
+
+        <!--
+            Elevation and hover lift. Everything below is strictly additive and fully gated:
+            Elevation=None and IsHoverLifted=False match no selector here, so the several
+            hundred cards already in the tree (including the ones inside SukiUI's own
+            CheckBox, ComboBox, ListBoxItem, GroupBox and dialog templates) are untouched.
+            The absence of a Setter is what guarantees that, not a Setter restoring a value.
+
+            PART_ClipBorder hosts the shadow because it already carries the card's
+            CornerRadius, so the shadow follows the rounded outline.
+        -->
+        <Style Selector="^[Elevation=Low] /template/ Border#PART_ClipBorder">
+            <Setter Property="BoxShadow" Value="{DynamicResource SukiLowShadow}" />
+        </Style>
+        <Style Selector="^[Elevation=Medium] /template/ Border#PART_ClipBorder">
+            <Setter Property="BoxShadow" Value="{DynamicResource SukiSmallPopupShadow}" />
+        </Style>
+        <Style Selector="^[Elevation=High] /template/ Border#PART_ClipBorder">
+            <Setter Property="BoxShadow" Value="{DynamicResource SukiPopupShadow}" />
+        </Style>
+
+        <!--  SukiBigPopupShadow stays reserved for dialogs so a card never out-elevates a modal.  -->
+
+        <Style Selector="^[IsHoverLifted=True]">
+            <Setter Property="RenderTransform" Value="none" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.12" Easing="QuadraticEaseOut" />
+                </Transitions>
+            </Setter>
+        </Style>
+        <Style Selector="^[IsHoverLifted=True]:pointerover">
+            <Setter Property="RenderTransform" Value="translateY(-2px)" />
+        </Style>
+        <Style Selector="^[IsHoverLifted=True]:pointerdown">
+            <Setter Property="RenderTransform" Value="translateY(0px)" />
+        </Style>
+        <Style Selector="^[IsHoverLifted=True]:pointerover /template/ Border#PART_ClipBorder">
+            <Setter Property="BoxShadow" Value="{DynamicResource SukiSmallPopupShadow}" />
+        </Style>
+        <!--  Declared after the block above so a lifted card that already rests at Medium or
+              High still gains depth on hover rather than appearing to flatten.  -->
+        <Style Selector="^[IsHoverLifted=True][Elevation=Medium]:pointerover /template/ Border#PART_ClipBorder">
+            <Setter Property="BoxShadow" Value="{DynamicResource SukiPopupShadow}" />
+        </Style>
+        <Style Selector="^[IsHoverLifted=True][Elevation=High]:pointerover /template/ Border#PART_ClipBorder">
+            <Setter Property="BoxShadow" Value="{DynamicResource SukiPopupShadow}" />
+        </Style>
     </ControlTheme>
     <ControlTheme x:Key="{x:Type suki:GlassCard}"
                   BasedOn="{StaticResource SukiGlassCardStyle}"

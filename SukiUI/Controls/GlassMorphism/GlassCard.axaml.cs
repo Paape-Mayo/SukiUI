@@ -10,6 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
+using SukiUI.Enums;
 using SukiUI.Helpers;
 
 namespace SukiUI.Controls;
@@ -61,6 +62,37 @@ public class GlassCard : ContentControl
         set => SetValue(IsInteractiveProperty, value);
     }
 
+    /// <summary>
+    /// Resting drop shadow. Defaults to <see cref="GlassCardElevation.None"/>, which is
+    /// exactly today's appearance for every existing card.
+    /// </summary>
+    public static readonly StyledProperty<GlassCardElevation> ElevationProperty =
+        AvaloniaProperty.Register<GlassCard, GlassCardElevation>(nameof(Elevation), GlassCardElevation.None);
+
+    public GlassCardElevation Elevation
+    {
+        get => GetValue(ElevationProperty);
+        set => SetValue(ElevationProperty, value);
+    }
+
+    /// <summary>
+    /// Opt in to a hover lift: the card translates up slightly and gains a shadow while the
+    /// pointer is over it, settling back on press.
+    ///
+    /// <para>Deliberately a separate flag rather than a behaviour keyed on
+    /// <see cref="IsInteractive"/>. IsInteractive is already set inside four SukiUI control
+    /// templates (CheckBox, RadioButton, the Shadcn styles, TouchNavigationStack), so keying
+    /// the lift on it would make every checkbox and radio button in the app jump on hover.</para>
+    /// </summary>
+    public static readonly StyledProperty<bool> IsHoverLiftedProperty =
+        AvaloniaProperty.Register<GlassCard, bool>(nameof(IsHoverLifted), false);
+
+    public bool IsHoverLifted
+    {
+        get => GetValue(IsHoverLiftedProperty);
+        set => SetValue(IsHoverLiftedProperty, value);
+    }
+
     public static readonly StyledProperty<ICommand?> CommandProperty = AvaloniaProperty.Register<GlassCard, ICommand?>(nameof(Command));
 
     public ICommand? Command
@@ -107,7 +139,9 @@ public class GlassCard : ContentControl
             var b2d = e.NameScope.Get<Border>("PART_BorderCardDark");
             b2d.Loaded += (sender, args) =>
             {
-                var v = ElementComposition.GetElementVisual(b2);
+                // b2d, not b2: animating the light border a second time left the dark
+                // border with no size animation at all.
+                var v = ElementComposition.GetElementVisual(b2d);
                 CompositionAnimationHelper.MakeSizeAnimated(v);
             };
 
