@@ -1,22 +1,27 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=netstandard">
 
     <!-- Global -->
-    <CornerRadius x:Key="SmallCornerRadius">3</CornerRadius>
-    <CornerRadius x:Key="MediumCornerRadius">5</CornerRadius>
+    <CornerRadius x:Key="SmallCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="MediumCornerRadius">8</CornerRadius>
     <system:TimeSpan x:Key="LongAnimationDuration">0:0:0.2</system:TimeSpan>
     <system:TimeSpan x:Key="MediumAnimationDuration">0:0:0.15</system:TimeSpan>
     <system:TimeSpan x:Key="ShortAnimationDuration">0:0:0.08</system:TimeSpan>
 
     <!-- Button -->
-    <Thickness x:Key="SukiButtonPadding">4,1</Thickness>
+    <!-- Was 4,1 against a normal of 2,2, the only key in the set whose compact value was LARGER
+         than its normal one: switching to compact made every default-padded button wider. 2,1
+         removes the inversion without touching normal, which 71 buttons in PACE rely on.
+         Whether normal 2,2 is a sensible default for a button at all is a separate question,
+         and changing it is a visible change to those 71. -->
+    <Thickness x:Key="SukiButtonPadding">2,1</Thickness>
     <!-- Horizontal only. See the note in DensityNormal.axaml. -->
     <Thickness x:Key="SukiButtonMargin">2,0</Thickness>
     <Thickness x:Key="SukiButtonBorderThickness">1</Thickness>
     <Thickness x:Key="SukiButtonSmallPadding">4,1</Thickness>
     <Thickness x:Key="SukiButtonLargePadding">10,3</Thickness>
-    <CornerRadius x:Key="SukiButtonLargeCornerRadius">3</CornerRadius>
+    <CornerRadius x:Key="SukiButtonLargeCornerRadius">6</CornerRadius>
     <x:Double x:Key="SukiButtonLargeFontSize">12</x:Double>
     <x:Double x:Key="SukiButtonIconSize">24</x:Double>
     <x:Double x:Key="SukiButtonIconFontSize">12</x:Double>
@@ -37,7 +42,7 @@
     <!-- ListBoxItem -->
     <Thickness x:Key="SukiListBoxItemPadding">2,1</Thickness>
     <Thickness x:Key="SukiListBoxItemInnerPadding">4,2</Thickness>
-    <CornerRadius x:Key="SukiListBoxItemCornerRadius">2</CornerRadius>
+    <CornerRadius x:Key="SukiListBoxItemCornerRadius">5</CornerRadius>
     <x:Double x:Key="SukiListBoxItemCheckSize">12</x:Double>
     <Thickness x:Key="SukiListBoxItemCheckMargin">4,0,0,0</Thickness>
 
@@ -55,7 +60,7 @@
     <Thickness x:Key="SukiComboBoxItemPadding">0</Thickness>
     <Thickness x:Key="SukiComboBoxItemBorderMargin">1,0,1,1</Thickness>
     <Thickness x:Key="SukiComboBoxItemBorderPadding">2,0</Thickness>
-    <CornerRadius x:Key="SukiComboBoxItemCornerRadius">2</CornerRadius>
+    <CornerRadius x:Key="SukiComboBoxItemCornerRadius">3</CornerRadius>
     <x:Double x:Key="SukiComboBoxItemCheckSize">10</x:Double>
     <Thickness x:Key="SukiComboBoxItemContentPadding">2,1</Thickness>
 
@@ -73,7 +78,7 @@
     <x:Double x:Key="SukiMenuHeight">26</x:Double>
     <Thickness x:Key="SukiMenuItemPadding">6,0</Thickness>
     <Thickness x:Key="SukiMenuItemMargin">2,2</Thickness>
-    <CornerRadius x:Key="SukiMenuItemCornerRadius">2</CornerRadius>
+    <CornerRadius x:Key="SukiMenuItemCornerRadius">4</CornerRadius>
 
     <!-- MenuItem Popup -->
     <Thickness x:Key="SukiMenuItemPopupMargin">8,4,4,4</Thickness>
@@ -122,17 +127,18 @@
     <Thickness x:Key="SukiH3Margin">0,2,0,3</Thickness>
     <x:Double x:Key="SukiH4FontSize">12</x:Double>
     <Thickness x:Key="SukiH4Margin">0,1,0,2</Thickness>
-    <x:Double x:Key="SukiH5FontSize">9.5</x:Double>
+    <!-- Was 9.5, below body and below the rasterisation floor. See DensityNormal.axaml. -->
+    <x:Double x:Key="SukiH5FontSize">12</x:Double>
 
     <!-- SukiWindow -->
     <Thickness x:Key="SukiWindowTitleBarMargin">6,4</Thickness>
     <x:Double x:Key="SukiWindowControlButtonSize">20</x:Double>
-    <CornerRadius x:Key="SukiWindowControlButtonCornerRadius">3</CornerRadius>
+    <CornerRadius x:Key="SukiWindowControlButtonCornerRadius">16</CornerRadius>
 
     <!-- Tooltip -->
     <Thickness x:Key="SukiTooltipPadding">6,3</Thickness>
     <Thickness x:Key="SukiTooltipMargin">3</Thickness>
-    <CornerRadius x:Key="SukiTooltipCornerRadius">3</CornerRadius>
+    <CornerRadius x:Key="SukiTooltipCornerRadius">6</CornerRadius>
 
     <!-- ContextMenu -->
     <CornerRadius x:Key="SukiContextMenuCornerRadius">3</CornerRadius>

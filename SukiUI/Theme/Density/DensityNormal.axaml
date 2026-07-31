@@ -142,7 +142,10 @@
     <Thickness x:Key="SukiH3Margin">0,5,0,5</Thickness>
     <x:Double x:Key="SukiH4FontSize">16</x:Double>
     <Thickness x:Key="SukiH4Margin">0,3,0,5</Thickness>
-    <x:Double x:Key="SukiH5FontSize">10</x:Double>
+    <!-- Was 10, which is below SukiFontSizeBody of 12. A heading smaller than the paragraph it
+         introduces is not a heading; combined with the missing DemiBold it read as de-emphasised
+         fine print. One step above body, with weight doing the rest. -->
+    <x:Double x:Key="SukiH5FontSize">13</x:Double>
 
     <!-- SukiWindow -->
     <Thickness x:Key="SukiWindowTitleBarMargin">12,9</Thickness>

@@ -146,9 +146,21 @@
                 </Transitions>
             </Setter>
         </Style>
-        <!-- Compact mode: counteract compact padding (30,10,15,10) -->
+        <!-- The highlight is drawn inside PART_Border, so its margin has to negate that
+             border's padding exactly or the selection pill does not line up with the row.
+             There are three paddings in play and each needs its own negation. Keep these in
+             step with the PART_Border padding rules further down; a mismatch here is visible
+             as a pill that overhangs or undercuts the row, not as anything that fails a build.
+
+             This block was -30,-10,-15,-10 against a .Compact padding of 30,5,15,5, so the
+             pill bled 5px above and below every compact nav row, and the icon-rail case had no
+             rule at all and inherited the same -10 against a padding of 3, bleeding 7px. -->
         <Style Selector="^.Compact /template/ Border#PART_ItemHighlight">
-            <Setter Property="Margin" Value="-30,-10,-15,-10" />
+            <Setter Property="Margin" Value="-30,-5,-15,-5" />
+        </Style>
+
+        <Style Selector="^.Compact[IsTopMenuExpanded=False] /template/ Border#PART_ItemHighlight">
+            <Setter Property="Margin" Value="-30,-3,-15,-3" />
         </Style>
 
         <Style Selector="^[IsTopMenuExpanded=False] /template/ ToggleButton#PART_ExpandedButton">

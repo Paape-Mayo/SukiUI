@@ -54,11 +54,18 @@
 	<ControlTheme x:Key="SukiTextBlockStyle" TargetType="TextBlock">
 		<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeBody}" />
 
+		<!-- h4 and h5 carry DemiBold like h1 to h3 do. Without it they were the only headings
+		     distinguished by size alone, which does not survive compact: SukiH4FontSize is 12
+		     there, identical to body, so an h4 was literally indistinguishable from the
+		     paragraph under it. Weight is the right carrier for heading rank in a dense UI,
+		     because it costs no vertical space. -->
 		<Style Selector="^.h5">
+			<Setter Property="FontWeight" Value="DemiBold" />
 			<Setter Property="FontSize" Value="{DynamicResource SukiH5FontSize}" />
 		</Style>
 		<Style Selector="^.h4">
 			<Setter Property="Margin" Value="{DynamicResource SukiH4Margin}" />
+			<Setter Property="FontWeight" Value="DemiBold" />
 			<Setter Property="FontSize" Value="{DynamicResource SukiH4FontSize}" />
 		</Style>
 		<Style Selector="^.h3">

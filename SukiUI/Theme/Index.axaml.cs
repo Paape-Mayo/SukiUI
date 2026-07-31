@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -66,16 +66,6 @@ public partial class SukiTheme : Styles
     /// Currently active font scale factor (1.0 = 100%).
     /// </summary>
     public double ActiveFontScale { get; private set; } = 1.0;
-
-    /// <summary>
-    /// Called whenever the spacing scale factor is changed.
-    /// </summary>
-    public Action<double>? OnSpacingScaleChanged { get; set; }
-
-    /// <summary>
-    /// Currently active spacing scale factor (1.0 = 100%).
-    /// </summary>
-    public double ActiveSpacingScale { get; private set; } = 1.0;
 
     /// <summary>
     /// Called whenever the application's <see cref="ThemeVariant"/> is changed.
@@ -261,10 +251,6 @@ public partial class SukiTheme : Styles
         // Re-apply font scale on top of new density base values
         if (Math.Abs(ActiveFontScale - 1.0) > 0.001)
             ChangeFontScale(ActiveFontScale);
-
-        // Re-apply spacing scale on top of new density base values
-        if (Math.Abs(ActiveSpacingScale - 1.0) > 0.001)
-            ChangeSpacingScale(ActiveSpacingScale);
     }
 
     /// <summary>
@@ -338,123 +324,22 @@ public partial class SukiTheme : Styles
         OnFontScaleChanged?.Invoke(scale);
     }
 
-    // All spacing resource keys (Double type) that should be scaled.
-    private static readonly (string Key, double NormalBase, double CompactBase)[] SpacingDoubleTokens =
-    {
-        ("SukiSpacing2",   2,  1),
-        ("SukiSpacing3",   3,  2),
-        ("SukiSpacing4",   4,  2),
-        ("SukiSpacing5",   5,  3),
-        ("SukiSpacing6",   6,  3),
-        ("SukiSpacing8",   8,  4),
-        ("SukiSpacing10", 10,  6),
-        ("SukiSpacing12", 12,  6),
-        ("SukiSpacing15", 15,  8),
-        ("SukiSpacing16", 16,  8),
-        ("SukiSpacing20", 20, 12),
-        ("SukiSpacing24", 24, 12),
-    };
-
-    // All spacing Thickness resources that should be scaled.
-    // Each entry: (key, normal values [L,T,R,B], compact values [L,T,R,B]).
-    private static readonly (string Key, double[] Normal, double[] Compact)[] SpacingThicknessTokens =
-    {
-        // Uniform
-        ("SukiThickness2",  new double[]{2,2,2,2},       new double[]{1,1,1,1}),
-        ("SukiThickness3",  new double[]{3,3,3,3},       new double[]{2,2,2,2}),
-        ("SukiThickness4",  new double[]{4,4,4,4},       new double[]{2,2,2,2}),
-        ("SukiThickness5",  new double[]{5,5,5,5},       new double[]{3,3,3,3}),
-        ("SukiThickness6",  new double[]{6,6,6,6},       new double[]{3,3,3,3}),
-        ("SukiThickness8",  new double[]{8,8,8,8},       new double[]{4,4,4,4}),
-        ("SukiThickness10", new double[]{10,10,10,10},   new double[]{6,6,6,6}),
-        ("SukiThickness12", new double[]{12,12,12,12},   new double[]{6,6,6,6}),
-        ("SukiThickness15", new double[]{15,15,15,15},   new double[]{8,8,8,8}),
-        ("SukiThickness16", new double[]{16,16,16,16},   new double[]{8,8,8,8}),
-        ("SukiThickness20", new double[]{20,20,20,20},   new double[]{12,12,12,12}),
-        ("SukiThickness24", new double[]{24,24,24,24},   new double[]{12,12,12,12}),
-        ("SukiThickness25", new double[]{25,25,25,25},   new double[]{14,14,14,14}),
-        ("SukiThickness30", new double[]{30,30,30,30},   new double[]{16,16,16,16}),
-        ("SukiThickness40", new double[]{40,40,40,40},   new double[]{20,20,20,20}),
-        // Asymmetric paddings
-        ("SukiPaddingMicro",       new double[]{2,0,2,0},       new double[]{1,0,1,0}),
-        ("SukiPaddingTinyBtn",     new double[]{3,1,3,1},       new double[]{2,1,2,1}),
-        ("SukiPaddingTag",         new double[]{4,1,4,1},       new double[]{2,1,2,1}),
-        ("SukiPaddingXSmall",      new double[]{4,2,4,2},       new double[]{2,1,2,1}),
-        ("SukiPaddingXSmallBorder",new double[]{4,3,4,3},       new double[]{2,2,2,2}),
-        ("SukiPaddingSmall",       new double[]{6,2,6,2},       new double[]{3,1,3,1}),
-        ("SukiPaddingSmallBorder", new double[]{6,3,6,3},       new double[]{3,2,3,2}),
-        ("SukiPaddingSmallBtn",    new double[]{6,4,6,4},       new double[]{3,2,3,2}),
-        ("SukiPaddingButton",      new double[]{8,4,8,4},       new double[]{4,2,4,2}),
-        ("SukiPaddingButtonSlim",  new double[]{8,2,8,2},       new double[]{4,1,4,1}),
-        ("SukiPaddingBorder",      new double[]{8,6,8,6},       new double[]{4,3,4,3}),
-        ("SukiPaddingButtonLg",    new double[]{12,6,12,6},     new double[]{6,3,6,3}),
-        ("SukiPaddingContent",     new double[]{12,8,12,8},     new double[]{6,4,6,4}),
-        ("SukiPaddingSection",     new double[]{16,12,16,12},   new double[]{8,6,8,6}),
-        ("SukiPaddingAction",      new double[]{16,8,16,8},     new double[]{8,4,8,4}),
-        ("SukiPaddingDialog",      new double[]{20,15,20,15},   new double[]{10,8,10,8}),
-        ("SukiPaddingHero",        new double[]{24,16,24,16},   new double[]{12,8,12,8}),
-        ("SukiPaddingCardLg",      new double[]{20,10,20,20},   new double[]{10,6,10,10}),
-        ("SukiPaddingCardAlt",     new double[]{8,10,8,8},      new double[]{4,6,4,4}),
-        ("SukiPaddingStack55",     new double[]{5,5,5,5},       new double[]{3,3,3,3}),
-        // Common margins
-        ("SukiMarginBottom2",  new double[]{0,0,0,2},   new double[]{0,0,0,1}),
-        ("SukiMarginBottom3",  new double[]{0,0,0,3},   new double[]{0,0,0,2}),
-        ("SukiMarginBottom8",  new double[]{0,0,0,8},   new double[]{0,0,0,4}),
-        ("SukiMarginBottom10", new double[]{0,0,0,10},  new double[]{0,0,0,6}),
-        ("SukiMarginTop2",     new double[]{0,2,0,0},   new double[]{0,1,0,0}),
-        ("SukiMarginTop4",     new double[]{0,4,0,0},   new double[]{0,2,0,0}),
-        ("SukiMarginTop8",     new double[]{0,8,0,0},   new double[]{0,4,0,0}),
-        ("SukiMarginVert2",    new double[]{0,2,0,2},   new double[]{0,1,0,1}),
-        ("SukiMarginVert4",    new double[]{0,4,0,4},   new double[]{0,2,0,2}),
-        ("SukiMarginVert8",    new double[]{0,8,0,8},   new double[]{0,4,0,4}),
-        ("SukiMarginLeft4",    new double[]{4,0,0,0},   new double[]{2,0,0,0}),
-        ("SukiMarginLeft8",    new double[]{8,0,0,0},   new double[]{4,0,0,0}),
-        ("SukiMarginLeft10",   new double[]{10,0,0,0},  new double[]{6,0,0,0}),
-        ("SukiMarginLeft20",   new double[]{20,0,0,0},  new double[]{12,0,0,0}),
-        ("SukiMarginHoriz2",   new double[]{2,0,2,0},   new double[]{1,0,1,0}),
-        ("SukiMarginHoriz4",   new double[]{4,0,4,0},   new double[]{2,0,2,0}),
-        ("SukiMarginHoriz8",   new double[]{8,0,8,0},   new double[]{4,0,4,0}),
-        ("SukiMarginRight2",   new double[]{0,0,2,0},   new double[]{0,0,1,0}),
-        ("SukiMarginRight4",   new double[]{0,0,4,0},   new double[]{0,0,2,0}),
-        ("SukiMarginRight6",   new double[]{0,0,6,0},   new double[]{0,0,3,0}),
-        ("SukiMarginRight8",   new double[]{0,0,8,0},   new double[]{0,0,4,0}),
-        ("SukiMarginLeft6",    new double[]{6,0,0,0},   new double[]{3,0,0,0}),
-        ("SukiMarginHoriz6",   new double[]{6,0,6,0},   new double[]{3,0,3,0}),
-        ("SukiMarginTop6",     new double[]{0,6,0,0},   new double[]{0,3,0,0}),
-        ("SukiMarginTop12",    new double[]{0,12,0,0},  new double[]{0,6,0,0}),
-        ("SukiMarginBottom4",  new double[]{0,0,0,4},   new double[]{0,0,0,2}),
-        ("SukiMarginBottom6",  new double[]{0,0,0,6},   new double[]{0,0,0,3}),
-        ("SukiMarginBottom12", new double[]{0,0,0,12},  new double[]{0,0,0,6}),
-    };
-
-    /// <summary>
-    /// Changes the spacing scale factor. All spacing values are scaled proportionally.
-    /// </summary>
-    /// <param name="scale">Scale factor where 1.0 = 100%. Clamped to [0.5, 2.0].</param>
-    public void ChangeSpacingScale(double scale)
-    {
-        scale = scale < 0.5 ? 0.5 : scale > 2.0 ? 2.0 : scale;
-
-        foreach (var (key, normalBase, compactBase) in SpacingDoubleTokens)
-        {
-            var baseValue = ActiveDensity == SukiDensity.Compact ? compactBase : normalBase;
-            _app.Resources[key] = Math.Round(baseValue * scale, 1);
-        }
-
-        foreach (var (key, normal, compact) in SpacingThicknessTokens)
-        {
-            var b = ActiveDensity == SukiDensity.Compact ? compact : normal;
-            _app.Resources[key] = new Thickness(
-                Math.Round(b[0] * scale, 1),
-                Math.Round(b[1] * scale, 1),
-                Math.Round(b[2] * scale, 1),
-                Math.Round(b[3] * scale, 1));
-        }
-
-        ActiveSpacingScale = scale;
-        OnSpacingScaleChanged?.Invoke(scale);
-    }
-
+    // ChangeSpacingScale and its two mirror arrays were removed here.
+    //
+    // The method had exactly one call site, inside ChangeDensity, guarded by a condition only
+    // it could satisfy, and PACE never called it. Worse, it only ever covered 86 of the 165
+    // density keys: the 79 it missed were the control-geometry layer (SukiTextBoxMinHeight,
+    // SukiGlassCardPadding, SukiButtonPadding, the DataGrid and TreeViewItem families) that a
+    // caller wiring up a spacing slider would reasonably assume were included. Half a
+    // mechanism is worse than none, because the missing half is invisible until it ships.
+    //
+    // The arrays were also a second source of truth for ~64 keys with nothing keeping them in
+    // step with the dictionaries. Deleting them removes that drift surface outright; only
+    // FontSizeTokens above still mirrors, and that one is load-bearing because ChangeFontScale
+    // is live and needs an unscaled base to multiply.
+    //
+    // If a spacing slider is ever wanted, do not restore this shape. Derive the bases from the
+    // loaded density dictionary on the density change, so there is one source of truth.
     private void UpdateFlowDirectionResources(bool rightToLeft)
     {
         var primary = rightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
