@@ -184,7 +184,24 @@
     <Thickness x:Key="SukiSideMenuItemMargin">10,1</Thickness>
     <x:Double x:Key="SukiSideMenuItemIconSize">18</x:Double>
 
-    <!-- General Spacing Scale (Double, for Spacing/RowSpacing/ColumnSpacing) -->
+    <!-- General Spacing Scale (Double, for Spacing/RowSpacing/ColumnSpacing)
+
+         These tiers collide on purpose. Twelve normal steps map onto seven distinct compact
+         values: 3 and 4 both become 2, 5 and 6 both 3, 10 and 12 both 6, 15 and 16 both 8, and
+         20 and 24 both 12. That reads as a defect, and it was reported as one, so here is why it
+         stays.
+
+         Separating them again means raising the upper tiers, because the lower ones are already
+         at 1 and 2 and cannot go lower. Raising the upper tiers makes compact looser, and gaps
+         being too large in compact is the complaint this whole effort started from. The tier
+         count is an abstraction; the pixels are what a user sees. Density wins.
+
+         The practical cost is small and worth naming: choosing SukiSpacing12 over SukiSpacing10
+         reads as deliberate intent at the call site and produces an identical 6px here. If you
+         need those two to differ, change the value rather than adding a tier, and check what it
+         does to the dense views (ControllerLineView, TypeAttacherView, XbkExplorerView) before
+         and after. The SukiMargin family, by contrast, keeps all 17 of its tiers distinct and is
+         the model to follow where separation is actually free. -->
     <x:Double x:Key="SukiSpacing2">1</x:Double>
     <x:Double x:Key="SukiSpacing3">2</x:Double>
     <x:Double x:Key="SukiSpacing4">2</x:Double>
