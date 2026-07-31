@@ -141,7 +141,10 @@
 
     <Style Selector="DataGridRow">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="{DynamicResource SukiDataGridRowPadding}" />
+        <!-- No Padding setter: DataGridRow derives from TemplatedControl, which does not apply
+             Padding on its own, and the template below never binds it. What actually sets row
+             height is BackgroundRectangle's SukiDataGridRowBgPadding. -->
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <ControlTemplate>
                 <DataGridFrozenGrid Name="PART_Root"

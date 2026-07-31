@@ -69,7 +69,15 @@
     <!-- DataGrid -->
     <x:Double x:Key="SukiDataGridCellFontSize">14</x:Double>
     <Thickness x:Key="SukiDataGridHeaderPadding">6</Thickness>
-    <Thickness x:Key="SukiDataGridRowPadding">12</Thickness>
+    <!-- Asymmetric header padding: less on the right so the text sits close to the column
+         boundary and the right-anchored sort arrow has room. PACE overrides the header padding
+         app-wide in src/Assets/DataGridStyles.axaml, and a plain Style setter outranks a
+         ControlTheme setter, so SukiDataGridHeaderPadding above never reached a header. This is
+         the key that override reads, which puts the override back under density control. -->
+    <Thickness x:Key="SukiDataGridHeaderPaddingAsym">6,4,2,4</Thickness>
+    <!-- SukiDataGridRowPadding removed. It was set on DataGridRow, whose template never binds
+         Padding, so it did nothing. Row height is set by SukiDataGridRowBgPadding below, on
+         BackgroundRectangle. -->
     <Thickness x:Key="SukiDataGridRowBgPadding">8</Thickness>
     <Thickness x:Key="SukiDataGridCellMargin">3,0,0,0</Thickness>
     <x:Double x:Key="SukiDataGridHeaderBorderThickness">1.5</x:Double>
@@ -177,6 +185,20 @@
          pair so a radio and a checkbox in the same options list share a baseline. -->
     <x:Double x:Key="SukiRadioButtonSize">20</x:Double>
     <x:Double x:Key="SukiRadioButtonDotSize">8</x:Double>
+
+    <!-- ColorPicker. The swatch is a fixed box, so without these it keeps its normal size and
+         sets the height of any row it sits in. -->
+    <x:Double x:Key="SukiColorPickerHeight">32</x:Double>
+    <x:Double x:Key="SukiColorPickerWidth">64</x:Double>
+
+    <!-- Text-control keys the Fluent theme leaves undefined and AvaloniaEdit needs, plus
+         ControlCornerRadius which the fork's CalendarItem reads. Moved here from
+         src/App.axaml, where they were literals in Application.Resources: that collection
+         outranks the theme, so the app pinned all three at normal-mode values and no density
+         switch could reach them. -->
+    <Thickness x:Key="TextControlThemePadding">10,6,10,7</Thickness>
+    <Thickness x:Key="TextControlBorderThemeThickness">2</Thickness>
+    <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
 
     <!-- ScrollBar -->
     <x:Double x:Key="SukiScrollBarHoverWidth">8</x:Double>

@@ -62,7 +62,9 @@
     <!-- DataGrid -->
     <x:Double x:Key="SukiDataGridCellFontSize">12</x:Double>
     <Thickness x:Key="SukiDataGridHeaderPadding">3,2</Thickness>
-    <Thickness x:Key="SukiDataGridRowPadding">2</Thickness>
+    <!-- See the note in DensityNormal.axaml. -->
+    <Thickness x:Key="SukiDataGridHeaderPaddingAsym">3,2,1,2</Thickness>
+    <!-- SukiDataGridRowPadding removed; it was inert. See DensityNormal.axaml. -->
     <Thickness x:Key="SukiDataGridRowBgPadding">2</Thickness>
     <Thickness x:Key="SukiDataGridCellMargin">1,0,0,0</Thickness>
     <x:Double x:Key="SukiDataGridHeaderBorderThickness">1</x:Double>
@@ -158,6 +160,15 @@
     <!-- RadioButton. See the note in DensityNormal.axaml. -->
     <x:Double x:Key="SukiRadioButtonSize">16</x:Double>
     <x:Double x:Key="SukiRadioButtonDotSize">6</x:Double>
+
+    <!-- ColorPicker. See the note in DensityNormal.axaml. -->
+    <x:Double x:Key="SukiColorPickerHeight">22</x:Double>
+    <x:Double x:Key="SukiColorPickerWidth">48</x:Double>
+
+    <!-- Text-control keys moved from src/App.axaml. See the note in DensityNormal.axaml. -->
+    <Thickness x:Key="TextControlThemePadding">4,3,4,3</Thickness>
+    <Thickness x:Key="TextControlBorderThemeThickness">1</Thickness>
+    <CornerRadius x:Key="ControlCornerRadius">2</CornerRadius>
 
     <!-- ScrollBar -->
     <x:Double x:Key="SukiScrollBarHoverWidth">6</x:Double>
