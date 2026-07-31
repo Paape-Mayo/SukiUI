@@ -284,7 +284,7 @@ public partial class SukiTheme : Styles
         ("SukiH2FontSize",        24,   16),
         ("SukiH3FontSize",        20,   14),
         ("SukiH4FontSize",        16,   12),
-        ("SukiH5FontSize",        10,   9.5),
+        ("SukiH5FontSize",        13,   12),
         // Control-specific font sizes from density system
         ("SukiButtonLargeFontSize",  15,  12),
         ("SukiButtonIconFontSize",   14,  12),
