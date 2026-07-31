@@ -76,7 +76,7 @@
                         </ContentPresenter>
 
                         <Border Grid.Row="1" Height="1"
-                                Margin="0,10,0,10"
+                                Margin="{DynamicResource SukiMarginVert8}"
                                 Background="{DynamicResource SukiControlBorderBrush}"
                                 BorderThickness="0" />
 

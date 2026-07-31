@@ -77,7 +77,7 @@
         </Setter>
         
         <Style Selector="^.Pill">
-            <Setter Property="FontSize" Value="50" />
+            <Setter Property="FontSize" Value="{DynamicResource SukiTabItemFontSize}" />
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Margin" Value="0" />

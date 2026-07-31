@@ -303,7 +303,7 @@ public partial class SukiTheme : Styles
         ("SukiButtonLargeFontSize",  15,  12),
         ("SukiButtonIconFontSize",   14,  12),
         ("SukiDataGridCellFontSize", 14,  12),
-        ("SukiTabItemFontSize",      50,  12),
+        ("SukiTabItemFontSize",      14,  12),
         // Legacy Avalonia keys (Colors.xaml)
         ("FontSizeSmall",            11,  10),
         ("FontSizeNormal",           12,  12),

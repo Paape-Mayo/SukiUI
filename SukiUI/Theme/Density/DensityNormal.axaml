@@ -11,8 +11,13 @@
 
     <!-- Button -->
     <Thickness x:Key="SukiButtonPadding">2,2</Thickness>
-    <Thickness x:Key="SukiButtonMargin">5</Thickness>
-    <x:Double x:Key="SukiButtonBorderThickness">1.2</x:Double>
+    <!-- Horizontal only. This is a theme-level default on SukiBaseButtonStyle, so every Button,
+         ToggleButton and PaceIconButton inherits it and it inflates the slot the button occupies
+         in its parent, not the button itself. A vertical component here reads as a gap belonging
+         to the container, which is invisible at the call site. Vertical separation is the
+         container's Spacing to set. -->
+    <Thickness x:Key="SukiButtonMargin">5,0</Thickness>
+    <Thickness x:Key="SukiButtonBorderThickness">1.2</Thickness>
     <Thickness x:Key="SukiButtonSmallPadding">6,2</Thickness>
     <Thickness x:Key="SukiButtonLargePadding">18,6</Thickness>
     <CornerRadius x:Key="SukiButtonLargeCornerRadius">11</CornerRadius>
@@ -23,6 +28,13 @@
     <!-- TextBox -->
     <x:Double x:Key="SukiTextBoxMinHeight">36</x:Double>
     <Thickness x:Key="SukiTextBoxPadding">10,8</Thickness>
+
+    <!-- NumericUpDown. Its own pair rather than reusing SukiTextBoxMinHeight: the spinner
+         template is tighter than a bare TextBox, so sharing the key would grow it in Normal.
+         The compact value matches SukiTextBoxMinHeight so the two line up when they sit in the
+         same row, which is the common case. -->
+    <x:Double x:Key="SukiNumericUpDownMinHeight">30</x:Double>
+    <x:Double x:Key="SukiNumericUpDownInnerMinHeight">24</x:Double>
 
     <!-- TreeView -->
     <Thickness x:Key="SukiTreeViewItemPadding">5</Thickness>
@@ -77,20 +89,22 @@
     <!-- GlassCard -->
     <Thickness x:Key="SukiGlassCardPadding">20</Thickness>
 
-    <!-- Expander. The offset must clear the header ribbon that the template overlays on top of
-         the content; 32 left larger/taller headers overlapping the top of the content, so it is
-         raised to give reliable clearance below the header. -->
-    <Thickness x:Key="SukiExpanderContentOffsetDown">0,36,0,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,36</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,36,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetRight">36,0,0,0</Thickness>
+    <!-- Expander. The four SukiExpanderContentOffset* keys are gone. They reserved space for a
+         header that the template drew on top of the content, and no constant could be right:
+         the header's hit rect is its measured height, so a value below it stole clicks from the
+         content and a value above it left dead space. The template now docks the header and
+         lets the content flow below, so the reservation is measured rather than declared. -->
     <x:Double x:Key="SukiExpanderIconSize">8</x:Double>
     <Thickness x:Key="SukiExpanderIconMargin">6,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderBorderHeight">1</x:Double>
     <Thickness x:Key="SukiExpanderHeaderPadding">0,4,0,4</Thickness>
 
     <!-- TabItem -->
-    <x:Double x:Key="SukiTabItemFontSize">50</x:Double>
+    <!-- Was 50, which is a tab label the height of a heading. Masked today by
+         src/Assets/TabControlStyles.axaml, but that mask is a Style block and ChangeFontScale
+         writes this key into Application.Resources, which outranks it, so moving the font
+         slider in Normal density resolved 50 * scale. -->
+    <x:Double x:Key="SukiTabItemFontSize">14</x:Double>
     <Thickness x:Key="SukiTabItemBorderMargin">8,0</Thickness>
     <Thickness x:Key="SukiTabItemUnderlineMargin">10,0,10,0</Thickness>
     <x:Double x:Key="SukiTabItemUnderlineHeight">3</x:Double>

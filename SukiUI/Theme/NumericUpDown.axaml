@@ -159,7 +159,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="4,3,0,3" />
-        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MinHeight" Value="{DynamicResource SukiNumericUpDownMinHeight}" />
         <Setter Property="FontSize" Value="{DynamicResource SukiFontSizeMedium}" />
         <Setter Property="Template">
             <ControlTemplate>
@@ -194,7 +194,7 @@
                             <DataValidationErrors Grid.Column="0">
                                 <TextBox Name="PART_TextBox"
                                          MinWidth="16"
-                                         MinHeight="24"
+                                         MinHeight="{DynamicResource SukiNumericUpDownInnerMinHeight}"
                                          Padding="{TemplateBinding Padding}"
                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"

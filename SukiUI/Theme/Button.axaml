@@ -148,7 +148,7 @@
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSmall}" />
 		<Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
-		<Setter Property="BorderThickness" Value="1.2" />
+		<Setter Property="BorderThickness" Value="{DynamicResource SukiButtonBorderThickness}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
 		<Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
 		<Setter Property="Padding" Value="{DynamicResource SukiButtonPadding}" />
@@ -168,7 +168,7 @@
 					</Border.Resources>
 					<StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 					            Orientation="Horizontal"
-					            Spacing="6">
+					            Spacing="{DynamicResource SukiSpacing6}">
 						<Viewbox Name="PART_ExtShowProgressViewBox"
 						         Width="{TemplateBinding theme:ButtonExtensions.ShowProgress, Converter={StaticResource WidthConverter}}"
 						         Height="24"
@@ -306,7 +306,7 @@
 		<Style Selector="^.Basic">
 			<Setter Property="BorderThickness" Value="0" />
 			<Setter Property="BorderBrush" Value="Transparent" />
-			<Setter Property="Padding" Value="6,4" />
+			<Setter Property="Padding" Value="{DynamicResource SukiPaddingSmallBtn}" />
 			<Setter Property="CornerRadius" Value="5" />
 			<Setter Property="Background" Value="Transparent" />
 			<Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor120}" />

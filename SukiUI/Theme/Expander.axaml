@@ -23,14 +23,22 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <Border Name="PART_InnerBorder" CornerRadius="{TemplateBinding CornerRadius}">
-                        <Panel>
-                            <controls:ContentExpandControl Name="PART_ContentExpand"
-                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                           Content="{TemplateBinding Content}"
-                                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <!--  Flow layout, not an overlay.
 
-                            <LayoutTransformControl Name="PART_ToggleTransform">
+                              The header docks and the content takes the remainder, so the space
+                              reserved for the header is its own measured height. Previously these
+                              two were siblings in a Panel: the header drew on top of the content
+                              and the content was pushed clear by a fixed SukiExpanderContentOffset
+                              margin. That made the reservation a constant while the header's hit
+                              rect stayed its real height, so any header taller than the constant
+                              stole clicks from the top of the content and any header shorter than
+                              it left dead space. No constant could satisfy both, which is why the
+                              old value had to be tuned by trial.
+
+                              Declaration order matters: PART_ToggleTransform must come first so it
+                              docks, leaving PART_ContentExpand as the LastChildFill child.  -->
+                        <DockPanel>
+                            <LayoutTransformControl Name="PART_ToggleTransform" DockPanel.Dock="Top">
                                 <DockPanel>
                                     <Border Name="PART_BottomBorder"
                                             Height="{DynamicResource SukiExpanderBorderHeight}"
@@ -67,7 +75,13 @@
                                     </ToggleButton>
                                 </DockPanel>
                             </LayoutTransformControl>
-                        </Panel>
+
+                            <controls:ContentExpandControl Name="PART_ContentExpand"
+                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                           Content="{TemplateBinding Content}"
+                                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </DockPanel>
                     </Border>
                 </Border>
             </ControlTemplate>
@@ -121,11 +135,10 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetUp}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
-                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="DockPanel.Dock" Value="Bottom" />
             </Style>
 
             <Style Selector="^ /template/ Border#PART_BottomBorder">
@@ -137,11 +150,10 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Vertical" />
                 <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetDown}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
-                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="DockPanel.Dock" Value="Top" />
             </Style>
         </Style>
 
@@ -149,12 +161,11 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Right" />
-                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetLeft}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
                 <Setter Property="LayoutTransform" Value="rotate(90deg)" />
-                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="DockPanel.Dock" Value="Right" />
             </Style>
         </Style>
 
@@ -162,12 +173,11 @@
             <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Margin" Value="{DynamicResource SukiExpanderContentOffsetRight}" />
             </Style>
 
             <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
                 <Setter Property="LayoutTransform" Value="rotate(90deg)" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="DockPanel.Dock" Value="Left" />
             </Style>
 
             <Style Selector="^ /template/ Border#PART_BottomBorder">
@@ -183,22 +193,9 @@
                 <Setter Property="Margin" Value="4,0,0,0" />
             </Style>
 
-            <!-- Compact margins for all orientations -->
-            <Style Selector="^:up /template/ controls|ContentExpandControl#PART_ContentExpand">
-                <Setter Property="Margin" Value="0,0,0,24" />
-            </Style>
-
-            <Style Selector="^:down /template/ controls|ContentExpandControl#PART_ContentExpand">
-                <Setter Property="Margin" Value="0,24,0,0" />
-            </Style>
-
-            <Style Selector="^:left /template/ controls|ContentExpandControl#PART_ContentExpand">
-                <Setter Property="Margin" Value="0,0,24,0" />
-            </Style>
-
-            <Style Selector="^:right /template/ controls|ContentExpandControl#PART_ContentExpand">
-                <Setter Property="Margin" Value="24,0,0,0" />
-            </Style>
+            <!--  The four per-orientation content margins that used to live here are gone with
+                  the overlay. The header now docks and the content takes the remainder, so there
+                  is nothing to offset; a margin here would read as a plain gap.  -->
         </Style>
     </ControlTheme>
 

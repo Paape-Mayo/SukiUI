@@ -11,8 +11,9 @@
 
     <!-- Button -->
     <Thickness x:Key="SukiButtonPadding">4,1</Thickness>
-    <Thickness x:Key="SukiButtonMargin">2</Thickness>
-    <x:Double x:Key="SukiButtonBorderThickness">1</x:Double>
+    <!-- Horizontal only. See the note in DensityNormal.axaml. -->
+    <Thickness x:Key="SukiButtonMargin">2,0</Thickness>
+    <Thickness x:Key="SukiButtonBorderThickness">1</Thickness>
     <Thickness x:Key="SukiButtonSmallPadding">4,1</Thickness>
     <Thickness x:Key="SukiButtonLargePadding">10,3</Thickness>
     <CornerRadius x:Key="SukiButtonLargeCornerRadius">3</CornerRadius>
@@ -23,6 +24,10 @@
     <!-- TextBox -->
     <x:Double x:Key="SukiTextBoxMinHeight">22</x:Double>
     <Thickness x:Key="SukiTextBoxPadding">4,2</Thickness>
+
+    <!-- NumericUpDown. See the note in DensityNormal.axaml. -->
+    <x:Double x:Key="SukiNumericUpDownMinHeight">22</x:Double>
+    <x:Double x:Key="SukiNumericUpDownInnerMinHeight">18</x:Double>
 
     <!-- TreeView -->
     <Thickness x:Key="SukiTreeViewItemPadding">2,1</Thickness>
@@ -77,13 +82,8 @@
     <!-- GlassCard -->
     <Thickness x:Key="SukiGlassCardPadding">8</Thickness>
 
-    <!-- Expander. The offset must clear the header ribbon (which the template overlays on top
-         of the content in a Panel); a compact header is ~24px tall, so 20 left the top of the
-         content occluded and unclickable under the header. -->
-    <Thickness x:Key="SukiExpanderContentOffsetDown">0,30,0,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetUp">0,0,0,30</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetLeft">0,0,30,0</Thickness>
-    <Thickness x:Key="SukiExpanderContentOffsetRight">30,0,0,0</Thickness>
+    <!-- Expander. The four SukiExpanderContentOffset* keys are gone. See the note in
+         DensityNormal.axaml. -->
     <x:Double x:Key="SukiExpanderIconSize">6</x:Double>
     <Thickness x:Key="SukiExpanderIconMargin">3,0,0,0</Thickness>
     <x:Double x:Key="SukiExpanderBorderHeight">0.5</x:Double>
