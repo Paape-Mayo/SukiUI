@@ -304,6 +304,14 @@ public partial class SukiTheme : Styles
         ("SukiButtonIconFontSize",   14,  12),
         ("SukiDataGridCellFontSize", 14,  12),
         ("SukiTabItemFontSize",      14,  12),
+        // Content icon tiers. Here rather than in SpacingDoubleTokens on purpose: an icon sits
+        // beside a label, so it should follow the font scale the reader chose. The spacing
+        // scale is the wrong master for it, and is not wired up in PACE anyway.
+        ("SukiIconSizeInline",      14,  11),
+        ("SukiIconSizeRow",         16,  13),
+        ("SukiIconSizeSection",     20,  15),
+        ("SukiIconSizeHero",        24,  18),
+        ("SukiIconSizeSplash",      48,  32),
         // Legacy Avalonia keys (Colors.xaml)
         ("FontSizeSmall",            11,  10),
         ("FontSizeNormal",           12,  12),
@@ -405,6 +413,14 @@ public partial class SukiTheme : Styles
         ("SukiMarginHoriz2",   new double[]{2,0,2,0},   new double[]{1,0,1,0}),
         ("SukiMarginHoriz4",   new double[]{4,0,4,0},   new double[]{2,0,2,0}),
         ("SukiMarginHoriz8",   new double[]{8,0,8,0},   new double[]{4,0,4,0}),
+        ("SukiMarginRight2",   new double[]{0,0,2,0},   new double[]{0,0,1,0}),
+        ("SukiMarginRight4",   new double[]{0,0,4,0},   new double[]{0,0,2,0}),
+        ("SukiMarginRight8",   new double[]{0,0,8,0},   new double[]{0,0,4,0}),
+        ("SukiMarginTop6",     new double[]{0,6,0,0},   new double[]{0,3,0,0}),
+        ("SukiMarginTop12",    new double[]{0,12,0,0},  new double[]{0,6,0,0}),
+        ("SukiMarginBottom4",  new double[]{0,0,0,4},   new double[]{0,0,0,2}),
+        ("SukiMarginBottom6",  new double[]{0,0,0,6},   new double[]{0,0,0,3}),
+        ("SukiMarginBottom12", new double[]{0,0,0,12},  new double[]{0,0,0,6}),
     };
 
     /// <summary>

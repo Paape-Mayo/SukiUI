@@ -279,5 +279,25 @@
     <Thickness x:Key="SukiMarginHoriz2">2,0</Thickness>
     <Thickness x:Key="SukiMarginHoriz4">4,0</Thickness>
     <Thickness x:Key="SukiMarginHoriz8">8,0</Thickness>
+    <Thickness x:Key="SukiMarginRight2">0,0,2,0</Thickness>
+    <Thickness x:Key="SukiMarginRight4">0,0,4,0</Thickness>
+    <Thickness x:Key="SukiMarginRight8">0,0,8,0</Thickness>
+    <Thickness x:Key="SukiMarginTop6">0,6,0,0</Thickness>
+    <Thickness x:Key="SukiMarginTop12">0,12,0,0</Thickness>
+    <Thickness x:Key="SukiMarginBottom4">0,0,0,4</Thickness>
+    <Thickness x:Key="SukiMarginBottom6">0,0,0,6</Thickness>
+    <Thickness x:Key="SukiMarginBottom12">0,0,0,12</Thickness>
+
+    <!-- Content icon sizes. Distinct from the chrome-internal icon keys (SukiButtonIconSize,
+         SukiTreeViewChevronSize, SukiExpanderIconSize, SukiSideMenuItemIconSize), which size
+         parts inside a control template. These are for icons a view places itself, of which
+         PACE has roughly 278 sized by literal and none by token, so an icon beside compact text
+         keeps its normal size and sets the height of the row. Tiers are named by role rather
+         than by pixels so a call site states intent and the value can move. -->
+    <x:Double x:Key="SukiIconSizeInline">14</x:Double>
+    <x:Double x:Key="SukiIconSizeRow">16</x:Double>
+    <x:Double x:Key="SukiIconSizeSection">20</x:Double>
+    <x:Double x:Key="SukiIconSizeHero">24</x:Double>
+    <x:Double x:Key="SukiIconSizeSplash">48</x:Double>
 
 </ResourceDictionary>
