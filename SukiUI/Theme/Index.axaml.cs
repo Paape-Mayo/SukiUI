@@ -307,6 +307,7 @@ public partial class SukiTheme : Styles
         // Content icon tiers. Here rather than in SpacingDoubleTokens on purpose: an icon sits
         // beside a label, so it should follow the font scale the reader chose. The spacing
         // scale is the wrong master for it, and is not wired up in PACE anyway.
+        ("SukiIconSizeMicro",       12,  10),
         ("SukiIconSizeInline",      14,  11),
         ("SukiIconSizeRow",         16,  13),
         ("SukiIconSizeSection",     20,  15),
@@ -415,7 +416,10 @@ public partial class SukiTheme : Styles
         ("SukiMarginHoriz8",   new double[]{8,0,8,0},   new double[]{4,0,4,0}),
         ("SukiMarginRight2",   new double[]{0,0,2,0},   new double[]{0,0,1,0}),
         ("SukiMarginRight4",   new double[]{0,0,4,0},   new double[]{0,0,2,0}),
+        ("SukiMarginRight6",   new double[]{0,0,6,0},   new double[]{0,0,3,0}),
         ("SukiMarginRight8",   new double[]{0,0,8,0},   new double[]{0,0,4,0}),
+        ("SukiMarginLeft6",    new double[]{6,0,0,0},   new double[]{3,0,0,0}),
+        ("SukiMarginHoriz6",   new double[]{6,0,6,0},   new double[]{3,0,3,0}),
         ("SukiMarginTop6",     new double[]{0,6,0,0},   new double[]{0,3,0,0}),
         ("SukiMarginTop12",    new double[]{0,12,0,0},  new double[]{0,6,0,0}),
         ("SukiMarginBottom4",  new double[]{0,0,0,4},   new double[]{0,0,0,2}),

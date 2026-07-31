@@ -251,7 +251,10 @@
     <Thickness x:Key="SukiMarginHoriz8">4,0</Thickness>
     <Thickness x:Key="SukiMarginRight2">0,0,1,0</Thickness>
     <Thickness x:Key="SukiMarginRight4">0,0,2,0</Thickness>
+    <Thickness x:Key="SukiMarginRight6">0,0,3,0</Thickness>
     <Thickness x:Key="SukiMarginRight8">0,0,4,0</Thickness>
+    <Thickness x:Key="SukiMarginLeft6">3,0,0,0</Thickness>
+    <Thickness x:Key="SukiMarginHoriz6">3,0</Thickness>
     <Thickness x:Key="SukiMarginTop6">0,3,0,0</Thickness>
     <Thickness x:Key="SukiMarginTop12">0,6,0,0</Thickness>
     <Thickness x:Key="SukiMarginBottom4">0,0,0,2</Thickness>
@@ -259,6 +262,7 @@
     <Thickness x:Key="SukiMarginBottom12">0,0,0,6</Thickness>
 
     <!-- Content icon sizes. See the note in DensityNormal.axaml. -->
+    <x:Double x:Key="SukiIconSizeMicro">10</x:Double>
     <x:Double x:Key="SukiIconSizeInline">11</x:Double>
     <x:Double x:Key="SukiIconSizeRow">13</x:Double>
     <x:Double x:Key="SukiIconSizeSection">15</x:Double>
