@@ -15,8 +15,9 @@
     </Design.PreviewWith>
 
     <Thickness x:Key="ToggleSwitchTopHeaderMargin">0,0,0,6</Thickness>
-    <GridLength x:Key="ToggleSwitchPreContentMargin">6</GridLength>
-    <GridLength x:Key="ToggleSwitchPostContentMargin">6</GridLength>
+    <!-- ToggleSwitchPreContentMargin and ToggleSwitchPostContentMargin moved to the density
+         dictionaries. Declared here they were fixed at 6, which is 12px of the switch's 35px
+         height that the compact switch could not shed, and ToggleButton.axaml reads them too. -->
     <x:Double x:Key="ToggleSwitchThemeMinWidth">0</x:Double>
 
     <ControlTheme x:Key="SukiToggleSwitch" TargetType="ToggleSwitch">
@@ -110,8 +111,8 @@
 
                             <suki:GlassCard Grid.Row="1"
                                             Grid.Column="0"
-                                            Width="42"
-                                            Height="23"
+                                            Width="{DynamicResource SukiToggleSwitchWidth}"
+                                            Height="{DynamicResource SukiToggleSwitchHeight}"
                                            Name="GC"
                                             Classes="Control"
                                             CornerRadius="{DynamicResource MediumCornerRadius}"
@@ -120,8 +121,8 @@
                             <Border x:Name="SwitchBackground"
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Width="40"
-                                    Height="22"
+                                    Width="{DynamicResource SukiToggleSwitchWidth}"
+                                    Height="{DynamicResource SukiToggleSwitchHeight}"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     ClipToBounds="True"
@@ -160,14 +161,17 @@
                             <Canvas x:Name="PART_SwitchKnob"
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    Width="22"
-                                    Height="22"
+                                    Width="{DynamicResource SukiToggleSwitchHeight}"
+                                    Height="{DynamicResource SukiToggleSwitchHeight}"
                                     HorizontalAlignment="Left">
+                                <!-- Canvas.Top stays a literal 2 because the inset is symmetric
+                                     and works out to 2 in both densities: (22-18)/2 and
+                                     (16-12)/2. Canvas.Left is a token because it differs. -->
                                 <Border x:Name="SwitchKnob"
-                                        Canvas.Left="3"
+                                        Canvas.Left="{DynamicResource SukiToggleSwitchKnobInset}"
                                         Canvas.Top="2"
-                                        Width="18"
-                                        Height="18"
+                                        Width="{DynamicResource SukiToggleSwitchKnobSize}"
+                                        Height="{DynamicResource SukiToggleSwitchKnobSize}"
                                         Margin="0,0,0,0"
                                         BoxShadow="{DynamicResource SukiSwitchShadow}"
                                         CornerRadius="{DynamicResource MediumCornerRadius}">
@@ -202,14 +206,14 @@
         </Style>
 
         <Style Selector="^:unchecked /template/ Border#SwitchKnob">
-            <Setter Property="Width" Value="18" />
-            <Setter Property="Canvas.Left" Value="3" />
+            <Setter Property="Width" Value="{DynamicResource SukiToggleSwitchKnobSize}" />
+            <Setter Property="Canvas.Left" Value="{DynamicResource SukiToggleSwitchKnobInset}" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#SwitchKnob">
             <Setter Property="BoxShadow" Value="0 0 0 0 White" />
-            <Setter Property="Width" Value="18" />
-            <Setter Property="Canvas.Left" Value="21" />
+            <Setter Property="Width" Value="{DynamicResource SukiToggleSwitchKnobSize}" />
+            <Setter Property="Canvas.Left" Value="{DynamicResource SukiToggleSwitchKnobCheckedLeft}" />
         </Style>
 
 

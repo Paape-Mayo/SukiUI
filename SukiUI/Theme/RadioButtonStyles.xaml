@@ -213,14 +213,19 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Background="{TemplateBinding Background}" ColumnDefinitions="Auto,*">
-                    <suki:GlassCard Width="20" Height="20" CornerRadius="50" Classes="Control"
+                    <suki:GlassCard Width="{DynamicResource SukiRadioButtonSize}"
+                                    Height="{DynamicResource SukiRadioButtonSize}"
+                                    CornerRadius="50" Classes="Control"
                                     Classes.PrimaryOpaque="{TemplateBinding IsChecked}"
                                     />
-                    
-                    <Ellipse Height="8" Width="8" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{TemplateBinding IsChecked}"  Fill="White"/>
+
+                    <Ellipse Height="{DynamicResource SukiRadioButtonDotSize}"
+                             Width="{DynamicResource SukiRadioButtonDotSize}"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                             IsVisible="{TemplateBinding IsChecked}" Fill="White"/>
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Grid.Column="1"
-                                      Margin="10,0,0,0"
+                                      Margin="{DynamicResource SukiCheckBoxPadding}"
                                       VerticalAlignment="Center"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"

@@ -104,9 +104,10 @@
                         <Thumb Name="thumb" Margin="3,0,0,0">
                             <Thumb.Template>
                                 <ControlTemplate>
-                                    <Grid Width="32" Height="32">
-                                        <Border Width="18"
-                                                Height="18"
+                                    <Grid Width="{DynamicResource SukiSliderThumbSize}"
+                                          Height="{DynamicResource SukiSliderThumbSize}">
+                                        <Border Width="{DynamicResource SukiSliderThumbInnerSize}"
+                                                Height="{DynamicResource SukiSliderThumbInnerSize}"
                                                 Margin="0"
                                                 Background="White"
                                                 BorderThickness="4" BorderBrush="{DynamicResource SukiPrimaryColor120}"

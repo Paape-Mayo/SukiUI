@@ -141,9 +141,23 @@
     <x:Double x:Key="SukiCheckBoxSize">16</x:Double>
     <Thickness x:Key="SukiCheckBoxPadding">6,0,0,0</Thickness>
 
-    <!-- ToggleSwitch -->
+    <!-- ToggleSwitch. See the note in DensityNormal.axaml: knob 12 = track 16 minus twice the
+         inset of 2, and CheckedLeft 18 = track 32 minus knob 12 minus inset 2. -->
     <x:Double x:Key="SukiToggleSwitchWidth">32</x:Double>
     <x:Double x:Key="SukiToggleSwitchHeight">16</x:Double>
+    <x:Double x:Key="SukiToggleSwitchKnobSize">12</x:Double>
+    <x:Double x:Key="SukiToggleSwitchKnobInset">2</x:Double>
+    <x:Double x:Key="SukiToggleSwitchKnobCheckedLeft">18</x:Double>
+    <GridLength x:Key="ToggleSwitchPreContentMargin">2</GridLength>
+    <GridLength x:Key="ToggleSwitchPostContentMargin">2</GridLength>
+
+    <!-- Slider -->
+    <x:Double x:Key="SukiSliderThumbSize">20</x:Double>
+    <x:Double x:Key="SukiSliderThumbInnerSize">12</x:Double>
+
+    <!-- RadioButton. See the note in DensityNormal.axaml. -->
+    <x:Double x:Key="SukiRadioButtonSize">16</x:Double>
+    <x:Double x:Key="SukiRadioButtonDotSize">6</x:Double>
 
     <!-- ScrollBar -->
     <x:Double x:Key="SukiScrollBarHoverWidth">6</x:Double>

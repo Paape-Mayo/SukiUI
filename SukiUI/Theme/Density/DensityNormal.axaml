@@ -155,9 +155,28 @@
     <x:Double x:Key="SukiCheckBoxSize">20</x:Double>
     <Thickness x:Key="SukiCheckBoxPadding">10,1,0,0</Thickness>
 
-    <!-- ToggleSwitch -->
+    <!-- ToggleSwitch. Width/Height are the track. The knob is inset symmetrically, so
+         KnobSize is Height minus twice the inset, and CheckedLeft is Width minus KnobSize minus
+         the inset. Keep those three consistent when changing the track or the knob drifts off
+         one end. The two GridLength rows live here rather than in ToggleSwitch.axaml because
+         ToggleButton.axaml consumes them too, and a local declaration made both templates
+         ignore density. -->
     <x:Double x:Key="SukiToggleSwitchWidth">40</x:Double>
     <x:Double x:Key="SukiToggleSwitchHeight">22</x:Double>
+    <x:Double x:Key="SukiToggleSwitchKnobSize">18</x:Double>
+    <x:Double x:Key="SukiToggleSwitchKnobInset">3</x:Double>
+    <x:Double x:Key="SukiToggleSwitchKnobCheckedLeft">21</x:Double>
+    <GridLength x:Key="ToggleSwitchPreContentMargin">6</GridLength>
+    <GridLength x:Key="ToggleSwitchPostContentMargin">6</GridLength>
+
+    <!-- Slider -->
+    <x:Double x:Key="SukiSliderThumbSize">32</x:Double>
+    <x:Double x:Key="SukiSliderThumbInnerSize">18</x:Double>
+
+    <!-- RadioButton. CheckBoxStyles already reads SukiCheckBoxSize; these are the matching
+         pair so a radio and a checkbox in the same options list share a baseline. -->
+    <x:Double x:Key="SukiRadioButtonSize">20</x:Double>
+    <x:Double x:Key="SukiRadioButtonDotSize">8</x:Double>
 
     <!-- ScrollBar -->
     <x:Double x:Key="SukiScrollBarHoverWidth">8</x:Double>
