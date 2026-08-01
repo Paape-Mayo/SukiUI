@@ -35,6 +35,25 @@
                 <Border Background="Transparent"
                         ClipToBounds="True"
                         CornerRadius="{TemplateBinding CornerRadius}">
+                    <!--  A custom Window template has to supply its own VisualLayerManager.
+                          Avalonia hangs the AdornerLayer, OverlayLayer, TextSelectorLayer and
+                          LightDismissOverlayLayer off it, and Popup.Open resolves the last of
+                          those by walking up from its placement target. With no manager in the
+                          tree the walk returns null and popup light dismiss silently does
+                          nothing, so IsLightDismissEnabled="True" on ComboBox, AutoCompleteBox,
+                          the date and time pickers and every Button.Flyout becomes a no-op and
+                          those popups cannot be closed by clicking outside them.
+
+                          The Avalonia 12 upgrade (a8e07126) replaced this manager with a bare
+                          Grid, which is what broke it. Menus kept working throughout and hid the
+                          problem, because MenuFlyout and ContextMenu are dismissed by
+                          DefaultMenuInteractionHandler's own root handler rather than by this
+                          layer.
+
+                          Hosts stays where the upgrade put it, as a ZIndex sibling rather than
+                          back inside ChromeOverlayLayer; only the manager is restored, to keep
+                          this change to the one thing that was actually wrong.  -->
+                    <VisualLayerManager Name="PART_VisualLayerManager" IsHitTestVisible="True">
                     <Grid IsHitTestVisible="True">
                         <Panel Name="PART_Root">
                             <!--  Margin -100 is there to exclude the unwanted bright corners  -->
@@ -77,6 +96,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </Grid>
+                    </VisualLayerManager>
                 </Border>
             </ControlTemplate>
         </Setter>
