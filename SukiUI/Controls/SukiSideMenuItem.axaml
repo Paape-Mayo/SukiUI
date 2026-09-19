@@ -39,6 +39,11 @@
                                         IsVisible="{TemplateBinding IsExpanded}"
                                         ItemsPanel="{TemplateBinding ItemsPanel}" />
                     </Panel>
+                    <Panel>
+                    <suki:GlassCard Name="PART_GlassBackground" Padding="0" IsAnimated="False"
+                                    IsHitTestVisible="False"
+                                    Margin="{Binding #PART_Border.Margin}"
+                                    CornerRadius="{Binding #PART_Border.CornerRadius}" />
                     <Border Name="PART_Border"
                             MinWidth="85"
                             Margin="{DynamicResource SukiSideMenuItemMargin}"
@@ -119,10 +124,18 @@
 
                         </Panel>
                     </Border>
+                    </Panel>
 
                 </DockPanel>
             </ControlTemplate>
         </Setter>
+
+        <Style Selector="^ /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^[IsExpander=True] /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
 
         <Style Selector="^ /template/ Border#PART_Border">
             <Setter Property="Transitions">

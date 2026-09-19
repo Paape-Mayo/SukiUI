@@ -3,13 +3,10 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
 using Avalonia.Rendering.Composition;
-using Avalonia.Rendering.Composition.Animations;
 using SukiUI.Enums;
 using SukiUI.Helpers;
 
@@ -109,57 +106,66 @@ public class GlassCard : ContentControl
         set => SetValue(CommandParameterProperty, value);
     }
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnAttachedToVisualTree(e);
-        if (ContextMenu is null) return;
-        ContextMenu.Opening += ContextMenuOnOpening;
-    }
+    private Panel? _animationRoot;
+    private Border?[] _animatedBorders = Array.Empty<Border?>();
+    private ContextMenu? _subscribedContextMenu;
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        if (IsAnimated)
-        {
-            var b = e.NameScope.Get<Panel>("RootPanel");
-            b.Loaded += (sender, args) =>
-            {
-                var v = ElementComposition.GetElementVisual(b);
-                CompositionAnimationHelper.MakeOpacityAnimated(v);
-            };
-
-            var b2 = e.NameScope.Get<Border>("PART_BorderCardLight");
-            b2.Loaded += (sender, args) =>
-            {
-                var v = ElementComposition.GetElementVisual(b2);
-                CompositionAnimationHelper.MakeSizeAnimated(v);
-            };
-            
-            var b2d = e.NameScope.Get<Border>("PART_BorderCardDark");
-            b2d.Loaded += (sender, args) =>
-            {
-                // b2d, not b2: animating the light border a second time left the dark
-                // border with no size animation at all.
-                var v = ElementComposition.GetElementVisual(b2d);
-                CompositionAnimationHelper.MakeSizeAnimated(v);
-            };
-
-            var b3 = e.NameScope.Get<Border>("PART_ClipBorder");
-            b3.Loaded += (sender, args) =>
-            {
-                var v = ElementComposition.GetElementVisual(b3);
-                CompositionAnimationHelper.MakeSizeAnimated(v);
-            };
-
-        }
-
+        // Detached cards can receive ContentControl's fallback template. Animation
+        // parts are optional; resolve them again when the themed template is applied.
+        _animationRoot = e.NameScope.Find<Panel>("RootPanel");
+        _animatedBorders = new[] { e.NameScope.Find<Border>("PART_BorderCardLight"),
+            e.NameScope.Find<Border>("PART_BorderCardDark"), e.NameScope.Find<Border>("PART_ClipBorder") };
+        if (IsLoaded) UpdateAnimations();
     }
-    
 
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        UpdateAnimations();
+        UpdateContextMenuSubscription(ContextMenu);
+    }
 
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        UpdateContextMenuSubscription(null);
+        base.OnUnloaded(e);
+    }
 
-    private void ContextMenuOnOpening(object sender, CancelEventArgs e)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (!IsLoaded) return;
+        if (change.Property == IsAnimatedProperty) UpdateAnimations();
+        if (change.Property == ContextMenuProperty) UpdateContextMenuSubscription(ContextMenu);
+    }
+
+    private void UpdateAnimations()
+    {
+        if (_animationRoot is not null && ElementComposition.GetElementVisual(_animationRoot) is { } root)
+        {
+            if (IsAnimated) CompositionAnimationHelper.MakeOpacityAnimated(root);
+            else root.ImplicitAnimations = null;
+        }
+        foreach (var border in _animatedBorders)
+        {
+            if (border is null || ElementComposition.GetElementVisual(border) is not { } visual) continue;
+            if (IsAnimated) CompositionAnimationHelper.MakeSizeAnimated(visual);
+            else visual.ImplicitAnimations = null;
+        }
+    }
+
+    private void UpdateContextMenuSubscription(ContextMenu? menu)
+    {
+        if (_subscribedContextMenu is not null) _subscribedContextMenu.Opening -= ContextMenuOnOpening;
+        _subscribedContextMenu = menu;
+        if (menu is not null) menu.Opening += ContextMenuOnOpening;
+    }
+
+    private void ContextMenuOnOpening(object? sender, CancelEventArgs e)
     {
         PseudoClasses.Set(":pointerdown", false);
     }

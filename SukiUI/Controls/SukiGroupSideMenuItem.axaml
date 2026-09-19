@@ -13,6 +13,24 @@
                   BasedOn="{StaticResource SukiSideMenuItemStyle}"
                   TargetType="suki:SukiGroupSideMenuItem">
 
+        <!-- Shared glass surface follows the existing segment geometry and group tint. -->
+        <Style Selector="^ /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="BorderThickness" Value="1,0" />
+        </Style>
+        <Style Selector="^[SegmentPosition=Top] /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="BorderThickness" Value="1,1,1,0" />
+        </Style>
+        <Style Selector="^[SegmentPosition=Bottom] /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="BorderThickness" Value="1,0,1,1" />
+        </Style>
+        <Style Selector="^[SegmentPosition=Sole] /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="^[ShowCompactStrip=True][IsTopMenuExpanded=False] /template/ suki|GlassCard#PART_GlassBackground">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
         <!-- ── Base: use GroupRestBrush instead of SukiPrimaryColor0 ──────── -->
         <Style Selector="^ /template/ Border#PART_Border">
             <Setter Property="Background" Value="{TemplateBinding GroupRestBrush}" />
