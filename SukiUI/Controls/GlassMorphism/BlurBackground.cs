@@ -105,8 +105,17 @@ half4 main(float2 coord) {
         
        public void Render(ImmediateDrawingContext context)
         {
+                if (!double.IsFinite(_bounds.Width) || !double.IsFinite(_bounds.Height) ||
+                    _bounds.Width <= 0 || _bounds.Height <= 0 ||
+                    _bounds.Width > int.MaxValue || _bounds.Height > int.MaxValue)
+                    return;
+
                 var leaseFeature = context.TryGetFeature<ISkiaSharpApiLeaseFeature>();
+                if (leaseFeature is null)
+                    return;
                 using var lease = leaseFeature.Lease();
+                if (lease.SkSurface is null)
+                    return;
                 var canvas = lease.SkCanvas;
 
                 if (!canvas.TotalMatrix.TryInvert(out var currentInvertedTransform))
@@ -132,9 +141,15 @@ half4 main(float2 coord) {
                 using var backdropShader = SKShader.CreateImage(_cachedBackground, SKShaderTileMode.Clamp,
                     SKShaderTileMode.Clamp, currentInvertedTransform);
 
-                using var blurred = SKSurface.Create(lease.GrContext, false,
-                    new SKImageInfo((int)Math.Ceiling(_bounds.Width), (int)Math.Ceiling(_bounds.Height),
-                        SKImageInfo.PlatformColorType, SKAlphaType.Premul));
+                var imageInfo = new SKImageInfo((int)Math.Ceiling(_bounds.Width), (int)Math.Ceiling(_bounds.Height),
+                    SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+                // Software rendering has no GPU context. A failed GPU allocation can
+                // also fall back to a raster surface without changing the blur effect.
+                using var blurred = (lease.GrContext is { } gpuContext
+                    ? SKSurface.Create(gpuContext, false, imageInfo)
+                    : null) ?? SKSurface.Create(imageInfo);
+                if (blurred is null)
+                    return;
 
                 var sigma = IsDarkTheme ? (_bounds.Width + _bounds.Height) / 42 : 50;
 

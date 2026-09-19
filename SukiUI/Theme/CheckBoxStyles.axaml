@@ -16,7 +16,7 @@
     </Style>
 
     <Style Selector="CheckBox">
-        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
         <Setter Property="BorderThickness" Value="0.5" />

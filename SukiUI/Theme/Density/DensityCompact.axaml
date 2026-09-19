@@ -10,12 +10,8 @@
     <system:TimeSpan x:Key="ShortAnimationDuration">0:0:0.08</system:TimeSpan>
 
     <!-- Button -->
-    <!-- Was 4,1 against a normal of 2,2, the only key in the set whose compact value was LARGER
-         than its normal one: switching to compact made every default-padded button wider. 2,1
-         removes the inversion without touching normal, which 71 buttons in PACE rely on.
-         Whether normal 2,2 is a sensible default for a button at all is a separate question,
-         and changing it is a visible change to those 71. -->
-    <Thickness x:Key="SukiButtonPadding">2,1</Thickness>
+    <!-- Default actions remain readable and clickable; Small and Icon retain their own sizing. -->
+    <Thickness x:Key="SukiButtonPadding">6,3</Thickness>
     <!-- Horizontal only. See the note in DensityNormal.axaml. -->
     <Thickness x:Key="SukiButtonMargin">2,0</Thickness>
     <Thickness x:Key="SukiButtonBorderThickness">1</Thickness>

@@ -146,7 +146,7 @@
 		<Setter Property="Foreground" Value="{DynamicResource SukiText}" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
-		<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeSmall}" />
+		<Setter Property="FontSize" Value="{DynamicResource SukiFontSizeBody}" />
 		<Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
 		<Setter Property="BorderThickness" Value="{DynamicResource SukiButtonBorderThickness}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />

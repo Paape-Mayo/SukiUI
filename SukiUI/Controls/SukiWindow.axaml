@@ -34,6 +34,10 @@
         <Setter Property="FlowDirection" Value="{DynamicResource FlowDirectionPrimary}" />
         <Setter Property="Template">
             <ControlTemplate>
+                <!-- Window enables popup, overlay and text-selection layers on this named
+                     template part. It must be in the Window's namescope, not inside
+                     SukiMainHost's separate template. -->
+                <VisualLayerManager Name="PART_VisualLayerManager">
                 <Panel Name="PART_Root" Margin="{TemplateBinding Margin}">
                     <Panel Background="Transparent"
                            IsHitTestVisible="False"
@@ -181,6 +185,7 @@
                         </DockPanel>
                     </suki:SukiMainHost>
                 </Panel>
+                </VisualLayerManager>
             </ControlTemplate>
         </Setter>
 

@@ -85,7 +85,7 @@
 			<Setter Property="FontSize" Value="{DynamicResource SukiH1FontSize}" />
 		</Style>
 		<Style Selector="^.Caption">
-			<Setter Property="Foreground" Value="{DynamicResource ThemeControlHighBrush}" />
+			<Setter Property="Foreground" Value="{DynamicResource SukiLowText}" />
 		</Style>
 		<Style Selector="^.Primary">
 			<Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />

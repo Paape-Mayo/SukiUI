@@ -7,7 +7,6 @@ using SukiUI.Enums;
 namespace SukiUI.Controls;
 
 [TemplatePart("PART_Root", typeof(Panel))]
-[TemplatePart("PART_VisualLayerManager", typeof(VisualLayerManager))]
 [TemplatePart("PART_Background", typeof(SukiBackground))]
 public class SukiMainHost : ContentControl
 {

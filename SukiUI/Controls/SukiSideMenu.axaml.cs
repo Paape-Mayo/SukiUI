@@ -164,26 +164,19 @@ public class SukiSideMenu : TreeView
     private void MenuExpandedClicked()
     {
         IsMenuExpanded = !IsMenuExpanded;
-
-        UpdateMenuItemsExpansion();
     }
 
     private void UpdateMenuItemsExpansion()
     {
-        if(_sideMenuItems.Any())
-            foreach (var item in _sideMenuItems)
-                item.IsTopMenuExpanded = IsMenuExpanded;
-
-        else if(Items.FirstOrDefault() is SukiSideMenuItem)
-            foreach (SukiSideMenuItem? item in Items)
-                item!.IsTopMenuExpanded = IsMenuExpanded;
+        foreach (var item in GetRealizedContainers().OfType<SukiSideMenuItem>())
+            item.IsTopMenuExpanded = IsMenuExpanded;
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        if (Items.Any())
+        if (SelectedItem is null && SelectionMode.HasFlag(SelectionMode.AlwaysSelected) && Items.Any())
         {
             SelectedItem = Items.First();
         }
@@ -219,15 +212,18 @@ public class SukiSideMenu : TreeView
             SetContentControlContent(change.NewValue);
         else if (change.Property.Name == nameof(UseCustomContent))
             SetContentControlContent();
-        else if (change.Property == IsMenuExpandedProperty && _spacer != null)
-            _spacer.IsVisible = IsSpacerVisible;
+        else if (change.Property == IsMenuExpandedProperty)
+        {
+            if (_spacer != null) _spacer.IsVisible = IsSpacerVisible;
+            UpdateMenuItemsExpansion();
+        }
     }
 
     protected virtual void FilterItems(string search)
     {
         search = search.ToLower();
 
-        foreach (var item in _sideMenuItems)
+        foreach (var item in GetRealizedContainers().OfType<SukiSideMenuItem>())
         {
             var header = item.Header?.ToLower() ?? "";
 
@@ -269,11 +265,9 @@ public class SukiSideMenu : TreeView
                 ? sukiMenuItem
                 : new SukiSideMenuItem();
         menuItem.IsContentMovable = IsSelectedItemContentMovable;
-        _sideMenuItems.Add(menuItem);
+        menuItem.IsTopMenuExpanded = IsMenuExpanded;
         return menuItem;
     }
-
-    private readonly List<SukiSideMenuItem> _sideMenuItems = new();
 
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
     {
@@ -325,5 +319,3 @@ public class WindowBackgroundToMarginConverter : IValueConverter
         throw new NotSupportedException();
     }
 }
-
-

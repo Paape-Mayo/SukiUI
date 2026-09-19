@@ -10,7 +10,7 @@
     <system:TimeSpan x:Key="ShortAnimationDuration">0:0:0.2</system:TimeSpan>
 
     <!-- Button -->
-    <Thickness x:Key="SukiButtonPadding">2,2</Thickness>
+    <Thickness x:Key="SukiButtonPadding">12,6</Thickness>
     <!-- Horizontal only. This is a theme-level default on SukiBaseButtonStyle, so every Button,
          ToggleButton and PaceIconButton inherits it and it inflates the slot the button occupies
          in its parent, not the button itself. A vertical component here reads as a gap belonging
