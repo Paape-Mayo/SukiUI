@@ -39,7 +39,32 @@ public record SukiColorTheme
     // Used in shaders to save calculating them per-frame.
     internal Color BackgroundPrimary { get; }
     internal Color BackgroundAccent { get; }
-    internal Color Background { get; }
+    internal Color Background => DarkPalette?.Background ?? DarkPalette?.StrongBackground ?? GetBackgroundColor(Primary);
+
+    internal Color BackgroundFor(ThemeVariant variant) => variant == ThemeVariant.Dark
+        ? Background
+        : LightPalette?.Background ?? LightPalette?.PopupBackground ?? Color.Parse("#f2f2f2");
+
+    internal SukiThemePalette SurfacePalette(ThemeVariant variant)
+    {
+        var dark = variant == ThemeVariant.Dark;
+        var palette = (dark ? DarkPalette : LightPalette) ?? new SukiThemePalette();
+        var background = BackgroundFor(variant);
+        var raised = Mix(background, dark ? Colors.White : Colors.Black, dark ? 0.065 : 0.025);
+        return palette with
+        {
+            CardBackground = palette.CardBackground ?? raised,
+            PopupBackground = palette.PopupBackground ?? raised,
+            GlassCardOpaqueBackground = palette.GlassCardOpaqueBackground ?? raised,
+            ControlTouchBackground = palette.ControlTouchBackground ?? Mix(background, dark ? Colors.White : Colors.Black, 0.12),
+            MenuBorderBrush = palette.MenuBorderBrush ?? palette.ControlBorderBrush ?? Mix(background, dark ? Colors.White : Colors.Black, 0.22)
+        };
+    }
+
+    private static Color Mix(Color basis, Color tint, double amount) => Color.FromRgb(
+        (byte)Math.Round(basis.R + (tint.R - basis.R) * amount),
+        (byte)Math.Round(basis.G + (tint.G - basis.G) * amount),
+        (byte)Math.Round(basis.B + (tint.B - basis.B) * amount));
 
     // dark scale...
     private const double dS = 0.5;
@@ -51,7 +76,6 @@ public record SukiColorTheme
         Accent = accent;
         PrimaryDark = new Color(primary.A, (byte)(primary.R * dS), (byte)(primary.G * dS), (byte)(primary.B * dS));
         AccentDark = new Color(accent.A, (byte)(accent.R * dS), (byte)(accent.G * dS), (byte)(accent.B * dS));
-        Background = GetBackgroundColor(Primary);
         BackgroundPrimary = new Color(primary.A, (byte)(primary.R / 1), (byte)(primary.G / 1), (byte)(primary.B / 1));
         BackgroundAccent = new Color(accent.A, (byte)(accent.R / 1), (byte)(accent.G / 1), (byte)(accent.B / 1));
     }
@@ -75,17 +99,7 @@ public record SukiColorTheme
 
     private static Color GetBackgroundColor(Color input)
     {
-        int r = input.R;
-        int g = input.G;
-        int b = input.B;
-
-        var minValue = Math.Min(Math.Min(r, g), b);
-        var maxValue = Math.Max(Math.Max(r, g), b);
-
-        r = (r == minValue) ? 47 : ((r == maxValue) ? 47 : 27);
-        g = (g == minValue) ? 47 : ((g == maxValue) ? 47 : 27);
-        b = (b == minValue) ? 47 : ((b == maxValue) ? 47 : 27);
-        return new Color(255, (byte)r, (byte)g, (byte)b);
+        return Mix(Color.Parse("#252529"), input, 0.10);
     }
 }
 

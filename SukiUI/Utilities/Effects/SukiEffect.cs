@@ -137,7 +137,6 @@ namespace SukiUI.Utilities.Effects
             return effect._shaderString == _shaderString;
         }
 
-        private static readonly float[] White = { 0.95f, 0.95f, 0.95f };
         private readonly float[] _backgroundAlloc = new float[3];
         private readonly float[] _backgroundAccentAlloc = new float[3];
         private readonly float[] _backgroundPrimaryAlloc = new float[3];
@@ -151,7 +150,7 @@ namespace SukiUI.Utilities.Effects
             if (suki.ActiveColorTheme is null) throw new InvalidOperationException("No ActiveColorTheme is available.");
             
             // Update allocated color arrays.
-            suki.ActiveColorTheme.Background.ToFloatArrayNonAlloc(_backgroundAlloc);
+            suki.ActiveColorTheme.BackgroundFor(activeVariant).ToFloatArrayNonAlloc(_backgroundAlloc);
             suki.ActiveColorTheme.BackgroundAccent.ToFloatArrayNonAlloc(_backgroundAccentAlloc);
             suki.ActiveColorTheme.BackgroundPrimary.ToFloatArrayNonAlloc(_backgroundPrimaryAlloc);
             _boundsAlloc[0] = (float)bounds.Width;
@@ -163,9 +162,7 @@ namespace SukiUI.Utilities.Effects
                 { "iTime", timeSeconds * animationScale },
                 {
                     "iBase",
-                    activeVariant == ThemeVariant.Dark
-                        ? _backgroundAlloc
-                        : White
+                    _backgroundAlloc
                 },
                 { "iAccent", _backgroundAccentAlloc },
                 { "iPrimary", _backgroundPrimaryAlloc },

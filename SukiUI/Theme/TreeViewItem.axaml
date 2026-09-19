@@ -30,6 +30,7 @@
                                           Top="False"
                                           Bottom="False"/>
     
+    <x:Double x:Key="SukiTreeChevronColumnWidth">16</x:Double>
     <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
         <Setter Property="Margin" Value="1" />
@@ -45,14 +46,18 @@
                             Focusable="True"
                             TemplatedControl.IsTemplateFocusTarget="True">
                         <Grid Name="PART_Header"
-                              Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}"
-                              ColumnDefinitions="16, *">
+                              Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="{DynamicResource SukiTreeChevronColumnWidth}" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
                             <Grid.Styles>
                                 <Style Selector="ToggleButton:checked">
                                     <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </Grid.Styles>
                             <ToggleButton Name="PART_ExpandCollapseChevron"
+                                          Width="16"
                                           Padding="0"
                                           Background="Transparent"
                                           BorderThickness="0"

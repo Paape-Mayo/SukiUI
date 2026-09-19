@@ -74,10 +74,7 @@ namespace SukiUI.Utilities.Effects
 
         protected override void RenderSoftware(SKCanvas canvas, SKRect rect)
         {
-            if (ActiveVariant == ThemeVariant.Dark)
-                canvas.Clear(ActiveTheme.Background.ToSKColor());
-            else
-                canvas.Clear(new SKColorF(0.95f, 0.95f, 0.95f, 1f));
+            canvas.Clear(ActiveTheme.BackgroundFor(ActiveVariant).ToSKColor());
         }
 
         private static double InverseLerp(double start, double end, double value) =>

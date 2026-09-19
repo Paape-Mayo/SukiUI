@@ -1,106 +1,56 @@
-﻿<UserControl x:Class="SukiUI.Controls.BusyArea"
+<UserControl x:Class="SukiUI.Controls.BusyArea"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:suki="clr-namespace:SukiUI.Controls"
-             xmlns:converters="https://github.com/kikipoulet/SukiUI"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             mc:Ignorable="d">
+             xmlns:converters="https://github.com/kikipoulet/SukiUI">
     <UserControl.Styles>
-        
-        
-        <Style Selector="suki|BusyArea DockPanel#LoadingBusyArea">
-            <Setter Property="Transitions">
-                <Transitions>
-                    <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
-                </Transitions>
-            </Setter>
+        <!-- Block only this area's content; sibling navigation and Cancel remain usable. -->
+        <Style Selector="suki|BusyArea[IsBusy=True] /template/ ContentControl#BusyContent">
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="Opacity" Value="0.55" />
+            <Setter Property="Effect"><BlurEffect Radius="3" /></Setter>
         </Style>
-
-        <Style Selector="suki|BusyArea[IsBusy=True]  /template/ DockPanel#LoadingBusyArea">
-            <Setter Property="Opacity" Value="1" />
-        </Style>
-
-        <Style Selector="suki|BusyArea[IsBusy=False] /template/ DockPanel#LoadingBusyArea">
-            <Setter Property="Opacity" Value="0" />
-        </Style>
-
-        <Style Selector="suki|BusyArea ContentControl">
-            <Setter Property="Transitions">
-                <Transitions>
-                    <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
-                </Transitions>
-            </Setter>
-        </Style>
-
-        <Style Selector="suki|BusyArea[IsBusy=True]  /template/ ContentControl#BusyContent">
-            <Setter Property="Opacity" Value="0.1" />
-        </Style>
-
-        <Style Selector="suki|BusyArea[IsBusy=False]  /template/ ContentControl#BusyContent">
-            <Setter Property="Opacity" Value="1" />
-        </Style>
-
-        <!-- Cancel button: hidden by default; shown only while busy AND the
-             host opted in via IsCancelVisible. IsVisible is style-driven (not
-             a TemplateBinding) because two properties gate it. -->
         <Style Selector="suki|BusyArea /template/ Button#PART_CancelButton">
             <Setter Property="IsVisible" Value="False" />
         </Style>
         <Style Selector="suki|BusyArea[IsBusy=True][IsCancelVisible=True] /template/ Button#PART_CancelButton">
             <Setter Property="IsVisible" Value="True" />
         </Style>
-
-
         <Style Selector="suki|BusyArea">
+            <Setter Property="ClipToBounds" Value="True" />
             <Setter Property="Template">
                 <ControlTemplate>
                     <Panel>
-                        <ContentControl Name="BusyContent" Content="{TemplateBinding Content}" />
-                        <DockPanel Name="LoadingBusyArea"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   LastChildFill="True">
-                            <!-- First Dock=Bottom child takes the outermost edge,
-                                 so the Cancel button sits below the progress bar. -->
-                            <Button Name="PART_CancelButton"
-                                    DockPanel.Dock="Bottom"
-                                    Margin="3,4,3,0"
-                                    HorizontalAlignment="Center"
-                                    Classes="Flat"
-                                    Content="Cancel"
-                                    Command="{TemplateBinding CancelCommand}" />
-                            <ProgressBar Name="PART_ProgressBar"
-                                         DockPanel.Dock="Bottom"
-                                         Margin="3,2,3,3"
-                                         Height="4"
-                                         MinWidth="120"
-                                         Minimum="0"
-                                         Maximum="100"
-                                         IsHitTestVisible="False"
-                                         Value="{TemplateBinding Progress}"
-                                         IsVisible="{TemplateBinding Progress,
-                                                                     Converter={x:Static converters:DoubleConvert.NonNegativeToBool}}" />
-                            <TextBlock Margin="3"
-                                       DockPanel.Dock="Bottom" Name="PART_BusyText"
-                                       FontWeight="{DynamicResource DefaultDemiBold}"
-                                       IsHitTestVisible="False"
-                                       IsVisible="{TemplateBinding BusyText,
-                                                                   Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                       Text="{TemplateBinding BusyText}" />
-
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              IsHitTestVisible="False" Content="{TemplateBinding IsBusy, Converter={x:Static converters:ProgressToContentConverter.Instance}}"></ContentPresenter>
-
-
-                        </DockPanel>
+                        <ContentControl Name="BusyContent" Content="{TemplateBinding Content}"
+                                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        <Border Name="PART_BusyOverlay" Background="#40000000">
+                            <Border.IsVisible>
+                                <!-- Hide a nested indicator when an enclosing busy area disables it. -->
+                                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                    <Binding Path="IsBusy" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="IsEffectivelyEnabled" RelativeSource="{RelativeSource TemplatedParent}" />
+                                </MultiBinding>
+                            </Border.IsVisible>
+                            <Border Name="PART_BusyCard" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    MaxWidth="420" Margin="8" Padding="12" CornerRadius="8"
+                                    Background="{DynamicResource SukiCardBackground}"
+                                    BorderBrush="{DynamicResource SukiControlBorderBrush}" BorderThickness="1">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Name="PART_BusyText" FontWeight="{DynamicResource DefaultDemiBold}"
+                                               TextAlignment="Center" TextWrapping="Wrap" Text="{TemplateBinding BusyText}"
+                                               IsVisible="{TemplateBinding BusyText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                                    <ProgressBar Name="PART_ProgressBar" MinWidth="120" Height="4" Minimum="0" Maximum="100"
+                                                 Value="{TemplateBinding Progress}" IsHitTestVisible="False"
+                                                 IsIndeterminate="{TemplateBinding Progress, Converter={x:Static converters:DoubleConvert.InvalidProgressToBool}}" />
+                                    <Button Name="PART_CancelButton" HorizontalAlignment="Center" Classes="Flat"
+                                            Content="Cancel" Command="{TemplateBinding CancelCommand}" />
+                                </StackPanel>
+                            </Border>
+                        </Border>
                     </Panel>
                 </ControlTemplate>
             </Setter>
         </Style>
-
     </UserControl.Styles>
 </UserControl>

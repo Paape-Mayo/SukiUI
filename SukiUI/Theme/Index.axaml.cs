@@ -374,9 +374,7 @@ public partial class SukiTheme : Styles
         SetColorWithOpacities("SukiAccentColor", colorTheme.Accent);
         SetResource("SukiAccentDarkColor", colorTheme.AccentDark);
 
-        var palette = _app.ActualThemeVariant == ThemeVariant.Dark
-            ? colorTheme.DarkPalette
-            : colorTheme.LightPalette;
+        var palette = colorTheme.SurfacePalette(_app.ActualThemeVariant);
         ApplyPaletteOverrides(palette);
 
         ActiveColorTheme = colorTheme;

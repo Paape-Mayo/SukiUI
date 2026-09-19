@@ -36,8 +36,8 @@ public partial class BusyArea : UserControl
     }
 
     /// <summary>
-    /// Determinate progress 0-100. Default -1 hides the progress bar so the
-    /// indeterminate spinner shows alone. Sites that report determinate progress
+    /// Determinate progress 0-100. Default -1 uses an indeterminate progress bar.
+    /// Sites that report determinate progress
     /// (e.g. via <c>ViewModelBase.LoadingProgress</c>) set this to drive a bar
     /// under the busy text.
     /// </summary>

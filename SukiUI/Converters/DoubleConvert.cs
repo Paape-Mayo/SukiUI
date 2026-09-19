@@ -9,5 +9,9 @@ public static class DoubleConvert
     /// determinate-progress UI on a sentinel default of -1 (or NaN).
     /// </summary>
     public static readonly IValueConverter NonNegativeToBool =
-        new FuncValueConverter<double, bool>(v => !double.IsNaN(v) && v >= 0);
+        new FuncValueConverter<double, bool>(v => double.IsFinite(v) && v >= 0);
+
+    /// <summary>Unknown progress uses an animated bar instead of a made-up percentage.</summary>
+    public static readonly IValueConverter InvalidProgressToBool =
+        new FuncValueConverter<double, bool>(v => !double.IsFinite(v) || v < 0);
 }
