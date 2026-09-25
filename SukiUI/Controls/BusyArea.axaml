@@ -42,7 +42,15 @@
                                                IsVisible="{TemplateBinding BusyText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
                                     <ProgressBar Name="PART_ProgressBar" MinWidth="120" Height="4" Minimum="0" Maximum="100"
                                                  Value="{TemplateBinding Progress}" IsHitTestVisible="False"
-                                                 IsIndeterminate="{TemplateBinding Progress, Converter={x:Static converters:DoubleConvert.InvalidProgressToBool}}" />
+                                                 IsIndeterminate="{TemplateBinding Progress, Converter={x:Static converters:DoubleConvert.InvalidProgressToBool}}">
+                                        <ProgressBar.IsVisible>
+                                            <!-- Hidden with the overlay so the ProgressBar theme drops its indeterminate animations; merely paused, they keep the frame clock running. -->
+                                            <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                                <Binding Path="IsBusy" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                <Binding Path="IsEffectivelyEnabled" RelativeSource="{RelativeSource TemplatedParent}" />
+                                            </MultiBinding>
+                                        </ProgressBar.IsVisible>
+                                    </ProgressBar>
                                     <Button Name="PART_CancelButton" HorizontalAlignment="Center" Classes="Flat"
                                             Content="Cancel" Command="{TemplateBinding CancelCommand}" />
                                 </StackPanel>

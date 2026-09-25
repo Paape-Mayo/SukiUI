@@ -38,9 +38,24 @@ namespace SukiUI.Controls
                 { LoadingStyle.Glow, SukiEffect.FromEmbeddedResource("glow") },
                 { LoadingStyle.Pellets, SukiEffect.FromEmbeddedResource("pellets") },
             };
-        
+
+        // A running effect invalidates itself and asks for another frame every frame, seen or not, so
+        // a spinner animates only while attached and effectively visible. Avalonia raises no public
+        // event when an ancestor hides this control, so every IsVisible change re-checks these.
+        private static readonly HashSet<Loading> AttachedSpinners = new();
+
+        static Loading()
+        {
+            IsVisibleProperty.Changed.AddClassHandler<Visual>((_, _) =>
+            {
+                foreach (var spinner in AttachedSpinners)
+                    spinner.SetAnimating(spinner.IsEffectivelyVisible);
+            });
+        }
+
         private CompositionCustomVisual? _customVisual;
-        
+        private bool _isAnimating;
+
         public Loading()
         {
             Width = 50;
@@ -51,20 +66,40 @@ namespace SukiUI.Controls
         {
             base.OnAttachedToVisualTree(e);
             var comp = ElementComposition.GetElementVisual(this)?.Compositor;
-            if (comp == null || _customVisual?.Compositor == comp) return;
-            var visualHandler = new LoadingEffectDraw();
-            _customVisual = comp.CreateCustomVisual(visualHandler);
-            ElementComposition.SetElementChildVisual(this, _customVisual);
-            _customVisual.SendHandlerMessage(EffectDrawBase.StartAnimations);
-            if (Foreground is null)
-                this[!ForegroundProperty] = new DynamicResourceExtension("SukiPrimaryColor");
-            if (Foreground is ImmutableSolidColorBrush brush)
-                brush.Color.ToFloatArrayNonAlloc(_color);
-            _customVisual.SendHandlerMessage(_color);
-            _customVisual.SendHandlerMessage(Effects[LoadingStyle]);
-            Update();
+            if (comp == null) return;
+            if (_customVisual?.Compositor != comp)
+            {
+                var visualHandler = new LoadingEffectDraw();
+                _customVisual = comp.CreateCustomVisual(visualHandler);
+                ElementComposition.SetElementChildVisual(this, _customVisual);
+                if (Foreground is null)
+                    this[!ForegroundProperty] = new DynamicResourceExtension("SukiPrimaryColor");
+                if (Foreground is ImmutableSolidColorBrush brush)
+                    brush.Color.ToFloatArrayNonAlloc(_color);
+                _customVisual.SendHandlerMessage(_color);
+                _customVisual.SendHandlerMessage(Effects[LoadingStyle]);
+                Update();
+            }
+            AttachedSpinners.Add(this);
+            SetAnimating(IsEffectivelyVisible);
         }
-        
+
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnDetachedFromVisualTree(e);
+            AttachedSpinners.Remove(this);
+            SetAnimating(false);
+        }
+
+        // Sends start or stop only on a change. Detach always stops, and a handler created for a new
+        // compositor starts stopped, so _isAnimating always describes the current handler.
+        private void SetAnimating(bool animate)
+        {
+            if (_customVisual == null || animate == _isAnimating) return;
+            _isAnimating = animate;
+            _customVisual.SendHandlerMessage(animate ? EffectDrawBase.StartAnimations : EffectDrawBase.StopAnimations);
+        }
+
         private void Update()
         {
             if (_customVisual == null) return;

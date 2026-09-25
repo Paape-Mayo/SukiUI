@@ -204,11 +204,14 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
 
+        <!-- PlaybackBehavior Always lets these one-shot animations finish while PART_Text is hidden, which
+             it always is when ShowProgressText is False. Avalonia would otherwise pause them there, and a
+             paused animation never finishes and keeps the frame clock running for as long as the bar exists. -->
         <Style Selector="^:horizontal[ShowProgressText=True] /template/ TextBlock#PART_Text">
             <Setter Property="Margin" Value="5,0,0,0" />
             <Setter Property="Height" Value="NaN" />
             <Style.Animations>
-                <Animation FillMode="Forward" Duration="0:0:0.35">
+                <Animation FillMode="Forward" Duration="0:0:0.35" PlaybackBehavior="Always">
                     <KeyFrame Cue="0%">
                         <Setter Property="Width" Value="0" />
                     </KeyFrame>
@@ -221,7 +224,7 @@
 
         <Style Selector="^:horizontal[ShowProgressText=False] /template/ TextBlock#PART_Text">
             <Style.Animations>
-                <Animation FillMode="Forward" Duration="0:0:0.35">
+                <Animation FillMode="Forward" Duration="0:0:0.35" PlaybackBehavior="Always">
                     <KeyFrame Cue="0%">
                         <Setter Property="Width" Value="35" />
                     </KeyFrame>
@@ -236,7 +239,7 @@
             <Setter Property="Width" Value="NaN" />
             <Setter Property="Margin" Value="0,8,0,0" />
             <Style.Animations>
-                <Animation FillMode="Forward" Duration="0:0:0.35">
+                <Animation FillMode="Forward" Duration="0:0:0.35" PlaybackBehavior="Always">
                     <KeyFrame Cue="0%">
                         <Setter Property="Height" Value="0" />
                     </KeyFrame>
@@ -249,7 +252,7 @@
 
         <Style Selector="^:vertical[ShowProgressText=False] /template/ TextBlock#PART_Text">
             <Style.Animations>
-                <Animation FillMode="Forward" Duration="0:0:0.35">
+                <Animation FillMode="Forward" Duration="0:0:0.35" PlaybackBehavior="Always">
                     <KeyFrame Cue="0%">
                         <Setter Property="Height" Value="15" />
                     </KeyFrame>
@@ -268,7 +271,10 @@
             </Setter>
         </Style>
 
-        <Style Selector="^:horizontal:indeterminate /template/ Border#IndeterminateProgressBarIndicator">
+        <!-- [IsVisible=True] removes these infinite animations while the bar itself is hidden. Avalonia would
+             only pause them, and a paused animation still keeps the frame clock running. A bar hidden only
+             through an ancestor is not covered, which is why BusyArea hides its bar along with its overlay. -->
+        <Style Selector="^:horizontal:indeterminate[IsVisible=True] /template/ Border#IndeterminateProgressBarIndicator">
             <Style.Animations>
                 <Animation IterationCount="Infinite" Duration="0:0:2">
                     <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
@@ -283,7 +289,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^:horizontal:indeterminate /template/ Border#IndeterminateProgressBarIndicator2">
+        <Style Selector="^:horizontal:indeterminate[IsVisible=True] /template/ Border#IndeterminateProgressBarIndicator2">
             <Style.Animations>
                 <Animation IterationCount="Infinite" Duration="0:0:2">
                     <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
@@ -299,7 +305,7 @@
             </Style.Animations>
         </Style>
 
-        <Style Selector="^:vertical:indeterminate /template/ Border#IndeterminateProgressBarIndicator">
+        <Style Selector="^:vertical:indeterminate[IsVisible=True] /template/ Border#IndeterminateProgressBarIndicator">
             <Style.Animations>
                 <Animation IterationCount="Infinite" Duration="0:0:2">
                     <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
@@ -314,7 +320,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="^:vertical:indeterminate /template/ Border#IndeterminateProgressBarIndicator2">
+        <Style Selector="^:vertical:indeterminate[IsVisible=True] /template/ Border#IndeterminateProgressBarIndicator2">
             <Style.Animations>
                 <Animation IterationCount="Infinite" Duration="0:0:2">
                     <KeyFrame KeySpline="0.4,0,0.6,1" KeyTime="0:0:0">
