@@ -2,8 +2,9 @@
     <ControlTheme x:Key="SukiFlyoutPresenterStyle" TargetType="FlyoutPresenter">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SukiPopupBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiMenuBorderBrush}" />
+        <Setter Property="CornerRadius" Value="6" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -14,9 +15,9 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="LayoutRoot" 
-                        Background="Transparent"
+                        Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="0"
+                        BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <Border.Transitions>
                         <Transitions>

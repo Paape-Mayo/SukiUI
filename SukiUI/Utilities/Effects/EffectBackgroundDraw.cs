@@ -10,6 +10,7 @@ namespace SukiUI.Utilities.Effects
     internal class EffectBackgroundDraw : EffectDrawBase
     {
         public static readonly object EnableTransitions = new(), DisableTransitions = new();
+        internal static readonly object RefreshTheme = new(), ReleaseSoftwareFrame = new();
         
         internal bool TransitionsEnabled { get; set; }
         internal double TransitionTime { get; set; }
@@ -19,6 +20,8 @@ namespace SukiUI.Utilities.Effects
         private SukiEffect? _oldEffect;
         private float _transitionStartTime;
         private float _transitionEndTime;
+        private SKImage? _softwareFrame;
+        private (int Width, int Height, SukiEffect? Effect, ThemeVariant Variant, SukiUI.Models.SukiColorTheme Theme) _softwareKey;
 
         public EffectBackgroundDraw() : base(false)
         {
@@ -40,6 +43,14 @@ namespace SukiUI.Utilities.Effects
             if (message == EnableTransitions) TransitionsEnabled = true;
             else if (message == DisableTransitions) TransitionsEnabled = false;
             if (message is double time) TransitionTime = time;
+            if (message == ReleaseSoftwareFrame)
+            {
+                _softwareFrame?.Dispose();
+                _softwareFrame = null;
+                return;
+            }
+            // Property and theme changes must repaint even when animation is disabled.
+            Invalidate();
         }
 
         protected override void Render(SKCanvas canvas, SKRect rect)
@@ -74,7 +85,38 @@ namespace SukiUI.Utilities.Effects
 
         protected override void RenderSoftware(SKCanvas canvas, SKRect rect)
         {
-            canvas.Clear(ActiveTheme.BackgroundFor(ActiveVariant).ToSKColor());
+            // An explicit request for the inexpensive, flat fallback is still respected.
+            // Draw within this visual: Clear would erase siblings outside a floating host.
+            if (ForceSoftwareRendering || Effect is null)
+            {
+                using var paint = new SKPaint { Color = ActiveTheme.BackgroundFor(ActiveVariant).ToSKColor() };
+                canvas.DrawRect(rect, paint);
+                return;
+            }
+
+            // Skia runtime shaders also work on raster surfaces. Cache a static gradient
+            // so pointer movement and wiring updates do not rerun it for every frame.
+            int width = Math.Max(1, (int)Math.Ceiling(rect.Width));
+            int height = Math.Max(1, (int)Math.Ceiling(rect.Height));
+            var key = (width, height, Effect, ActiveVariant, ActiveTheme);
+            if (_softwareFrame is null || _softwareKey != key || AnimationEnabled || _oldEffect is not null)
+            {
+                using var raster = SKSurface.Create(new SKImageInfo(width, height));
+                if (raster is null) return;
+                raster.Canvas.Clear(SKColors.Transparent);
+                Render(raster.Canvas, rect);
+                _softwareFrame?.Dispose();
+                _softwareFrame = raster.Snapshot();
+                _softwareKey = key;
+            }
+            canvas.DrawImage(_softwareFrame, rect);
+        }
+
+        public override void Dispose()
+        {
+            _softwareFrame?.Dispose();
+            _softwareFrame = null;
+            base.Dispose();
         }
 
         private static double InverseLerp(double start, double end, double value) =>

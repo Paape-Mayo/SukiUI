@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Rendering.Composition;
+using Avalonia.Styling;
 using SukiUI.Enums;
+using SukiUI.Models;
 using SukiUI.Utilities.Effects;
 
 namespace SukiUI.Controls
@@ -92,6 +94,7 @@ namespace SukiUI.Controls
         }
 
         private CompositionCustomVisual? _customVisual;
+        private SukiTheme? _theme;
 
         public SukiBackground()
         {
@@ -102,14 +105,39 @@ namespace SukiUI.Controls
         {
             base.OnAttachedToVisualTree(e);
             var comp = ElementComposition.GetElementVisual(this)?.Compositor;
-            if (comp == null || _customVisual?.Compositor == comp) return;
-            var visualHandler = new EffectBackgroundDraw();
-            _customVisual = comp.CreateCustomVisual(visualHandler);
-            ElementComposition.SetElementChildVisual(this, _customVisual);
+            if (comp == null) return;
+            if (_customVisual?.Compositor != comp)
+            {
+                var visualHandler = new EffectBackgroundDraw();
+                _customVisual = comp.CreateCustomVisual(visualHandler);
+                ElementComposition.SetElementChildVisual(this, _customVisual);
+            }
+            _theme = SukiTheme.GetInstance();
+            _theme.OnBaseThemeChanged += OnBaseThemeChanged;
+            _theme.OnColorThemeChanged += OnColorThemeChanged;
             _customVisual.SendHandlerMessage(TransitionTime);
+            _customVisual.SendHandlerMessage(ForceSoftwareRendering ? EffectDrawBase.EnableForceSoftwareRendering : EffectDrawBase.DisableForceSoftwareRendering);
+            _customVisual.SendHandlerMessage(TransitionsEnabled ? EffectBackgroundDraw.EnableTransitions : EffectBackgroundDraw.DisableTransitions);
+            _customVisual.SendHandlerMessage(AnimationEnabled ? EffectDrawBase.StartAnimations : EffectDrawBase.StopAnimations);
             HandleBackgroundStyleChanges();
             Update();
         }
+
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            if (_theme is not null)
+            {
+                _theme.OnBaseThemeChanged -= OnBaseThemeChanged;
+                _theme.OnColorThemeChanged -= OnColorThemeChanged;
+                _theme = null;
+            }
+            _customVisual?.SendHandlerMessage(EffectDrawBase.StopAnimations);
+            _customVisual?.SendHandlerMessage(EffectBackgroundDraw.ReleaseSoftwareFrame);
+            base.OnDetachedFromVisualTree(e);
+        }
+
+        private void OnBaseThemeChanged(ThemeVariant _) => _customVisual?.SendHandlerMessage(EffectBackgroundDraw.RefreshTheme);
+        private void OnColorThemeChanged(SukiColorTheme _) => _customVisual?.SendHandlerMessage(EffectBackgroundDraw.RefreshTheme);
 
         private void Update()
         {

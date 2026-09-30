@@ -80,7 +80,9 @@ namespace SukiUI.Utilities.Effects
         
         public override void OnMessage(object message)
         {
-            if (message == StartAnimations)
+            if (message == EnableForceSoftwareRendering) ForceSoftwareRendering = true;
+            else if (message == DisableForceSoftwareRendering) ForceSoftwareRendering = false;
+            else if (message == StartAnimations)
             {
                 AnimationEnabled = true;
                 RegisterForNextAnimationFrameUpdate();
