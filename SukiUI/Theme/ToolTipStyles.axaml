@@ -10,6 +10,8 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="Placement" Value="Pointer" />
+            <!-- A sentence of help wraps at a readable width instead of running across the screen. -->
+            <Setter Property="MaxWidth" Value="420" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -19,7 +21,8 @@
                             <ContentPresenter Name="ContentPresenter"
                                               Margin="{TemplateBinding Padding}"
                                               Content="{TemplateBinding ContentControl.Content}"
-                                              ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" />
+                                              ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                              TextWrapping="Wrap" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
