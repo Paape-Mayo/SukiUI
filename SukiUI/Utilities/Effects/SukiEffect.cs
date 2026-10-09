@@ -137,6 +137,11 @@ namespace SukiUI.Utilities.Effects
             return effect._shaderString == _shaderString;
         }
 
+        public override int GetHashCode()
+        {
+            return _shaderString.GetHashCode();
+        }
+
         private readonly float[] _backgroundAlloc = new float[3];
         private readonly float[] _backgroundAccentAlloc = new float[3];
         private readonly float[] _backgroundPrimaryAlloc = new float[3];

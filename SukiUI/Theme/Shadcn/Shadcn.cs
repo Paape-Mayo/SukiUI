@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml.Styling;
@@ -11,6 +12,7 @@ namespace SukiUI.Theme.Shadcn
 {
     public static class Shadcn
     {
+        [RequiresUnreferencedCode("Loads the Shadcn resources and styles by URI at run time, which trimming can break.")]
         public static void Configure(Application application, ThemeVariant startupTheme)
         {
             Application.Current.Resources.MergedDictionaries.Add(new ResourceInclude(new Uri("avares://SukiUI/Theme/Shadcn/BlackWhiteTheme.axaml")

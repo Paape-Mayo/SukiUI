@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.Diagnostics.CodeAnalysis;
+using Avalonia.Controls;
 using Avalonia.Media;
 using SukiUI.Helpers;
 
@@ -10,6 +11,7 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         
         public string Name { get; set; }
 
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
         public Type Content { get; set; }
 
  

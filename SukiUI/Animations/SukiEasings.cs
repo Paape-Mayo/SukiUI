@@ -17,7 +17,6 @@ namespace SukiUI.Animations
 
         public override double Ease(double progress)
         {
-            double Pi = Math.PI;
             double c1 = BounceIntensity switch
             {
                 EasingIntensity.Soft => 0.9,

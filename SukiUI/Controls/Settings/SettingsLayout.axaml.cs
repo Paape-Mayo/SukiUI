@@ -4,7 +4,6 @@ using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
-using Avalonia.Data;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
@@ -97,8 +96,8 @@ public partial class SettingsLayout : UserControl
             return;
         }
 
-        var stackSummary = this.GetTemplateChildren().First(n => n.Name == "StackSummary") as StackPanel;
-        var myScroll = this.GetTemplateChildren().First(n => n.Name == "MyScroll") as ScrollViewer;
+        var stackSummary = this.GetTemplateDescendants().First(n => n.Name == "StackSummary") as StackPanel;
+        var myScroll = this.GetTemplateDescendants().First(n => n.Name == "MyScroll") as ScrollViewer;
 
         if (myScroll?.Content is not StackPanel stackItems)
             return;
@@ -119,10 +118,7 @@ public partial class SettingsLayout : UserControl
             }
 
             var header = new TextBlock();
-            header.Bind(TextBlock.TextProperty, new Binding(nameof(SettingsLayoutItem.Header))
-            {
-                Source = settingsLayoutItem
-            });
+            header.Bind(TextBlock.TextProperty, settingsLayoutItem.GetObservable(SettingsLayoutItem.HeaderProperty));
 
            
             var gb = new GroupBox()
@@ -149,10 +145,7 @@ public partial class SettingsLayout : UserControl
             stackItems.Children.Add(border);
 
             var textBlock = new TextBlock {  };
-            textBlock.Bind(TextBlock.TextProperty, new Binding(nameof(SettingsLayoutItem.Header))
-            {
-                Source = settingsLayoutItem
-            });
+            textBlock.Bind(TextBlock.TextProperty, settingsLayoutItem.GetObservable(SettingsLayoutItem.HeaderProperty));
 
             var summaryButton = new RadioButton()
             {
@@ -181,7 +174,9 @@ public partial class SettingsLayout : UserControl
 
             var OffsetY = myScroll.Offset.Y;
 
-            var l = borders.Select(b => Math.Abs(b.TranslatePoint(new Point(), stackItems).Value.Y - OffsetY)).ToList();
+            var l = borders.Select(b => b.TranslatePoint(new Point(), stackItems) is { } p
+                ? Math.Abs(p.Y - OffsetY)
+                : double.MaxValue).ToList();
             radios[l.IndexOf(l.Min())].IsChecked = true;
         };
     }
@@ -190,7 +185,7 @@ public partial class SettingsLayout : UserControl
 
     private void DockPanel_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        var stack = this.GetTemplateChildren().First(n => n.Name == "StackSummary");
+        var stack = this.GetTemplateDescendants().OfType<Control>().First(n => n.Name == "StackSummary");
         var desiredSize = e.NewSize.Width > MinWidthWhetherStackSummaryShow ? StackSummaryWidth : 0;
 
         if (LastDesiredSize == desiredSize)
@@ -207,7 +202,7 @@ public partial class SettingsLayout : UserControl
     private async Task AnimateScroll(double desiredScroll)
     {
         isAnimatingScroll = true;
-        var myscroll = (ScrollViewer)this.GetTemplateChildren().First(n => n.Name == "MyScroll");
+        var myscroll = (ScrollViewer)this.GetTemplateDescendants().First(n => n.Name == "MyScroll");
 
         var animationTask = new Animation
         {

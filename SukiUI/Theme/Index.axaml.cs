@@ -9,6 +9,7 @@ using SukiUI.Enums;
 using SukiUI.Extensions;
 using SukiUI.Locale;
 using SukiUI.Models;
+using SukiUI.Theme.Density;
 using System.Globalization;
 
 namespace SukiUI;
@@ -233,13 +234,12 @@ public partial class SukiTheme : Styles
     {
         if (ActiveDensity == density) return;
 
-        var uri = density switch
+        ResourceDictionary resourceDict = density switch
         {
-            SukiDensity.Compact => new Uri("avares://SukiUI/Theme/Density/DensityCompact.axaml"),
-            _ => new Uri("avares://SukiUI/Theme/Density/DensityNormal.axaml")
+            SukiDensity.Compact => new DensityCompact(),
+            _ => new DensityNormal()
         };
 
-        var resourceDict = (ResourceDictionary)AvaloniaXamlLoader.Load(uri);
         foreach (var kvp in resourceDict)
         {
             _app.Resources[kvp.Key] = kvp.Value;

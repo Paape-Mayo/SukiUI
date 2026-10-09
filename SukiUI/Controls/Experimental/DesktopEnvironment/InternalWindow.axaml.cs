@@ -17,20 +17,24 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         private bool _isResizing;
 
         private bool isVisible = true;
-        public InternalWindow(WindowManager WM, Control content, string title)
+        public InternalWindow()
         {
             InitializeComponent();
 
-            _ParentWM = WM;
-            this.Get<TextBlock>("TBTitle").Text = title;
             _windowBorder = this.FindControl<Panel>("WindowBorder");
-             this.FindControl<ContentControl>("WindowContent").Content = content;
 
             // Gérer les événements pour permettre le déplacement
             var titleBar = this.FindControl<GlassCard>("PART_TitleBarBackground");
             titleBar.PointerPressed += OnTitleBarPointerPressed;
             titleBar.PointerMoved += OnTitleBarPointerMoved;
             titleBar.PointerReleased += OnTitleBarPointerReleased;
+        }
+
+        public InternalWindow(WindowManager WM, Control content, string title) : this()
+        {
+            _ParentWM = WM;
+            this.Get<TextBlock>("TBTitle").Text = title;
+            this.FindControl<ContentControl>("WindowContent").Content = content;
         }
 
         private void OnTitleBarPointerPressed(object sender, PointerPressedEventArgs e)
@@ -178,6 +182,9 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
 
         private void PART_MaximizeButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (_ParentWM == null)
+                return;
+
             // Redimensionner et repositionner la fenêtre pour occuper tout l'écran
             _windowBorder.Margin = new Thickness(0);
       

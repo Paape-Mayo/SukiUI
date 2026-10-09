@@ -28,7 +28,7 @@ public partial class TouchNavigationStack : UserControl
                 
                 await Task.Delay(700);
                 
-                this.Get<DockPanel>("DP").Animate(OpacityProperty).From(0).To(1).RunAsync();
+                await this.Get<DockPanel>("DP").Animate(OpacityProperty).From(0).To(1).RunAsync();
             }
         };
     }
@@ -86,7 +86,7 @@ public partial class TouchNavigationStack : UserControl
             SetContentPres(contentPresenter, _currentPage, new Action(() =>
             {
                 if (backButton.Width != 160)
-                    backButton.Animate(WidthProperty).From(0).To(160).RunAsync();
+                    _ = backButton.Animate(WidthProperty).From(0).To(160).RunAsync();
                 
                 SetTitle( _currentTitle ?? Title);
             }));
@@ -99,7 +99,7 @@ public partial class TouchNavigationStack : UserControl
             headerPanel.IsVisible = true;
             SetContentPres(contentPresenter, _originalContent, new Action(() =>
             {
-                backButton.Animate(WidthProperty).From(160).To(0).RunAsync();
+                _ = backButton.Animate(WidthProperty).From(160).To(0).RunAsync();
                 SetTitle( _currentTitle ?? Title);
                 
             }));
@@ -123,8 +123,8 @@ public partial class TouchNavigationStack : UserControl
 
         titleTextto.Text = currentTitle;
         
-        titleTextto.Animate(OpacityProperty).From(0).To(1).RunAsync();
-        titleTextfrom.Animate(OpacityProperty).From(1).To(0).RunAsync();
+        _ = titleTextto.Animate(OpacityProperty).From(0).To(1).RunAsync();
+        _ = titleTextfrom.Animate(OpacityProperty).From(1).To(0).RunAsync();
 
     }
 
@@ -135,7 +135,7 @@ public partial class TouchNavigationStack : UserControl
         contentP!.Content = c;
 
         action();
-        contentP.AnimateAsync<double>(OpacityProperty, 0, 1, TimeSpan.FromMilliseconds(250));
+        await contentP.AnimateAsync<double>(OpacityProperty, 0, 1, TimeSpan.FromMilliseconds(250));
     }
 
     private void BackButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
