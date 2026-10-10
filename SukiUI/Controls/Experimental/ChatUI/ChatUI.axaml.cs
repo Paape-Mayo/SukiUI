@@ -21,7 +21,7 @@ namespace SukiUI.Controls.Experimental
             InitializeComponent();
         }
 
-        private ScrollViewer ChatScroll;
+        private ScrollViewer? ChatScroll;
         
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
@@ -87,10 +87,13 @@ namespace SukiUI.Controls.Experimental
            
         }
 
-        private CancellationTokenSource AnimationToken;
-        
-        private void ValueOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private CancellationTokenSource? AnimationToken;
+
+        private void ValueOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            if (ChatScroll == null)
+                return;
+
             AnimationToken?.Cancel();
             AnimationToken = new CancellationTokenSource();
              new Animation
@@ -127,7 +130,7 @@ namespace SukiUI.Controls.Experimental
     public class ContentToControlConverter : IValueConverter
     {
         public static ContentToControlConverter Instance = new ContentToControlConverter();
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is string)
                 return new TextBlock() { Text = (string?)value };
@@ -135,7 +138,7 @@ namespace SukiUI.Controls.Experimental
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

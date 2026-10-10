@@ -35,7 +35,7 @@ public class BlurBackground : Control
     {
         base.BeginInit();
 
-        darkmode = Application.Current.ActualThemeVariant == ThemeVariant.Dark;
+        darkmode = Application.Current?.ActualThemeVariant == ThemeVariant.Dark;
     }
 
     private bool darkmode = false;

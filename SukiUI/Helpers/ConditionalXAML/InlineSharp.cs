@@ -12,7 +12,7 @@ namespace SukiUI.Helpers.ConditionalXAML
 {
      public class InlineSharp : MarkupExtension
     {
-        public string Expression { get; set; }
+        public string Expression { get; set; } = string.Empty;
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -28,7 +28,7 @@ namespace SukiUI.Helpers.ConditionalXAML
 
             var updater = new ReactiveUpdater(targetObject, targetProperty, Expression);
             updater.Attach();
-            return updater.CurrentValue;
+            return updater.CurrentValue ?? AvaloniaProperty.UnsetValue;
         }
 
         private class ReactiveUpdater
@@ -36,9 +36,9 @@ namespace SukiUI.Helpers.ConditionalXAML
             private readonly AvaloniaObject _targetObject;
             private readonly AvaloniaProperty _targetProperty;
             private readonly string _expression;
-            private INotifyPropertyChanged _dataContextNotifier;
+            private INotifyPropertyChanged? _dataContextNotifier;
 
-            public object CurrentValue { get; private set; } = AvaloniaProperty.UnsetValue;
+            public object? CurrentValue { get; private set; } = AvaloniaProperty.UnsetValue;
 
             public ReactiveUpdater(AvaloniaObject targetObject, AvaloniaProperty targetProperty, string expression)
             {
@@ -57,7 +57,7 @@ namespace SukiUI.Helpers.ConditionalXAML
                 }
             }
 
-            private void OnDataContextChanged(object sender, EventArgs e)
+            private void OnDataContextChanged(object? sender, EventArgs e)
             {
                if (sender is Control control)
                 {
@@ -67,7 +67,7 @@ namespace SukiUI.Helpers.ConditionalXAML
                 }
             }
 
-            private void SubscribeToDataContext(object dataContext)
+            private void SubscribeToDataContext(object? dataContext)
             {
                 if (dataContext is INotifyPropertyChanged notifier)
                 {
@@ -85,12 +85,12 @@ namespace SukiUI.Helpers.ConditionalXAML
                 }
             }
 
-            private void DataContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
+            private void DataContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
             {
                 EvaluateAndSet(sender);
             }
 
-            private void EvaluateAndSet(object dataContext)
+            private void EvaluateAndSet(object? dataContext)
             {
                 if (dataContext == null)
                 {

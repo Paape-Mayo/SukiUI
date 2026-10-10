@@ -32,14 +32,14 @@ public partial class MobilePicker : UserControl
             nameof(DialogManager));
     
 
-    private string _subtitle;
-    public string SubTitle
+    private string? _subtitle;
+    public string? SubTitle
     {
         get => _subtitle;
         set => SetAndRaise(SubTitleProperty, ref _subtitle, value );
     }
-    public static readonly DirectProperty<MobilePicker, string> SubTitleProperty =
-        AvaloniaProperty.RegisterDirect<MobilePicker, string>(
+    public static readonly DirectProperty<MobilePicker, string?> SubTitleProperty =
+        AvaloniaProperty.RegisterDirect<MobilePicker, string?>(
             nameof(SubTitle),
             o => o.SubTitle,
             (o, v) => o.SubTitle = v,
@@ -47,28 +47,28 @@ public partial class MobilePicker : UserControl
             enableDataValidation: true);
 
     
-    private object _title;
-    public object Title
+    private object? _title;
+    public object? Title
     {
         get => _title;
         set => SetAndRaise(TitleProperty, ref _title, value );
     }
-    public static readonly DirectProperty<MobilePicker, object> TitleProperty =
-        AvaloniaProperty.RegisterDirect<MobilePicker, object>(
+    public static readonly DirectProperty<MobilePicker, object?> TitleProperty =
+        AvaloniaProperty.RegisterDirect<MobilePicker, object?>(
             nameof(Title),
             o => o.Title,
             (o, v) => o.Title = v,
             defaultBindingMode: BindingMode.TwoWay,
             enableDataValidation: true);
     
-    private string _selectedItem;
-    public string SelectedItem
+    private string? _selectedItem;
+    public string? SelectedItem
     {
         get => _selectedItem;
         set => SetAndRaise(SelectedItemProperty, ref _selectedItem, value );
     }
-    public static readonly DirectProperty<MobilePicker, string> SelectedItemProperty =
-        AvaloniaProperty.RegisterDirect<MobilePicker, string>(
+    public static readonly DirectProperty<MobilePicker, string?> SelectedItemProperty =
+        AvaloniaProperty.RegisterDirect<MobilePicker, string?>(
             nameof(SelectedItem),
             o => o.SelectedItem,
             (o, v) => o.SelectedItem = v,
@@ -85,18 +85,20 @@ public partial class MobilePicker : UserControl
         set { SetValue(ItemsProperty, value ); }
     }
 
-    private void OpenPopup(object sender, RoutedEventArgs e)
+    private void OpenPopup(object? sender, RoutedEventArgs? e)
     {
         var control = new MobilePickerPopUp(DialogManager);
 
-        var vm = ((MobilePickerPopUpViewModel) control.DataContext);
+        var vm = ((MobilePickerPopUpViewModel?) control.DataContext);
+        if (vm == null)
+            return;
         vm.Items = Items;
         vm.SelectedItem = SelectedItem;
  
         vm.SubTitle = SubTitle;
         vm.mobilePicker = this;
         
-        control.FindControl<Border>("rootBorder").RenderTransform = PopupScale;
+        control.Get<Border>("rootBorder").RenderTransform = PopupScale;
 
         DialogManager.CreateDialog().WithContent(control).Dismiss().ByClickingBackground().TryShow();
 

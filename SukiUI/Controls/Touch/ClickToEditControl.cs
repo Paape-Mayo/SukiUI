@@ -24,7 +24,7 @@ public class ClickToEditTextControl : UserControl
             AvaloniaProperty.Register<ClickToEditTextControl, string>(
                 nameof(Subtitle), "Subtitle");
 
-        public static readonly StyledProperty<CornerRadius> CornerRadiusProperty =
+        public new static readonly StyledProperty<CornerRadius> CornerRadiusProperty =
             AvaloniaProperty.Register<ClickToEditTextControl, CornerRadius>(
                 nameof(CornerRadius), new CornerRadius(15));
 
@@ -45,7 +45,7 @@ public class ClickToEditTextControl : UserControl
             set => SetValue(SubtitleProperty, value);
         }
 
-        public CornerRadius CornerRadius
+        public new CornerRadius CornerRadius
         {
             get => GetValue(CornerRadiusProperty);
             set
@@ -199,7 +199,7 @@ public class ClickToEditTextControl : UserControl
 
             stack.Children.Add(dock);
 
-            _input.CaretIndex = _input.Text.Length;
+            _input.CaretIndex = _input.Text?.Length ?? 0;
 
 
             var rows = new[]

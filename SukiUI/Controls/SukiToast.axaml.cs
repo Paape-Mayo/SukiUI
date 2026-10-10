@@ -181,14 +181,14 @@ public class SukiToast : ContentControl, ISukiToast
         }
     }
 
-    private void ToastCardClickedHandler(object o, PointerPressedEventArgs pointerPressedEventArgs)
+    private void ToastCardClickedHandler(object? o, PointerPressedEventArgs pointerPressedEventArgs)
     {
         OnClicked?.Invoke(this);
         if (!CanDismissByClicking) return;
         Dismiss(SukiToastDismissSource.Click);
     }
 
-    private void OnActionButtonClick(object sender, RoutedEventArgs e)
+    private void OnActionButtonClick(object? sender, RoutedEventArgs e)
     {
         if (sender is not Button button) return;
         if (button.Tag is not ValueTuple<Action<ISukiToast>, bool> tuple) return;
@@ -201,7 +201,7 @@ public class SukiToast : ContentControl, ISukiToast
 
     public void Dismiss(SukiToastDismissSource dismiss = SukiToastDismissSource.Code)
     {
-        Manager.Dismiss(this, dismiss);
+        Manager?.Dismiss(this, dismiss);
     }
 
     public void AnimateShow()

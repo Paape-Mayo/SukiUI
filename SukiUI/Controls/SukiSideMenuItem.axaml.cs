@@ -24,10 +24,10 @@ public class SukiSideMenuItem : TreeViewItem
         set => SetValue(IconProperty, value);
     }
 
-    public static readonly StyledProperty<string?> HeaderProperty =
+    public new static readonly StyledProperty<string?> HeaderProperty =
         AvaloniaProperty.Register<SukiSideMenuItem, string?>(nameof(Header));
 
-    public string? Header
+    public new string? Header
     {
         get => GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);

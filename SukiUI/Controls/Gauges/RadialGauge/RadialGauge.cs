@@ -102,17 +102,17 @@ public class RadialGauge : Panel
     public IList<RadialGaugeSegment>? Segments { get => GetValue(SegmentsProperty); set => SetValue(SegmentsProperty, value); }
 
 
-    private Border _rim;          
-    private Border _dial;         
+    private Border? _rim;          
+    private Border? _dial;         
     private List<Border> _ticks = new();
-    private Grid _gridPath ;
-    private Path   _trailPath;     
-    private Border _needle;       
-    private TextBlock _valueText;        
-    private TextBlock _subtitleText;        
-    private StackPanel _stackText;        
+    private Grid? _gridPath ;
+    private Path?  _trailPath;     
+    private Border? _needle;       
+    private TextBlock? _valueText;        
+    private TextBlock? _subtitleText;        
+    private StackPanel? _stackText;        
     private List<Path> _segmentPaths = new();
-    private Grid _segmentsGrid;
+    private Grid? _segmentsGrid;
           
 
     static RadialGauge()
@@ -237,8 +237,8 @@ public class RadialGauge : Panel
 
     private void UpdateColors()
     {
-        if (_rim == null)
-            return; 
+        if (_rim == null || _dial == null || _needle == null || _trailPath == null)
+            return;
         
         _rim.BorderBrush = RimBrush;
         _dial.Background = BackgroundBrush;
@@ -277,7 +277,7 @@ public class RadialGauge : Panel
 
     private void RebuildSegments()
     {
-        foreach (var path in _segmentPaths) _segmentsGrid.Children.Remove(path);
+        foreach (var path in _segmentPaths) _segmentsGrid?.Children.Remove(path);
         _segmentPaths.Clear();
 
         if (Segments == null) return;
@@ -360,6 +360,10 @@ public class RadialGauge : Panel
 
     protected override Size ArrangeOverride(Size finalSize)
     {
+        if (_stackText == null || _valueText == null || _dial == null || _rim == null ||
+            _segmentsGrid == null || _needle == null || _trailPath == null)
+            return finalSize;
+
         double size = Math.Min(finalSize.Width, finalSize.Height);
         var rect = new Rect((finalSize.Width - size) / 2, (finalSize.Height - size) / 2, size, size);
 
@@ -396,7 +400,8 @@ public class RadialGauge : Panel
             double u = _ticks.Count <= 1 ? 0 : (double)i / (_ticks.Count - 1);
             double ang = Deg2Rad(StartAngle - u * sweep); 
             
-            ((RotateTransform)_ticks[i].RenderTransform).Angle = -(StartAngle - (u * sweep)) -90 ;
+            if (_ticks[i].RenderTransform is RotateTransform rotate)
+                rotate.Angle = -(StartAngle - (u * sweep)) -90 ;
 
             double cos = Math.Cos(ang);
             double sin = Math.Sin(ang);
@@ -457,7 +462,7 @@ public class RadialGauge : Panel
             IsFilled = false
         };
 
-        fig.Segments.Add(new ArcSegment
+        fig.Segments!.Add(new ArcSegment
         {
             Point = endPt,
             Size = new Size(trailRadius, trailRadius),
@@ -531,7 +536,7 @@ public class RadialGauge : Panel
                 IsFilled = false
             };
 
-            fig.Segments.Add(new ArcSegment
+            fig.Segments!.Add(new ArcSegment
             {
                 Point = endPt,
                 Size = new Size(segmentRadius, segmentRadius),

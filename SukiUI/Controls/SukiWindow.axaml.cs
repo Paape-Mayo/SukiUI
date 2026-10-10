@@ -783,7 +783,7 @@ public class SukiWindow : Window, IDisposable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnScalingChanged(object sender, EventArgs e)
+    private void OnScalingChanged(object? sender, EventArgs e)
     {
         this.ConstrainMaxSizeToScreenRatio(MaxWidthScreenRatio, MaxHeightScreenRatio);
     }
@@ -844,7 +844,7 @@ public class SukiWindow : Window, IDisposable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void LogoOnDoubleTapped(object sender, TappedEventArgs e)
+    private void LogoOnDoubleTapped(object? sender, TappedEventArgs e)
     {
         if (!LogoDoubleTapClosesWindow) return;
         Close();
@@ -877,7 +877,7 @@ public class SukiWindow : Window, IDisposable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnMinimizeButtonClicked(object sender, RoutedEventArgs e)
+    private void OnMinimizeButtonClicked(object? sender, RoutedEventArgs e)
     {
         WindowState = WindowState.Minimized;
     }
@@ -1089,7 +1089,7 @@ public class SukiWindow : Window, IDisposable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnCloseButtonClicked(object sender, RoutedEventArgs e)
+    private void OnCloseButtonClicked(object? sender, RoutedEventArgs e)
     {
         Close();
     }
@@ -1099,7 +1099,7 @@ public class SukiWindow : Window, IDisposable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void AutoHideTitleBarOnPointerMoved(object sender, PointerEventArgs e)
+    private void AutoHideTitleBarOnPointerMoved(object? sender, PointerEventArgs e)
     {
         var position = e.GetPosition(this);
 
@@ -1170,7 +1170,7 @@ public class SukiWindow : Window, IDisposable
     /// <summary>
     /// Occurs when the title bar is released.
     /// </summary>
-    private void OnTitleBarPointerReleased(object sender, PointerReleasedEventArgs e)
+    private void OnTitleBarPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         // Ensure correct window max size if dropped on other screen/resolution while using max size ratio.
         if (!CanMove || e.InitialPressMouseButton != MouseButton.Left || IsFromTitleBarUserElement(e.Source)) return;
@@ -1207,13 +1207,13 @@ public class SukiWindow : Window, IDisposable
         e.Handled = true;
     }
 
-    private void HideTitleBarTimerOnTick(object sender, EventArgs e)
+    private void HideTitleBarTimerOnTick(object? sender, EventArgs e)
     {
         _hideTitleBarTimer.Stop();
         IsTitleBarVisible = false;
     }
 
-    private void ShowTitleBarTimerOnTick(object sender, EventArgs e)
+    private void ShowTitleBarTimerOnTick(object? sender, EventArgs e)
     {
         _showTitleBarTimer.Stop();
         IsTitleBarVisible = true;

@@ -12,14 +12,14 @@ namespace SukiUI.Controls;
 
 public partial class SettingsLayout : UserControl
 {
-    public static readonly DirectProperty<SettingsLayout, IEnumerable<SettingsLayoutItem>> ItemsProperty =
-    AvaloniaProperty.RegisterDirect<SettingsLayout, IEnumerable<SettingsLayoutItem>>(
+    public static readonly DirectProperty<SettingsLayout, IEnumerable<SettingsLayoutItem>?> ItemsProperty =
+    AvaloniaProperty.RegisterDirect<SettingsLayout, IEnumerable<SettingsLayoutItem>?>(
         nameof(Items),
         o => o.Items);
 
-    private IEnumerable<SettingsLayoutItem> _bounds;
+    private IEnumerable<SettingsLayoutItem>? _bounds;
 
-    public IEnumerable<SettingsLayoutItem> Items
+    public IEnumerable<SettingsLayoutItem>? Items
     {
         get { return _bounds; }
         set { SetAndRaise(ItemsProperty, ref _bounds, value); }

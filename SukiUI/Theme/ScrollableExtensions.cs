@@ -12,7 +12,7 @@ namespace SukiUI.Theme
 
     public static class Scrollable
     {
-        public static void MakeScrollable(CompositionVisual compositionVisual)
+        public static void MakeScrollable(CompositionVisual? compositionVisual)
         {
             if (compositionVisual == null)
                 return;

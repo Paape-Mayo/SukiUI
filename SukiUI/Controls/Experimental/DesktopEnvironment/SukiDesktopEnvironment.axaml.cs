@@ -11,7 +11,7 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
 {
     public partial class SukiDesktopEnvironment : UserControl
     {
-        private WindowManager _WM;
+        private WindowManager? _WM;
         
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
@@ -43,7 +43,10 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         
         private void open(object? sender, RoutedEventArgs e)
         {
-            SDESoftware soft = (SDESoftware)(((Button)sender).Tag);
+            SDESoftware? soft = (SDESoftware?)((Button?)sender)?.Tag;
+            if (soft == null || _WM == null)
+                return;
+
             soft.Click(_WM);
         }
         

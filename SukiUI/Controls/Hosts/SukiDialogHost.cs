@@ -48,6 +48,7 @@ namespace SukiUI.Controls
                 dialogBackground.Loaded += (_, _) =>
                 {
                     var v = ElementComposition.GetElementVisual(dialogBackground);
+                    if (v is null) return;
                     CompositionAnimationHelper.MakeOpacityAnimated(v, 400);
                 }; 
             }

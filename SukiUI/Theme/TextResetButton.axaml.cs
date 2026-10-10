@@ -94,7 +94,7 @@ public class TextResetButton : ContentControl
         }
     }
 
-    private void Button_OnClick(object sender, RoutedEventArgs e)
+    private void Button_OnClick(object? sender, RoutedEventArgs e)
     {
         SetCurrentValue(TextProperty, DefaultText);
     }

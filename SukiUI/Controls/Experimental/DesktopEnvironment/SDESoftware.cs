@@ -9,16 +9,16 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
     {
         public IImage? Icon { get; set; }
         
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
-        public Type Content { get; set; }
+        public Type? Content { get; set; }
 
- 
 
-        private InternalWindow instance = null;
 
-        public  InternalWindow Instance
+        private InternalWindow? instance = null;
+
+        public  InternalWindow? Instance
         {
             get => instance;
             set
@@ -31,7 +31,10 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         {
             if (Instance == null)
             {
-                Instance = new InternalWindow(wm, (Control)Activator.CreateInstance(Content), Name);
+                if (Content == null || (Control?)Activator.CreateInstance(Content) is not { } content)
+                    return;
+
+                Instance = new InternalWindow(wm, content, Name);
                 Instance.Closed += (sender, args) => Instance = null;
                 wm.OpenWindow(Instance);
                 return;

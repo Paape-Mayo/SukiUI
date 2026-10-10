@@ -101,7 +101,7 @@ public class SukiToastManager : ISukiToastManager, IDisposable
         _dismissPollingTimer.Interval = timeSpan;
     }
 
-    private void DismissPollingTimerOnTick(object sender, EventArgs e)
+    private void DismissPollingTimerOnTick(object? sender, EventArgs e)
     {
         var timestampNow = Stopwatch.GetTimestamp() * 1000d / Stopwatch.Frequency;
         for (var i = _toasts.Count - 1; i >= 0; i--)

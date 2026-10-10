@@ -42,7 +42,7 @@ namespace SukiUI.Controls
 
         private static readonly DynamicResourceExtension ColorResource = new("SukiLowText");
 
-        private StackPageModel?[]? _stackPages;
+        private StackPageModel?[] _stackPages;
         private int _index = -1;
 
         private StackPanel? _stackHeaders;
@@ -192,7 +192,7 @@ namespace SukiUI.Controls
             button.PointerReleased += (_, _) =>
             {
                 if(AlwaysGoBackToFirstPage)
-                    Content = _stackPages[0].Content;
+                    Content = _stackPages[0]!.Content;
                 else
                     Content = model.Content;
             };
@@ -207,7 +207,7 @@ namespace SukiUI.Controls
             _stackHeaders!.Children.Add(button);
         }
 
-        private void AddStrongHeader(string s)
+        private void AddStrongHeader(string? s)
         {
             _stackHeaders!.Children.Add(new TextBlock()
             {
@@ -217,9 +217,9 @@ namespace SukiUI.Controls
         }
     }
 
-    internal record StackPageModel(string Title, object Content)
+    internal record StackPageModel(string? Title, object Content)
     {
-        public string Title { get; set; } = Title;
+        public string? Title { get; set; } = Title;
         public object Content { get; } = Content;
     }
 

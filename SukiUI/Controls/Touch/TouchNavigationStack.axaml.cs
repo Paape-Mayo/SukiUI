@@ -33,10 +33,10 @@ public partial class TouchNavigationStack : UserControl
         };
     }
 
-    public static readonly StyledProperty<object> ContentProperty =
+    public new static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<TouchNavigationStack, object>(nameof(Content));
 
-    public object Content
+    public new object Content
     {
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
@@ -72,10 +72,10 @@ public partial class TouchNavigationStack : UserControl
       
             
         
-        var headerPanel = this.FindControl<StackPanel>("HeaderPanel");
-        var backButton = this.FindControl<Button>("BackButton");
+        var headerPanel = this.Get<StackPanel>("HeaderPanel");
+        var backButton = this.Get<Button>("BackButton");
         var titleText = this.FindControl<TextBlock>("TitleText");
-        var contentPresenter = this.FindControl<ContentControl>("ContentP");
+        var contentPresenter = this.Get<ContentControl>("ContentP");
 
         if (_currentPage != null)
         {
@@ -112,8 +112,8 @@ public partial class TouchNavigationStack : UserControl
 
     private void SetTitle(string currentTitle)
     {
-        var titleTextfrom = this.FindControl<TextBlock>("TitleTextFrom");
-        var titleTextto = this.FindControl<TextBlock>("TitleTextTo");
+        var titleTextfrom = this.Get<TextBlock>("TitleTextFrom");
+        var titleTextto = this.Get<TextBlock>("TitleTextTo");
         
         
         titleTextfrom.Text = titleTextto.Text;
@@ -128,7 +128,7 @@ public partial class TouchNavigationStack : UserControl
 
     }
 
-    private async void SetContentPres(ContentControl contentP, object c, Action action)
+    private async void SetContentPres(ContentControl contentP, object? c, Action action)
     {
         await contentP.AnimateAsync<double>(OpacityProperty, 1, 0, TimeSpan.FromMilliseconds(250));
         

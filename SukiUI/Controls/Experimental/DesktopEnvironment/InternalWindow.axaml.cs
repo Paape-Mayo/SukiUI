@@ -13,7 +13,7 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         private bool _isDragging;
         private Panel _windowBorder;
         private Size _initialSize;
-        private WindowManager _ParentWM;
+        private WindowManager? _ParentWM;
         private bool _isResizing;
 
         private bool isVisible = true;
@@ -21,10 +21,10 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         {
             InitializeComponent();
 
-            _windowBorder = this.FindControl<Panel>("WindowBorder");
+            _windowBorder = this.Get<Panel>("WindowBorder");
 
             // Gérer les événements pour permettre le déplacement
-            var titleBar = this.FindControl<GlassCard>("PART_TitleBarBackground");
+            var titleBar = this.Get<GlassCard>("PART_TitleBarBackground");
             titleBar.PointerPressed += OnTitleBarPointerPressed;
             titleBar.PointerMoved += OnTitleBarPointerMoved;
             titleBar.PointerReleased += OnTitleBarPointerReleased;
@@ -34,10 +34,10 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
         {
             _ParentWM = WM;
             this.Get<TextBlock>("TBTitle").Text = title;
-            this.FindControl<ContentControl>("WindowContent").Content = content;
+            this.Get<ContentControl>("WindowContent").Content = content;
         }
 
-        private void OnTitleBarPointerPressed(object sender, PointerPressedEventArgs e)
+        private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
         {
            
                 _startPoint = e.GetPosition( _ParentWM);
@@ -46,7 +46,7 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
             
         }
 
-        private void OnTitleBarPointerMoved(object sender, PointerEventArgs e)
+        private void OnTitleBarPointerMoved(object? sender, PointerEventArgs e)
         {
             if (_isDragging)
             {
@@ -62,7 +62,7 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
             }
         }
 
-        private void OnTitleBarPointerReleased(object sender, PointerReleasedEventArgs e)
+        private void OnTitleBarPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             // Arrête le suivi de la souris
             _isDragging = false;
@@ -110,7 +110,7 @@ namespace SukiUI.Controls.Experimental.DesktopEnvironment
             AvaloniaXamlLoader.Load(this);
         }
 
-        public event EventHandler Closed;
+        public event EventHandler? Closed;
 
         private void CloseButton_OnClick(object sender, RoutedEventArgs e)
         {

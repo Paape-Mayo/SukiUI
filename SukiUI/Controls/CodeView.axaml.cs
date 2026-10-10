@@ -76,8 +76,8 @@ public partial class CodeView : UserControl
 
         button.Click += async (sender, args) =>
         {
-            var topLevel = TopLevel.GetTopLevel(((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime)
-                .MainWindow);
+            var topLevel = TopLevel.GetTopLevel(((ClassicDesktopStyleApplicationLifetime?)Application.Current?.ApplicationLifetime)
+                ?.MainWindow);
 
             if (topLevel?.Clipboard is not { } clipboard)
             {
@@ -140,17 +140,22 @@ public partial class CodeView : UserControl
                 lineNumberText += $"{i}\n";
             }
 
-            (_textBlock.Parent as Grid).RowDefinitions.Clear();
-            for (int i = 0; i < lines.Length; i++)
+            if (_textBlock.Parent is not Grid grid)
             {
-                (_textBlock.Parent as Grid).RowDefinitions.Add(new RowDefinition());
+                return;
             }
 
-            (_textBlock.Parent as Grid).ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Auto);
-            (_textBlock.Parent as Grid).ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+            grid.RowDefinitions.Clear();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                grid.RowDefinitions.Add(new RowDefinition());
+            }
 
-            (_textBlock.Parent as Grid).Children[0].SetValue(Grid.RowSpanProperty, lines.Length);
-            (_textBlock.Parent as Grid).Children[0].SetValue(TextBlock.TextProperty, lineNumberText);
+            grid.ColumnDefinitions[0].Width = new GridLength(0, GridUnitType.Auto);
+            grid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+
+            grid.Children[0].SetValue(Grid.RowSpanProperty, lines.Length);
+            grid.Children[0].SetValue(TextBlock.TextProperty, lineNumberText);
 
             _textBlock.SetValue(Grid.ColumnProperty, 1);
             _textBlock.SetValue(Grid.RowProperty, 0);

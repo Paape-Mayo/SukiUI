@@ -16,7 +16,7 @@ namespace SukiUI.Helpers.ConditionalXAML
             set => SetValue(ConditionProperty, value);
         }
 
-        private INotifyPropertyChanged _dataContextNotifier;
+        private INotifyPropertyChanged? _dataContextNotifier;
 
         protected override void OnDataContextChanged(EventArgs e)
         {
@@ -47,7 +47,7 @@ namespace SukiUI.Helpers.ConditionalXAML
             }
         }
 
-        private void DataContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void DataContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             UpdateVisibility();
         }
@@ -73,7 +73,7 @@ namespace SukiUI.Helpers.ConditionalXAML
                     Condition
                 );
 
-                var result = (bool)lambda.Compile().DynamicInvoke(DataContext);
+                var result = lambda.Compile().DynamicInvoke(DataContext) is true;
                 IsVisible = result;
             }
             catch

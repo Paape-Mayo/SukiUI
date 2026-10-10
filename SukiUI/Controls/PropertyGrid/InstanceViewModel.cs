@@ -2,6 +2,7 @@
 using SukiUI.Helpers;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -9,10 +10,14 @@ namespace SukiUI.Controls
 {
     public class InstanceViewModel : SukiObservableObject, IDisposable
     {
+        internal const string ReflectsOverItem =
+            "The property grid reads the public properties of its item's runtime type, which trimming can remove.";
+
         public INotifyPropertyChanged ViewModel { get; }
 
         public IAvaloniaReadOnlyList<CategoryViewModel> Categories { get; }
 
+        [RequiresUnreferencedCode(ReflectsOverItem)]
         public InstanceViewModel(INotifyPropertyChanged viewModel)
         {
             ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
@@ -47,6 +52,7 @@ namespace SukiUI.Controls
         /// </summary>
         /// <param name="viewModel">the ViewModel instance, to generate/show controls/categories for</param>
         /// <returns>CategoryViewModels holding representations for each public non static property</returns>
+        [RequiresUnreferencedCode(ReflectsOverItem)]
         public virtual IAvaloniaReadOnlyList<CategoryViewModel> GenerateCategories(INotifyPropertyChanged viewModel)
         {
             var properties = viewModel

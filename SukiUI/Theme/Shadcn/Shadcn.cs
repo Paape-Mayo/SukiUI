@@ -15,7 +15,7 @@ namespace SukiUI.Theme.Shadcn
         [RequiresUnreferencedCode("Loads the Shadcn resources and styles by URI at run time, which trimming can break.")]
         public static void Configure(Application application, ThemeVariant startupTheme)
         {
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceInclude(new Uri("avares://SukiUI/Theme/Shadcn/BlackWhiteTheme.axaml")
+            application.Resources.MergedDictionaries.Add(new ResourceInclude(new Uri("avares://SukiUI/Theme/Shadcn/BlackWhiteTheme.axaml")
             )
             {
                 Source = new Uri("avares://SukiUI/Theme/Shadcn/BlackWhiteTheme.axaml")
@@ -49,8 +49,8 @@ namespace SukiUI.Theme.Shadcn
 
             try
             {
-                ((SukiWindow)((ClassicDesktopStyleApplicationLifetime)application.ApplicationLifetime).MainWindow)
-                    .BackgroundShaderFile = "backgroundshadcn";
+                if (application.ApplicationLifetime is ClassicDesktopStyleApplicationLifetime { MainWindow: SukiWindow sukiWindow })
+                    sukiWindow.BackgroundShaderFile = "backgroundshadcn";
             }catch{}
             
             SukiTheme.GetInstance().ChangeBaseTheme(ThemeVariant.Light);

@@ -15,7 +15,7 @@ public partial class MobileNumberPickerPopup : UserControl
         InitializeComponent();
     }
 
-    private ISukiDialogManager DialogManager;
+    private ISukiDialogManager? DialogManager;
     
     public MobileNumberPickerPopup(MobileNumberPicker _mobile, ISukiDialogManager manager)
     {
@@ -30,22 +30,24 @@ public partial class MobileNumberPickerPopup : UserControl
         AvaloniaXamlLoader.Load(this);
     }
 
-    public MobileNumberPicker _MobileNumberPicker = null;
+    public MobileNumberPicker? _MobileNumberPicker = null;
     
     public int CurrentValue = 0;
 
     private bool isScrolling = false;
     private Point StartingPosition;
 
-    private void PointerPressed(object sender, PointerPressedEventArgs e)
+    private void OnScrollPointerPressed(object sender, PointerPressedEventArgs e)
     {
         isScrolling = true;
         StartingPosition = e.GetPosition(this.FindControl<TextBlock>("CurrentValueText"));
     }
 
-    private void PointerReleased(object sender, PointerReleasedEventArgs e)
+    private void OnScrollPointerReleased(object sender, PointerReleasedEventArgs e)
     {
         isScrolling = false;
+        if (_MobileNumberPicker == null)
+            return;
         var difference = (StartingPosition.Y - e.GetPosition(this.FindControl<TextBlock>("CurrentValueText")).Y ) /20;
        
          _MobileNumberPicker.Value = ((int)(CurrentValue + difference)) + modifier;
@@ -54,9 +56,9 @@ public partial class MobileNumberPickerPopup : UserControl
 
     private int modifier = 0;
 
-    private void PointerMoved(object sender, PointerEventArgs e)
+    private void OnScrollPointerMoved(object sender, PointerEventArgs e)
     {
-        if (isScrolling)
+        if (isScrolling && _MobileNumberPicker != null)
         {
             var difference = (StartingPosition.Y - e.GetPosition(this.FindControl<TextBlock>("CurrentValueText")).Y ) /20;
             var temporaryValue = (int)(CurrentValue + difference) + modifier;
@@ -87,39 +89,43 @@ public partial class MobileNumberPickerPopup : UserControl
     {
       
         
-        this.FindControl<TextBlock>("CurrentValueText").Text = temporaryValue.ToString();
+        this.Get<TextBlock>("CurrentValueText").Text = temporaryValue.ToString();
         
+        if (_MobileNumberPicker == null)
+            return;
+
         if(temporaryValue -1 < _MobileNumberPicker.Minimum)
-            this.FindControl<TextBlock>("CurrentValueTextMinus1").Text = "";
+            this.Get<TextBlock>("CurrentValueTextMinus1").Text = "";
         else
-            this.FindControl<TextBlock>("CurrentValueTextMinus1").Text = (temporaryValue -1).ToString();
+            this.Get<TextBlock>("CurrentValueTextMinus1").Text = (temporaryValue -1).ToString();
         
         if(temporaryValue + 1 > _MobileNumberPicker.Maximum)
-            this.FindControl<TextBlock>("CurrentValueTextPlus1").Text = "";
+            this.Get<TextBlock>("CurrentValueTextPlus1").Text = "";
         else
-            this.FindControl<TextBlock>("CurrentValueTextPlus1").Text = (temporaryValue +1).ToString();
+            this.Get<TextBlock>("CurrentValueTextPlus1").Text = (temporaryValue +1).ToString();
         
         if(temporaryValue +2 > _MobileNumberPicker.Maximum)
-            this.FindControl<TextBlock>("CurrentValueTextPlus2").Text = "";
+            this.Get<TextBlock>("CurrentValueTextPlus2").Text = "";
         else
-            this.FindControl<TextBlock>("CurrentValueTextPlus2").Text = (temporaryValue +2).ToString();
+            this.Get<TextBlock>("CurrentValueTextPlus2").Text = (temporaryValue +2).ToString();
         
         if(temporaryValue -2 < _MobileNumberPicker.Minimum)
-            this.FindControl<TextBlock>("CurrentValueTextMinus2").Text = "";
+            this.Get<TextBlock>("CurrentValueTextMinus2").Text = "";
         else
-            this.FindControl<TextBlock>("CurrentValueTextMinus2").Text = (temporaryValue -2).ToString();
+            this.Get<TextBlock>("CurrentValueTextMinus2").Text = (temporaryValue -2).ToString();
     }
 
     private void DoneClick(object sender, RoutedEventArgs e)
     {
-        DialogManager.DismissDialog();
+        DialogManager?.DismissDialog();
     }
 
     private void plus(object sender, RoutedEventArgs e)
     {
         SetTextValues(((int)CurrentValue) + 1);
         CurrentValue = ((int)(CurrentValue ) + 1);
-        _MobileNumberPicker.Value = ((int)(CurrentValue )) + 1;
+        if (_MobileNumberPicker != null)
+            _MobileNumberPicker.Value = ((int)(CurrentValue )) + 1;
     }
 
     private void minus(object sender, RoutedEventArgs e)
@@ -127,6 +133,7 @@ public partial class MobileNumberPickerPopup : UserControl
        
         SetTextValues(((int)CurrentValue) -1);
         CurrentValue = ((int)(CurrentValue) -1);
-        _MobileNumberPicker.Value = ((int)(CurrentValue )) -1;
+        if (_MobileNumberPicker != null)
+            _MobileNumberPicker.Value = ((int)(CurrentValue )) -1;
     }
 }

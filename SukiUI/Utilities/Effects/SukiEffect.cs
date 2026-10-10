@@ -51,7 +51,7 @@ namespace SukiUI.Utilities.Effects
 
         static SukiEffect()
         {
-            if (Application.Current.ApplicationLifetime is IControlledApplicationLifetime controlled)
+            if (Application.Current?.ApplicationLifetime is IControlledApplicationLifetime controlled)
                 controlled.Exit += (_, _) => EnsureDisposed();
         }
 
@@ -75,17 +75,17 @@ namespace SukiUI.Utilities.Effects
             var resName = assembly?.GetManifestResourceNames()
                 .FirstOrDefault(x => x.ToLowerInvariant().Contains(shaderName));
             
-            if (resName is null)
+            if (assembly is null || resName is null)
             {
                 assembly = Assembly.GetExecutingAssembly();
-                resName = assembly?.GetManifestResourceNames()
+                resName = assembly.GetManifestResourceNames()
                     .FirstOrDefault(x => x.ToLowerInvariant().Contains(shaderName));
             }
 
             if (resName is null)
             {
                 assembly = typeof(SukiEffect).Assembly;
-                resName = assembly?.GetManifestResourceNames()
+                resName = assembly.GetManifestResourceNames()
                     .FirstOrDefault(x => x.ToLowerInvariant().Contains(shaderName));
             }
            
@@ -131,7 +131,7 @@ namespace SukiUI.Utilities.Effects
             LoadedEffects.Clear();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is not SukiEffect effect) return false;
             return effect._shaderString == _shaderString;

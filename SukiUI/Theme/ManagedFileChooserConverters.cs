@@ -16,7 +16,8 @@ namespace SukiUI.Theme
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var pathes = (value as string).Split('\\');
+            if (value is not string path) return null;
+            var pathes = path.Split('\\');
             if (pathes.Length > 3)
             {
                 pathes = pathes.Skip(1).ToArray();
@@ -71,7 +72,7 @@ namespace SukiUI.Theme
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var w = value as Window;
+            if (value is not Window w) return "";
             w.WindowDecorations = WindowDecorations.BorderOnly;
             //    w.ExtendClientAreaToDecorationsHint = true;
 

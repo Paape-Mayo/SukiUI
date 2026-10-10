@@ -418,7 +418,7 @@ public static class SukiMessageBox
     #endregion
 
     #region Events
-    private static void WindowOnKeyUp(object sender, KeyEventArgs e)
+    private static void WindowOnKeyUp(object? sender, KeyEventArgs e)
     {
         if (sender is not Window window) return;
         if (e.Key == Key.Escape)
@@ -432,7 +432,7 @@ public static class SukiMessageBox
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private static void WindowOnClosed(object sender, EventArgs e)
+    private static void WindowOnClosed(object? sender, EventArgs e)
     {
         if (sender is not Window window) return;
         if (window.Tag is not SukiMessageBoxHost host) return;
@@ -457,7 +457,7 @@ public static class SukiMessageBox
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private static async void ActionButtonOnClick(object sender, RoutedEventArgs e)
+    private static async void ActionButtonOnClick(object? sender, RoutedEventArgs e)
     {
         if (sender is not Button button) return;
         if (button.Tag is Window window)

@@ -239,6 +239,11 @@ namespace SukiUI.Controls
 
         private void SetColumnDefinitionsAlternate(Grid grid)
         {
+            if (Steps is null)
+            {
+                return;
+            }
+
             var columns = new ColumnDefinitions();
             foreach (var s in Steps)
             {

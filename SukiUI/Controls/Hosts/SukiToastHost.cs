@@ -96,7 +96,7 @@ namespace SukiUI.Controls
         private void ManagerOnToastDismissed(object sender, SukiToastDismissedEventArgs args) =>
             ClearToast(args.Toast);
 
-        private void ManagerOnAllToastsDismissed(object sender, EventArgs e)
+        private void ManagerOnAllToastsDismissed(object? sender, EventArgs e)
         {
             foreach(var toast in Items)
                 ClearToast((ISukiToast)toast!);
