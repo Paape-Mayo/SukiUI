@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:suki="https://github.com/kikipoulet/SukiUI"
-                    xmlns:converters="clr-namespace:Dock.Avalonia.Converters"
+                    xmlns:converters="clr-namespace:SukiUI.Dock.Converters"
                     xmlns:core="using:Dock.Model.Core"
                     x:CompileBindings="True">
     <Design.PreviewWith>

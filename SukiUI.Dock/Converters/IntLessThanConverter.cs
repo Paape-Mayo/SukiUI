@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace Dock.Avalonia.Converters;
+namespace SukiUI.Dock.Converters;
 
 internal class IntLessThanConverter : IValueConverter
 {

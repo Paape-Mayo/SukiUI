@@ -5,7 +5,7 @@ using Avalonia.Data.Converters;
 using Dock.Model.Core;
 using AC = Avalonia.Controls;
 
-namespace Dock.Avalonia.Converters;
+namespace SukiUI.Dock.Converters;
 
 /// <summary>
 /// Converts model <see cref="Model.Core.DockMode"/> enum to avalonia <see cref="AC.Dock"/> enum.

@@ -3,11 +3,12 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Layout;
+using DockOrientation = Dock.Model.Core.Orientation;
 
-namespace Dock.Avalonia.Converters;
+namespace SukiUI.Dock.Converters;
 
 /// <summary>
-/// Converts model <see cref="Model.Core.Orientation"/> enum to avalonia <see cref="Orientation"/> enum.
+/// Converts model <see cref="DockOrientation"/> enum to avalonia <see cref="Orientation"/> enum.
 /// </summary>
 public class OrientationConverter : IValueConverter
 {
@@ -29,10 +30,10 @@ public class OrientationConverter : IValueConverter
         return value switch
         {
             null => AvaloniaProperty.UnsetValue,
-            Model.Core.Orientation orientation => orientation switch
+            DockOrientation orientation => orientation switch
             {
-                Model.Core.Orientation.Horizontal => Orientation.Horizontal,
-                Model.Core.Orientation.Vertical => Orientation.Vertical,
+                DockOrientation.Horizontal => Orientation.Horizontal,
+                DockOrientation.Vertical => Orientation.Vertical,
                 _ => throw new NotSupportedException($"Provided orientation is not supported in Avalonia.")
             },
             _ => value
@@ -54,8 +55,8 @@ public class OrientationConverter : IValueConverter
             null => AvaloniaProperty.UnsetValue,
             Orientation orientation => orientation switch
             {
-                Orientation.Horizontal => Model.Core.Orientation.Horizontal,
-                Orientation.Vertical => Model.Core.Orientation.Vertical,
+                Orientation.Horizontal => DockOrientation.Horizontal,
+                Orientation.Vertical => DockOrientation.Vertical,
                 _ => throw new NotSupportedException($"Provided orientation is not supported in Model.")
             },
             _ => value

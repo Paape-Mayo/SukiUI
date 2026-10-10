@@ -3,7 +3,7 @@ using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 
-namespace Dock.Avalonia.Converters;
+namespace SukiUI.Dock.Converters;
 
 /// <summary>
 /// Converts WindowState to bool indicating if the window is maximized.

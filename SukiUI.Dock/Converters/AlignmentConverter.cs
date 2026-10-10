@@ -6,7 +6,7 @@ using Avalonia.Data.Converters;
 using Avalonia.Media.Immutable;
 using Dock.Model.Core;
 
-namespace Dock.Avalonia.Converters;
+namespace SukiUI.Dock.Converters;
 
 /// <summary>
 /// Converts model <see cref="Alignment"/> enum to avalonia <see cref="Dock"/> enum.
